@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: yarn
+      - run: yarn lint
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Create .env file
+        run: |
+          touch .env
+          echo "${{ secrets.ENV_DEVELOPMENT }}" > .env
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '20'
+      - run: yarn
+      - run: CI='false' yarn build
