@@ -6,11 +6,23 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Button,
 } from '@mui/material';
 import { useCouponList } from '../api/coupon';
+import { useState } from 'react';
+
 const CouponTable = () => {
-  const { data } = useCouponList();
-  console.log(data);
+  const [page, setPage] = useState(1);
+
+  const { data } = useCouponList(page);
+
+  const loadNextPage = async () => {
+    setPage(page + 1);
+  };
+
+  const loadPreviousPage = async () => {
+    setPage(page - 1);
+  };
 
   return (
     <Paper>
@@ -38,6 +50,24 @@ const CouponTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          padding: '16px',
+        }}
+      >
+        <Button
+          variant="contained"
+          onClick={loadPreviousPage}
+          disabled={page === 1}
+        >
+          이전
+        </Button>
+        <Button variant="contained" onClick={loadNextPage}>
+          다음
+        </Button>
+      </div>
     </Paper>
   );
 };

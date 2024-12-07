@@ -1,27 +1,51 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { CouponListResponse } from '../types/coupon';
 import { apiClient } from './axiosInstance';
+import { useInfiniteQuery } from '@tanstack/react-query';
 
-const fetchcouponList = async ({ queryKey }: { queryKey: string[] }) => {
-  const [, pageParam] = queryKey;
+const fetchinfinitecouponList = async ({
+  pageParam = 1,
+}: {
+  pageParam: number;
+}) => {
   try {
     const { data } = await apiClient.get<CouponListResponse>(
-      `/coupon/admin/list?page=${pageParam}&size=10`,
+      `/coupon/admin/list?page=${pageParam}&size=20`,
     );
     return data;
   } catch (error) {
     console.error(error);
+    throw new Error('api Error');
   }
 };
 
-export const useCouponList = (pageParam: number = 1) => {
-  const queryKey = ['couponList', pageParam.toString()];
-  const { data } = useQuery({
-    queryKey,
-    queryFn: fetchcouponList,
+export const InfiniteCouponList = () => {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
+    queryKey: ['couponList'],
+    queryFn: fetchinfinitecouponList,
+    getNextPageParam: (lastPage) => {
+      const currentPage = lastPage.page;
+      const totalPages = Math.ceil(lastPage.total / lastPage.size);
+      return currentPage < totalPages ? currentPage + 1 : undefined;
+    },
+    initialPageParam: 1,
   });
 
-  return { data };
+  return {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetching,
+    isFetchingNextPage,
+    isLoading,
+  };
 };
 
 interface AddCouponParams {
