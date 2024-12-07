@@ -2,10 +2,11 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { CouponListResponse } from '../types/coupon';
 import { apiClient } from './axiosInstance';
 
-const fetchcouponList = async () => {
+const fetchcouponList = async ({ queryKey }: { queryKey: string[] }) => {
+  const [, pageParam] = queryKey;
   try {
     const { data } = await apiClient.get<CouponListResponse>(
-      `/coupon/admin/list?page=1&size=10`,
+      `/coupon/admin/list?page=${pageParam}&size=10`,
     );
     return data;
   } catch (error) {
@@ -13,9 +14,10 @@ const fetchcouponList = async () => {
   }
 };
 
-export const useCouponList = () => {
+export const useCouponList = (pageParam: number = 1) => {
+  const queryKey = ['couponList', pageParam.toString()];
   const { data } = useQuery({
-    queryKey: ['couponList'],
+    queryKey,
     queryFn: fetchcouponList,
   });
 
