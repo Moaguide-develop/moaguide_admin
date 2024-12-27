@@ -1,3 +1,5 @@
+import Editor from "../components/Editor";
+
 const EditorPage: React.FC = () => {
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
@@ -9,7 +11,7 @@ const EditorPage: React.FC = () => {
         <div className="text-lg font-semibold text-gray-800 mb-4">
           본문 작성
         </div>
-        
+        <Editor />
       </div>
     </div>
   );
