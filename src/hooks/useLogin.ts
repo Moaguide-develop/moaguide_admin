@@ -14,7 +14,8 @@ const fetchLogin = async ({ email, password }: LoginParams) => {
       password,
     });
     const { data } = response;
-    const token = response.headers['token'];
+    const token = response.headers['authorization'];
+
     return { data, token: token };
   } catch {
     console.error('error');
@@ -31,7 +32,7 @@ export const useLogin = () => {
       console.log('로그인 성공:', data);
       console.log('token Code:', token);
       alert('로그인 성공');
-
+      localStorage.setItem('token', token);
       setCookie('token', token);
       navigate('/');
     },
