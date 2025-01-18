@@ -6,15 +6,26 @@ const AddPhoto: React.FC<{ editor: Editor }> = ({ editor }) => {
     if (!files) return;
 
     const file = files[0];
-    const imageUrl = URL.createObjectURL(file); // 로컬 Blob URL 생성
+    const imageUrl = URL.createObjectURL(file);
 
-    // 에디터에 이미지 삽입
-    editor.chain().focus().setImage({ src: imageUrl }).run();
+    editor
+      .chain()
+      .focus()
+      .insertContent({
+        type: 'photo',
+        attrs: {
+          src: imageUrl,
+          alt: '',
+          title: '',
+        },
+      })
+      .run();
   };
+  
   return (
     <button
       type="button"
-      className="relative w-8 h-8 cursor-pointer opacity-70 hover:opacity-40"
+      className="relative w-8 h-8 cursor-pointer hover:opacity-40"
     >
       <input
         type="file"

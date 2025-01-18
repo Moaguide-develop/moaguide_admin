@@ -11,17 +11,27 @@ interface PaywallData {
 
 const nodeToHTML = (node: JSONContent, editor: Editor): string => {
   const { schema } = editor;
-  const domSerializer = DOMSerializer.fromSchema(schema);
+  try {
+    const pmNode = schema.nodeFromJSON(node); // ProseMirror 노드 생성
+    const domSerializer = DOMSerializer.fromSchema(schema);
 
-  // ProseMirror 노드 생성
-  const pmNode = schema.nodeFromJSON(node);
+    // 노드가 단일 요소일 때 처리
+    if (!pmNode.content.size) {
+      const tempDiv = document.createElement('div');
+      tempDiv.appendChild(domSerializer.serializeNode(pmNode));
+      return tempDiv.innerHTML;
+    }
 
-  // DOMSerializer로 HTML 변환
-  const fragment = domSerializer.serializeFragment(pmNode.content);
-  const tempDiv = document.createElement('div');
-  tempDiv.appendChild(fragment);
+    // 노드가 여러 콘텐츠를 포함할 때 처리
+    const fragment = domSerializer.serializeFragment(pmNode.content);
+    const tempDiv = document.createElement('div');
+    tempDiv.appendChild(fragment);
 
-  return tempDiv.innerHTML;
+    return tempDiv.innerHTML;
+  } catch (error) {
+    console.error('Error converting node to HTML:', error, node);
+    return ''; // 오류 발생 시 빈 문자열 반환
+  }
 };
 
 const extractPaywallData = (editor: Editor): PaywallData => {
@@ -34,25 +44,22 @@ const extractPaywallData = (editor: Editor): PaywallData => {
   let imageLink = '';
 
   content.forEach((node, index) => {
-    // Paywall 노드 찾기
+  
     if (node.type === 'paywall') {
       isPremium = true;
 
-      // Paywall 이전의 노드 HTML로 변환
       paywallUp = content
         .slice(0, index)
         .map((node) => nodeToHTML(node, editor))
         .join('');
 
-      // Paywall 이후의 노드 HTML로 변환
       paywallDown = content
         .slice(index + 1)
         .map((node) => nodeToHTML(node, editor))
         .join('');
     }
-
-    // 첫 번째 이미지의 src 추출
-    if (!imageLink && node.type === 'image' && node.attrs?.src) {
+    
+    if (!imageLink && node.type === 'photo' && node.attrs?.src) {
       imageLink = node.attrs.src;
     }
   });

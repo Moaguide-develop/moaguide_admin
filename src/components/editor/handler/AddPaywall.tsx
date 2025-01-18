@@ -32,7 +32,7 @@ const AddPaywall: React.FC<{ editor: Editor }> = ({ editor }) => {
   return (
     <button
       onClick={handleInsertPaywall}
-      className="relative w-8 h-8 cursor-pointer opacity-70 hover:opacity-40"
+      className="relative w-8 h-8 cursor-pointer hover:opacity-40"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
