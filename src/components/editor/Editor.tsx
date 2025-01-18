@@ -1,24 +1,36 @@
 import { useEffect, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import ToolBar from './Toolbar';
-import extractPaywallData from './extractPaywallData';
+import ToolBar from './toolbar/Toolbar';
+import extractPaywallData from './common/extractPaywallData';
 import { authors, types, categories } from '../../types/options';
+import SelectComponent from './SelectComponent';
+import CustomToolbar from './toolbar/CustomToolbar';
 
 // Tiptap 기본 확장
 import StarterKit from '@tiptap/starter-kit';
 // import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
-import Image from '@tiptap/extension-image';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Underline from '@tiptap/extension-underline';
+import Table from '@tiptap/extension-table';
+import TableHeader from '@tiptap/extension-table-header';
+import TableCell from '@tiptap/extension-table-cell';
+import TableRow from '@tiptap/extension-table-row';
+// import Image from '@tiptap/extension-image';
+// import Dropcursor from '@tiptap/extension-dropcursor'
+import Link from '@tiptap/extension-link';
+import { getLinkOptions } from './common/Link';
 
-// Custom Extension
-import CustomPaywall from './customComponent/CustomPaywall';
-import SelectComponent from './SelectComponent';
+// List Extension
 import Blockquote from '@tiptap/extension-blockquote';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
+
+// Custom Extension
+import CustomPaywall from './customComponent/CustomPaywall';
+import CustomPhoto from './customComponent/CustomPhoto';
+import CustomFile from './customComponent/CustomFile';
 
 const Editor = ({ content }: { content: string }) => {
   const [renderedHtml, setRenderedHtml] = useState<{
@@ -44,18 +56,18 @@ const Editor = ({ content }: { content: string }) => {
         orderedList: false,
         blockquote: false,
       }),
+      // Dropcursor,
       BulletList.configure({
         HTMLAttributes: {
-          class: 'list-disc'
-        }
+          class: 'list-disc',
+        },
       }),
       OrderedList.configure({
         HTMLAttributes: {
-          class: 'list-decimal'
-        }
+          class: 'list-decimal',
+        },
       }),
       // Color.configure({ types: [TextStyle.name, ListItem.name] }),
-      
       // 텍스트
       TextStyle,
       Underline,
@@ -63,17 +75,19 @@ const Editor = ({ content }: { content: string }) => {
       TextAlign.configure({
         types: ['paragraph'],
       }),
-      Blockquote.configure({
-        // HTMLAttributes: {
-        //   class: 'border-l-4 border-gray-300 pl-2',
-        // },
-      }),
-      
+      Blockquote,
+
       // 커스텀 콘텐츠
-      Image,
+      Link.configure(getLinkOptions()),
+      CustomPhoto,
+      CustomFile,
       CustomPaywall,
+      // 커스텀 테이블
+      Table.configure({ resizable: true }),
+      TableHeader,
+      TableRow,
+      TableCell,
     ],
-    // content: addStyleToHtml(`<p>내용을 입력하세요.</p>`),
     content: `<p>내용을 입력하세요.</p>`,
   });
 
@@ -99,6 +113,8 @@ const Editor = ({ content }: { content: string }) => {
     setArticleData(updatedData);
     console.log(updatedData);
     setRenderedHtml({ paywallUp, paywallDown });
+    console.log('Paywall Up:', renderedHtml?.paywallUp);
+    console.log('Paywall Down:', renderedHtml?.paywallDown);
   };
 
   const values = {
@@ -134,8 +150,8 @@ const Editor = ({ content }: { content: string }) => {
         </button>
       </div>
       <div className="border-2">
+        <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
-
         <div className="p-6">
           <h1 className="p-4 border-b-2 border-b-gray-200">
             <input

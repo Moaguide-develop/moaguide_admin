@@ -1,13 +1,13 @@
 import { Editor } from '@tiptap/react';
 
-const isActive = (editor: Editor, name: string) =>
-  editor.isActive(name) ? 'bg-gray-300' : 'bg-white';
+const isActive = (editor: Editor, name: string, options?: Record<string, unknown>) =>
+  editor.isActive(name, options) ? 'bg-gray-300' : '';
 
 const Icon = {
   H1: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()}
-      className={`p-2 rounded ${isActive(editor, 'heading')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'heading', { level: 1 })}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ const Icon = {
   H2: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()}
-      className={`p-2 rounded ${isActive(editor, 'heading')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'heading', { level: 2 })}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -39,7 +39,7 @@ const Icon = {
   H3: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()}
-      className={`p-2 rounded ${isActive(editor, 'heading')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'heading', { level: 3 })}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -55,7 +55,7 @@ const Icon = {
   Bold: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleBold().run()}
-      className={`p-2 rounded ${isActive(editor, 'bold')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'bold')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -71,7 +71,7 @@ const Icon = {
   Italic: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleItalic().run()}
-      className={`p-2 rounded ${isActive(editor, 'italic')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'italic')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -87,7 +87,7 @@ const Icon = {
   Strikethrough: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleStrike().run()}
-      className={`p-2 rounded ${isActive(editor, 'strike')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'strike')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -103,7 +103,7 @@ const Icon = {
   Underline: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleUnderline().run()}
-      className={`p-2 rounded ${isActive(editor, 'underline')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'underline')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -119,7 +119,7 @@ const Icon = {
   Left: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().setTextAlign('left').run()}
-      className={`p-2 rounded ${isActive(editor, 'left')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'left')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -135,7 +135,7 @@ const Icon = {
   Center: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().setTextAlign('center').run()}
-      className={`p-2 rounded ${isActive(editor, 'center')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'center')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -151,7 +151,7 @@ const Icon = {
   Right: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().setTextAlign('right').run()}
-      className={`p-2 rounded ${isActive(editor, 'right')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'right')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -167,7 +167,7 @@ const Icon = {
   Justify: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().setTextAlign('justify').run()}
-      className={`p-2 rounded ${isActive(editor, 'justify')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'justify')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -183,7 +183,7 @@ const Icon = {
   BulletList: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleBulletList().run()}
-      className={`p-2 rounded ${isActive(editor, 'bulletList')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'bulletList')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
@@ -199,7 +199,7 @@ const Icon = {
   OrderedList: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => editor.chain().focus().toggleOrderedList().run()}
-      className={`p-2 rounded ${isActive(editor, 'orderedList')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'orderedList')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
