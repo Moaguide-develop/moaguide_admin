@@ -1,9 +1,18 @@
 import React from 'react';
 import { Editor } from '@tiptap/react';
-import { TextSelection } from 'prosemirror-state'; // TextSelection 가져오기
+import { TextSelection } from 'prosemirror-state';
 
 const AddPaywall: React.FC<{ editor: Editor }> = ({ editor }) => {
   const handleInsertPaywall = () => {
+    const hasPaywall = editor
+      .getJSON()
+      .content?.some((node: any) => node.type === 'paywall');
+
+    if (hasPaywall) {
+      alert('페이월 설정은 한번만 가능합니다.');
+      return;
+    }
+
     editor
       .chain()
       .focus()
@@ -18,15 +27,13 @@ const AddPaywall: React.FC<{ editor: Editor }> = ({ editor }) => {
       })
       .run();
 
-    // Paywall 삽입 후 커서를 이동
     const { state, view } = editor;
     const { tr } = state;
-    const endPosition = tr.selection.$to.pos; // Paywall 다음 위치 계산
+    const endPosition = tr.selection.$to.pos;
 
-    // TextSelection을 사용하여 커서 이동
     const newSelection = TextSelection.near(state.doc.resolve(endPosition));
     const newTr = tr.setSelection(newSelection);
-    view.dispatch(newTr); // 트랜잭션 실행
+    view.dispatch(newTr);
   };
 
   return (
