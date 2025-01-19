@@ -19,9 +19,9 @@ const PaywallComponent = ({ node }: { node: { attrs: PaywallAttributes } }) => {
         <p className="text-sm text-gray-600">{description}</p>
       </div>
       <div className="text-center mb-6">
-        <button className="bg-yellow-500 hover:bg-yellow-600 text-white font-medium text-sm px-6 py-3 rounded transition">
+        <a className="bg-yellow-600 text-white font-medium text-sm px-6 py-3 transition">
           {buttonText}
-        </button>
+        </a>
       </div>
       <div className="text-center text-xs text-gray-500 border-t pt-4">
         <p>

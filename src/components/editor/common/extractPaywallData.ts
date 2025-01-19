@@ -42,11 +42,18 @@ const extractPaywallData = (editor: Editor): PaywallData => {
   let paywallUp = '';
   let paywallDown = '';
   let imageLink = '';
+  
+  let paywallFound = false;
+  
+  if (!paywallFound) {
+    paywallUp = content.map((node) => nodeToHTML(node, editor)).join('');
+  }
 
   content.forEach((node, index) => {
   
     if (node.type === 'paywall') {
       isPremium = true;
+      paywallFound = true;
 
       paywallUp = content
         .slice(0, index)
@@ -59,7 +66,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
         .join('');
     }
     
-    if (!imageLink && node.type === 'photo' && node.attrs?.src) {
+    if (!imageLink && node.type === 'image' && node.attrs?.src) {
       imageLink = node.attrs.src;
     }
   });
