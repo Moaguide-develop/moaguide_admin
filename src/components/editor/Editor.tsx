@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
+import { useEditor, EditorContent, JSONContent } from '@tiptap/react';
 import ToolBar from './toolbar/Toolbar';
 import extractPaywallData from './common/extractPaywallData';
 import { authors, types, categories } from '../../types/options';
@@ -8,6 +8,8 @@ import CustomToolbar from './toolbar/CustomToolbar';
 
 // Tiptap 기본 확장
 import StarterKit from '@tiptap/starter-kit';
+import Paragraph from '@tiptap/extension-paragraph';
+import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Focus from '@tiptap/extension-focus';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
@@ -19,7 +21,7 @@ import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
-import Image from '@tiptap/extension-image';
+// import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
 import { getLinkOptions } from './common/Link';
 
@@ -31,15 +33,12 @@ import OrderedList from '@tiptap/extension-ordered-list';
 
 // Custom Extension
 import CustomPaywall from './customComponent/CustomPaywall';
-// import CustomPhoto from './customComponent/CustomPhoto';
+import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
+import PreviewComponent from './PreviewComponrnt';
+import SelectMenu from './toolbar/SelectMenu';
 
-const Editor = ({ content }: { content: string }) => {
-  const [renderedHtml, setRenderedHtml] = useState<{
-    paywallUp: string;
-    paywallDown: string;
-  } | null>(null);
-
+const Editor = ({ content }: { content: JSONContent[] }) => {
   const [articleData, setArticleData] = useState({
     title: '',
     authorName: '모아가이드',
@@ -50,29 +49,44 @@ const Editor = ({ content }: { content: string }) => {
     paywallUp: '',
     paywallDown: '',
   });
-  
+
+  const [showPreview, setShowPreview] = useState(false);
+
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        paragraph: false,
+        horizontalRule: false,
         bulletList: false,
         orderedList: false,
         blockquote: false,
       }),
+      Paragraph.configure({
+        HTMLAttributes: {
+          class:
+            'mb-4 text-black text-[15px] font-[Pretendard] leading-[30.80px] tracking-wide',
+        },
+      }),
+      HorizontalRule.configure({
+        HTMLAttributes: {
+          class: 'my-4 border-b-1 border-gray-200',
+        },
+      }),
       BulletList.configure({
         HTMLAttributes: {
-          class: 'list-disc',
+          class: 'list-disc px-6',
         },
       }),
       OrderedList.configure({
         HTMLAttributes: {
-          class: 'list-decimal',
+          class: 'list-decimal px-6',
         },
       }),
       Focus.configure({
-        className: 'has-focus',
+        className: 'rounded-3 border border-blue-500',
         mode: 'all',
       }),
-
+      
       // 텍스트
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
@@ -80,19 +94,25 @@ const Editor = ({ content }: { content: string }) => {
       }),
       TextStyle,
       Underline,
-      Highlight,
+      Highlight.configure({ multicolor: true }),
       TextAlign.configure({
-        types: ['paragraph', 'image', 'blockquote'],
+        types: ['paragraph', 'image', 'blockquote', 'horizontal_rule'],
       }),
-      Blockquote,
+      Blockquote.configure({
+        HTMLAttributes: {
+          class: 'border-l-3 border-gray-300 pl-4 m-6',
+        },
+      }),
 
       // 커스텀 콘텐츠
       Link.configure(getLinkOptions()),
-      Image,
-      // CustomPhoto,
+      // Image,
+      CustomPhoto,
       CustomFile,
       CustomPaywall,
-      Table.configure({ resizable: true }),
+      Table.configure({
+        resizable: true,
+      }),
       TableHeader,
       TableRow,
       TableCell,
@@ -105,24 +125,27 @@ const Editor = ({ content }: { content: string }) => {
     }
   }, [content, editor?.commands]);
 
-  const handleSave = () => {
+  const handleSavePreview = async () => {
     if (!editor) return;
 
     const { isPremium, paywallUp, paywallDown, imageLink } =
       extractPaywallData(editor);
 
-    const updatedData = {
-      ...articleData,
+    setArticleData((prev) => ({
+      ...prev,
       isPremium,
-      paywallUp,
-      paywallDown,
+      paywallUp: JSON.stringify(paywallUp),
+      paywallDown: JSON.stringify(paywallDown),
       imageLink,
-    };
-    setArticleData(updatedData);
-    console.log(updatedData);
-    setRenderedHtml({ paywallUp, paywallDown });
-    console.log('Paywall Up:', renderedHtml?.paywallUp);
-    console.log('Paywall Down:', renderedHtml?.paywallDown);
+    }));
+    console.log('articleData:', articleData);
+    setShowPreview(true);
+  };
+
+  const handleSave = async () => {
+    console.log('Saving data:', articleData);
+    setShowPreview(false);
+    
   };
 
   const values = {
@@ -151,10 +174,10 @@ const Editor = ({ content }: { content: string }) => {
       />
       <div className="my-4 space-x-2">
         <button
-          onClick={handleSave}
+          onClick={handleSavePreview}
           className="px-4 py-2 bg-blue-500 text-white rounded"
         >
-          저장하기
+          미리보기
         </button>
       </div>
       <div className="border-2">
@@ -176,20 +199,17 @@ const Editor = ({ content }: { content: string }) => {
             id="tiptap"
             editor={editor}
             onClick={() => editor?.commands.focus()}
-            className="w-full p-4 "
+            className="w-full p-4"
           />
-          
+          <SelectMenu editor={editor} />
         </div>
-
-        {renderedHtml && (
-          <div className="border-t-2 border-gray-200 p-2">
-            <h3>Paywall Up:</h3>
-            <div dangerouslySetInnerHTML={{ __html: renderedHtml.paywallUp }} />
-            <h3>Paywall Down:</h3>
-            <div
-              dangerouslySetInnerHTML={{ __html: renderedHtml.paywallDown }}
-            />
-          </div>
+        {showPreview && (
+          <PreviewComponent
+            articleData={articleData}
+            onConfirm={handleSave}
+            onCancel={() => setShowPreview(false)}
+            editor={editor}
+          />
         )}
       </div>
     </>
