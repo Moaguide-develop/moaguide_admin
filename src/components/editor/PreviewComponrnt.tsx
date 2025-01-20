@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
-import { DOMSerializer } from 'prosemirror-model';
-import { Editor, JSONContent } from '@tiptap/react';
+import { Editor } from '@tiptap/react';
 
 interface PreviewProps {
   articleData: {
@@ -10,8 +9,8 @@ interface PreviewProps {
     type: string;
     isPremium: boolean;
     imageLink: string;
-    paywallUp: JSONContent[];
-    paywallDown: JSONContent[];
+    paywallUp: string;
+    paywallDown: string;
   };
   onConfirm: () => void;
   onCancel: () => void;
@@ -22,7 +21,6 @@ const PreviewComponent: React.FC<PreviewProps> = ({
   articleData,
   onConfirm,
   onCancel,
-  editor,
 }) => {
   const {
     title,
@@ -37,34 +35,22 @@ const PreviewComponent: React.FC<PreviewProps> = ({
     setIsPremium(!isPremium);
   };
 
-  // JSON 데이터를 HTML로 변환
-  const renderContent = (jsonString: JSONContent[]) => {
-    if (!editor) return null;
-    try {
-      const contentArray = jsonString;
-      const schema = editor.schema;
-      const domSerializer = DOMSerializer.fromSchema(schema);
+  const cleanHTML = (html: string): string => {
+    return html.replace(/^"|"$/g, '').replace(/\\"/g, '"');
+  };
 
-      return contentArray.map((node: any, index: number) => {
-        try {
-          const pmNode = schema.nodeFromJSON(node); // ProseMirror 노드 생성
-          const tempDiv = document.createElement('div');
-          tempDiv.appendChild(domSerializer.serializeNode(pmNode)); // HTML로 변환
-          return (
-            <div
-              key={index}
-              dangerouslySetInnerHTML={{ __html: tempDiv.innerHTML }}
-            />
-          );
-        } catch (error) {
-          console.error('Error rendering node:', error);
-          return <p key={index}>Invalid node</p>;
-        }
-      });
-    } catch (error) {
-      console.error('Error parsing JSON:', error);
-      return <p>Invalid JSON content</p>;
-    }
+  // renderContent 함수에서 적용
+  const renderContent = (htmlString: string) => {
+    if (!htmlString) return null;
+
+    const cleanedHTML = cleanHTML(htmlString);
+
+    return (
+      <div
+        className="prose"
+        dangerouslySetInnerHTML={{ __html: cleanedHTML }}
+      />
+    );
   };
 
   return (

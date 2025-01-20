@@ -46,9 +46,9 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
     categoryName: 'none',
     type: 'all',
     isPremium: false,
-    imageLink: '',
-    paywallUp: [] as JSONContent[],
-    paywallDown: [] as JSONContent[],
+    imageLink: '테스트',
+    paywallUp: '',
+    paywallDown: '',
   });
 
   const [showPreview, setShowPreview] = useState(false);

@@ -1,4 +1,3 @@
-import { JSONContent } from '@tiptap/core';
 import { apiClient } from './axiosInstance';
 
 interface AddArticleData {
@@ -8,17 +7,22 @@ interface AddArticleData {
   type: string;
   isPremium: boolean;
   imageLink: string;
-  paywallUp: JSONContent[];
-  paywallDown: JSONContent[];
+  paywallUp: string;
+  paywallDown: string;
 }
 
 export const saveArticle = async (articleData: AddArticleData) => {
-  console.log('articleData:', articleData);
-  console.log('articleData-paywallUp:', articleData.paywallUp);
-  console.log('articleData-paywallDown:', articleData.paywallDown);
   try {
-    const { data } = await apiClient.post('/articles', articleData);
+    const token = localStorage.getItem('token');
 
+    if (!token) {
+      throw new Error('로그인이 필요합니다.');
+    }
+    const { data } = await apiClient.post('/articles', articleData, {
+      headers: {
+        Authorization: `${token}`, // 헤더에 토큰 추가
+      },
+    });
     return data;
   } catch (error) {
     console.error(error);

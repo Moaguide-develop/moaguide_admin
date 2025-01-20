@@ -1,32 +1,47 @@
 import { Editor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
+import { DOMSerializer } from '@tiptap/pm/model';
 
 interface PaywallData {
   isPremium: boolean;
-  paywallUp: JSONContent[];
-  paywallDown: JSONContent[];
+  paywallUp: string;
+  paywallDown: string;
   imageLink: string;
 }
 
 const extractPaywallData = (editor: Editor): PaywallData => {
-  const jsonData = editor.getJSON(); // JSONContent 타입 반환
-  const content: JSONContent[] = jsonData.content || []; // JSONContent 배열로 타입 지정
+  const jsonData = editor.getJSON();
+  const content: JSONContent[] = jsonData.content || [];
+
+  const { schema } = editor;
+  const domSerializer = DOMSerializer.fromSchema(schema);
 
   let isPremium = false;
-  let paywallUp: JSONContent[] = [];
-  let paywallDown: JSONContent[] = [];
+  let paywallUp = '';
+  let paywallDown = '';
   let imageLink = '';
 
-  if (!isPremium) {
-    paywallUp = content;
-  }
+  const convertToHTML = (nodes: any[]): string => {
+    const tempDiv = document.createElement('div');
+    nodes.forEach((node) => {
+      try {
+        const pmNode = schema.nodeFromJSON(node);
+        const serializedNode = domSerializer.serializeNode(pmNode);
+        tempDiv.appendChild(serializedNode);
+      } catch (error) {
+        console.error('Error converting node to HTML:', error, node);
+      }
+    });
+    return tempDiv.innerHTML.replace(/\\"/g, '"');
+  };
+
+  paywallUp = convertToHTML(content); // Default to the entire content if no paywall is found
+
   content.forEach((node, index) => {
     if (node.type === 'paywall') {
       isPremium = true;
-
-      paywallUp = content.slice(1, index);
-
-      paywallDown = content.slice(index + 1);
+      paywallUp = convertToHTML(content.slice(0, index));
+      paywallDown = convertToHTML(content.slice(index + 1));
     }
 
     if (!imageLink && node.type === 'photo' && node.attrs?.src) {

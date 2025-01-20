@@ -10,12 +10,12 @@ export const types = [
 
 export const categories = [
   { label: '카테고리 없음', value: 'none' },
-  { label: '📰 오늘의 뉴스', value: 'news' },
-  { label: '조각투자_ 📘 기초 가이드', value: 'guide'},
-  { label: '🏠 부동산', value: 'building' },
-  { label: '🎨 미술품', value: 'art' },
-  { label: '🎶 음악저작권', value: 'music' },
-  { label: '🎬 콘텐츠', value: 'content' },
-  { label: '🐄 한우', value: 'cow' },
-  { label: '💼 사회초년생 재테크 가이드', value: 'money' },
+  { label: '📰 오늘의 뉴스', value: '📰 오늘의 뉴스' },
+  { label: '조각투자_ 📘 기초 가이드', value: '조각투자_ 📘 기초 가이드'},
+  { label: '🏠 부동산', value: '🏠 부동산' },
+  { label: '🎨 미술품', value: '🎨 미술품' },
+  { label: '🎶 음악저작권', value: '🎶 음악저작권' },
+  { label: '🎬 콘텐츠', value: '🎬 콘텐츠' },
+  { label: '🐄 한우', value: '🐄 한우' },
+  { label: '💼 사회초년생 재테크 가이드', value: '💼 사회초년생 재테크 가이드' },
 ];
