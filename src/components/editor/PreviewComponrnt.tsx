@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { DOMSerializer } from 'prosemirror-model';
-import { Editor } from '@tiptap/react';
+import { Editor, JSONContent } from '@tiptap/react';
 
 interface PreviewProps {
   articleData: {
@@ -10,8 +10,8 @@ interface PreviewProps {
     type: string;
     isPremium: boolean;
     imageLink: string;
-    paywallUp: string;
-    paywallDown: string;
+    paywallUp: JSONContent[];
+    paywallDown: JSONContent[];
   };
   onConfirm: () => void;
   onCancel: () => void;
@@ -38,10 +38,10 @@ const PreviewComponent: React.FC<PreviewProps> = ({
   };
 
   // JSON 데이터를 HTML로 변환
-  const renderContent = (jsonString: string) => {
+  const renderContent = (jsonString: JSONContent[]) => {
     if (!editor) return null;
     try {
-      const contentArray = JSON.parse(jsonString);
+      const contentArray = jsonString;
       const schema = editor.schema;
       const domSerializer = DOMSerializer.fromSchema(schema);
 
@@ -69,7 +69,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
 
   return (
     <div className="fixed inset-0 bg-gray-700 bg-opacity-50 flex justify-center items-center z-50">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[800px] max-h-[90vh] overflow-y-auto flex flex-col">
+      <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[900px] max-h-[90vh] overflow-y-auto flex flex-col">
         <div className="w-[90%] mx-auto py-12 flex items-center justify-between border-b border-[#ececec]">
           <div className="text-sm text-[#a0a0a0]">
             학습하기 &gt; 아티클 &gt; {categoryName}
@@ -136,20 +136,13 @@ const PreviewComponent: React.FC<PreviewProps> = ({
             {new Date().toLocaleDateString()} <br />
             BY. {authorName}
           </p>
-          <div className="flex-1 max-h-[60vh]">
-            {isPremium ? (
+          <div className="flex-1 max-h-[70vh]">
+            {!isPremium ? (
               <>
-                <article className="mt-8 text-[15px] font-['Pretendard'] leading-[30.80px] tracking-wide">
+                <article className="mt-8 text-[15px] font-['Pretendard'] leading-[30.80px] tracking-wide relative">
                   {renderContent(paywallUp)}
-                  <div className="relative">
-                    {renderContent(paywallDown)}
-                    <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white via-white/70 to-transparent pointer-events-none"></div>
-                  </div>
+                  <div className="absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white via-white/70 to-transparent pointer-events-none"></div>
                 </article>
-              </>
-            ) : (
-              <article className="mt-8 text-[15px] font-['Pretendard'] leading-[30.80px] tracking-wide relative">
-                {renderContent(paywallUp)}
                 <div className="my-24 rounded-lg text-center flex flex-col items-center gap-4">
                   <p
                     className="text-center text-black font-['Pretendard'] leading-[1.2] tracking-wide"
@@ -178,6 +171,11 @@ const PreviewComponent: React.FC<PreviewProps> = ({
                     3초만에 가입하고 계속 보기
                   </div>
                 </div>
+              </>
+            ) : (
+              <article className="mt-8 text-[15px] font-['Pretendard'] leading-[30.80px] tracking-wide">
+                {renderContent(paywallUp)}
+                <div className="relative">{renderContent(paywallDown)}</div>
               </article>
             )}
           </div>

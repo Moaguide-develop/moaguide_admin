@@ -5,6 +5,7 @@ import extractPaywallData from './common/extractPaywallData';
 import { authors, types, categories } from '../../types/options';
 import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
+import { saveArticle } from '../../api/article';
 
 // Tiptap 기본 확장
 import StarterKit from '@tiptap/starter-kit';
@@ -46,8 +47,8 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
     type: 'all',
     isPremium: false,
     imageLink: '',
-    paywallUp: '',
-    paywallDown: '',
+    paywallUp: [] as JSONContent[],
+    paywallDown: [] as JSONContent[],
   });
 
   const [showPreview, setShowPreview] = useState(false);
@@ -86,7 +87,7 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
         className: 'rounded-3 border border-blue-500',
         mode: 'all',
       }),
-      
+
       // 텍스트
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
@@ -125,7 +126,7 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
     }
   }, [content, editor?.commands]);
 
-  const handleSavePreview = async () => {
+  const handleSavePreview = () => {
     if (!editor) return;
 
     const { isPremium, paywallUp, paywallDown, imageLink } =
@@ -134,18 +135,17 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
     setArticleData((prev) => ({
       ...prev,
       isPremium,
-      paywallUp: JSON.stringify(paywallUp),
-      paywallDown: JSON.stringify(paywallDown),
+      paywallUp,
+      paywallDown,
       imageLink,
     }));
-    console.log('articleData:', articleData);
+
     setShowPreview(true);
   };
 
-  const handleSave = async () => {
-    console.log('Saving data:', articleData);
+  const handleSave = () => {
     setShowPreview(false);
-    
+    saveArticle(articleData);
   };
 
   const values = {
@@ -173,12 +173,14 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
         onChange={handleSelectChange}
       />
       <div className="my-4 space-x-2">
-        <button
-          onClick={handleSavePreview}
-          className="px-4 py-2 bg-blue-500 text-white rounded"
-        >
-          미리보기
-        </button>
+        {editor && (
+          <button
+            onClick={handleSavePreview}
+            className="px-4 py-2 bg-blue-500 text-white rounded"
+          >
+            미리보기
+          </button>
+        )}
       </div>
       <div className="border-2">
         <CustomToolbar editor={editor} />
