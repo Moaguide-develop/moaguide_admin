@@ -7,7 +7,7 @@ const CustomFile = Node.create({
 
   group: 'block',
   atom: true,
-  
+
   addAttributes() {
     return {
       src: {
@@ -18,7 +18,7 @@ const CustomFile = Node.create({
       },
     };
   },
-  
+
   parseHTML() {
     return [
       {
@@ -26,11 +26,23 @@ const CustomFile = Node.create({
       },
     ];
   },
-  
+
   renderHTML({ HTMLAttributes }) {
-    return ['div', mergeAttributes(HTMLAttributes, { 'data-type': 'file' }), ''];
+    return [
+      'div',
+      mergeAttributes(HTMLAttributes, { 'data-type': 'file' }),
+      [
+        'a',
+        {
+          href: HTMLAttributes.src,
+          target: '_blank',
+          rel: 'noopener noreferrer',
+        },
+        'Download File',
+      ],
+    ];
   },
-  
+
   addNodeView() {
     return ReactNodeViewRenderer(FileComponent); // React 컴포넌트와 연결
   },

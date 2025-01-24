@@ -97,7 +97,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       Underline,
       Highlight.configure({ multicolor: true }),
       TextAlign.configure({
-        types: ['paragraph', 'image', 'blockquote', 'horizontal_rule'],
+        types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
       }),
       Blockquote.configure({
         HTMLAttributes: {
