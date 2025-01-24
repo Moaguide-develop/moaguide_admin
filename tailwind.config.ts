@@ -1,9 +1,16 @@
 import { Config } from 'tailwindcss';
 
 const config: Config = {
-  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'], // Tailwind 클래스 검색 경로
+  content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {
-    extend: {}, // 커스텀 테마 확장
+    extend: {
+      fontSize: {
+        body6: ['14px', { lineHeight: 'normal', fontWeight: '600' }],
+      },
+      colors: {
+        normal: '#6F36E8',
+      },
+    },
   },
   plugins: [],
 };
