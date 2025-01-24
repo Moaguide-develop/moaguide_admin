@@ -39,7 +39,7 @@ import CustomFile from './customComponent/CustomFile';
 import PreviewComponent from './PreviewComponrnt';
 import SelectMenu from './toolbar/SelectMenu';
 
-const Editor = ({ content }: { content: JSONContent[] }) => {
+const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
     title: '',
     authorName: '모아가이드',
@@ -121,10 +121,10 @@ const Editor = ({ content }: { content: JSONContent[] }) => {
   });
 
   useEffect(() => {
-    if (content) {
+    if (content && editor?.commands) {
       editor?.commands.setContent(content);
     }
-  }, [content, editor?.commands]);
+  }, [content, editor]);
 
   const handleSavePreview = () => {
     if (!editor) return;
