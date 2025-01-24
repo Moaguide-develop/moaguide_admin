@@ -1,7 +1,26 @@
 import { Container, Typography, TextField, Button } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+
+import { useLogin } from '../hooks/useLogin';
+import { useState } from 'react';
 const LoginPage = () => {
-  const navigate = useNavigate();
+  const { loginMutation } = useLogin();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  // 로그인 핸들러
+  const handleLogin = () => {
+    console.log('Login Attempt:', { email, password });
+
+    // loginMutation 호출
+    loginMutation.mutate({ email, password });
+  };
+
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter') {
+      handleLogin();
+    }
+  };
   return (
     <Container
       maxWidth="xs"
@@ -29,21 +48,31 @@ const LoginPage = () => {
         <div>ADMIN</div>
       </Typography>
 
-      <TextField label="아이디" variant="outlined" fullWidth sx={{ mb: 2 }} />
+      {/* 아이디 입력 */}
+      <TextField
+        label="아이디"
+        variant="outlined"
+        fullWidth
+        value={email} // 상태 값 바인딩
+        onChange={(e) => setEmail(e.target.value)} // 상태 업데이트
+        onKeyDown={handleKeyDown} // Enter 키 이벤트 처리
+        sx={{ mb: 2 }}
+      />
 
+      {/* 비밀번호 입력 */}
       <TextField
         label="비밀번호"
         type="password"
         variant="outlined"
         fullWidth
+        value={password} // 상태 값 바인딩
+        onChange={(e) => setPassword(e.target.value)} // 상태 업데이트
+        onKeyDown={handleKeyDown} // Enter 키 이벤트 처리
         sx={{ mb: 2 }}
       />
 
       <Button
-        onClick={() => {
-          console.log('login');
-          navigate('/');
-        }}
+        onClick={handleLogin}
         variant="contained"
         fullWidth
         sx={{
@@ -58,7 +87,6 @@ const LoginPage = () => {
       >
         로그인
       </Button>
-
       {/* Footer Links */}
     </Container>
   );
