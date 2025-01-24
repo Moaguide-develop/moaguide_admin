@@ -11,7 +11,7 @@ const EditorPage: React.FC = () => {
         <div className="text-lg font-semibold text-gray-800 mb-4">
           본문 작성
         </div>
-        <Editor content=""/>
+        <Editor content={[]}/>
       </div>
     </div>
   );
