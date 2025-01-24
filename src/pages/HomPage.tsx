@@ -1,3 +1,5 @@
+import React from "react";
+
 const HomePage: React.FC = () => {
   const bookmarks = [
     {
@@ -15,7 +17,7 @@ const HomePage: React.FC = () => {
   ];
 
   return (
-    <div>
+    <div className="m-8 ml-14">
       <div className="text-2xl font-bold mb-4">북마크</div>
       <div className="flex justify-between items-center mb-6">
         <div className="text-gray-500">찜한 콘텐츠 {bookmarks.length}</div>
