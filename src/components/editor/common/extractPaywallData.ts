@@ -1,7 +1,7 @@
 import { Editor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { DOMSerializer } from '@tiptap/pm/model';
-import { createFileNodeHTML, FileAttributes } from './file';
+import { createFileNodeHTML, FileAttributes } from './File';
 
 interface PaywallData {
   isPremium: boolean;
