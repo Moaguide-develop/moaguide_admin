@@ -1,6 +1,7 @@
 import { Editor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { DOMSerializer } from '@tiptap/pm/model';
+import { createFileNodeHTML, FileAttributes } from './File';
 
 interface PaywallData {
   isPremium: boolean;
@@ -25,9 +26,18 @@ const extractPaywallData = (editor: Editor): PaywallData => {
     const tempDiv = document.createElement('div');
     nodes.forEach((node) => {
       try {
-        const pmNode = schema.nodeFromJSON(node);
-        const serializedNode = domSerializer.serializeNode(pmNode);
-        tempDiv.appendChild(serializedNode);
+        if (node.type === 'file' && node.attrs?.src) {
+          const fileWrapper = createFileNodeHTML({
+            src: node.attrs.src,
+            title: node.attrs.title,
+          } as FileAttributes);
+
+          tempDiv.appendChild(fileWrapper);
+        } else {
+          const pmNode = schema.nodeFromJSON(node);
+          const serializedNode = domSerializer.serializeNode(pmNode);
+          tempDiv.appendChild(serializedNode);
+        }
       } catch (error) {
         console.error('Error converting node to HTML:', error, node);
       }
