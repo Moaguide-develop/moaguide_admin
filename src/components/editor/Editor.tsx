@@ -6,6 +6,7 @@ import { authors, types, categories } from '../../types/options';
 import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
 import { saveArticle } from '../../api/article';
+import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
 
 // Tiptap 기본 확장
 import StarterKit from '@tiptap/starter-kit';
@@ -22,10 +23,7 @@ import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
-// import Image from '@tiptap/extension-image';
 import Link from '@tiptap/extension-link';
-import { getLinkOptions } from './common/Link';
-
 // List Extension
 import ListItem from '@tiptap/extension-list-item';
 import Blockquote from '@tiptap/extension-blockquote';
@@ -33,6 +31,7 @@ import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 
 // Custom Extension
+import { getLinkOptions } from './common/Link';
 import CustomPaywall from './customComponent/CustomPaywall';
 import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
@@ -87,14 +86,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         className: 'rounded-3 border border-blue-500',
         mode: 'all',
       }),
-
-      // 텍스트
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
         placeholder: '내용을 입력하세요.',
       }),
-      TextStyle,
-      Underline,
       Highlight.configure({ multicolor: true }),
       TextAlign.configure({
         types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
@@ -104,20 +99,41 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           class: 'border-l-3 border-gray-300 pl-4 m-6',
         },
       }),
-
-      // 커스텀 콘텐츠
       Link.configure(getLinkOptions()),
-      // Image,
-      CustomPhoto,
-      CustomFile,
-      CustomPaywall,
       Table.configure({
         resizable: true,
       }),
+      TextStyle,
+      Underline,
       TableHeader,
       TableRow,
       TableCell,
+      
+      // 커스텀 콘텐츠
+      CustomPhoto,
+      CustomFile,
+      CustomPaywall,
     ],
+    editorProps: {
+      handlePaste(view, event) {
+        const html = event.clipboardData?.getData('text/html');
+        console.log(html);
+        if (html) {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(html, 'text/html');
+          const body = doc.body;
+
+          const fragment = ProseMirrorDOMParser.fromSchema(
+            view.state.schema,
+          ).parse(body);
+
+          const transaction = view.state.tr.replaceSelectionWith(fragment);
+          view.dispatch(transaction);
+          return true;
+        }
+        return false;
+      },
+    },
   });
 
   useEffect(() => {
@@ -189,7 +205,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           <h1 className="p-4 pl-20 border-b-2 border-b-gray-200">
             <input
               type="text"
-              className="w-full text-2xl font-bold"
+              className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
               placeholder="제목"
               value={articleData.title}
               onChange={(e) =>
