@@ -8,7 +8,7 @@ const CustomPaywall = Node.create({
 
   addAttributes() {
     return {
-      alignment: { default: 'left' },
+      alignment: { default: 'mr-auto ml-0' },
       title: { default: '프리미엄 구독자 전용 콘텐츠입니다.' },
       description: {
         default: '모아가이드 구독으로 더 많은 콘텐츠를 만나보세요!',
@@ -23,7 +23,7 @@ const CustomPaywall = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section',
+        tag: 'div.se-section.se-section-custom.se-l-default.se-section-align-left',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
