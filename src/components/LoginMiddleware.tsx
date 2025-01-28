@@ -1,5 +1,5 @@
 import { useEffect, ReactNode } from 'react';
-import { isLoggedIn } from '../utils/isloggedIn';
+import { isLoggedIn } from '../utils/isLoggedIn';
 
 const LoginMiddleware: React.FC<{ children: ReactNode }> = ({ children }) => {
   useEffect(() => {
