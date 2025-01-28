@@ -43,7 +43,7 @@ const CustomIcon = {
   AddLink: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() => {
-        const url = window.prompt('Enter the URL');
+        const url = prompt('링크를 입력하세요:');
         if (url) {
           editor
             .chain()
