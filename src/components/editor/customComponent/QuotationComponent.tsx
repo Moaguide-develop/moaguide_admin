@@ -8,7 +8,7 @@ type QuotationAttributes = {
 
 const QuotationComponent = ({ node, updateAttributes }: NodeViewProps) => {
   const { text, citation, alignment } = node.attrs as QuotationAttributes;
-  console.log('Updated attributes:', node.attrs);
+
   return (
     <NodeViewWrapper className={`py-2 relative ${alignment}`}>
       <div className="px-5 py-0.5 relative m-auto box-border before:absolute before:top-0 before:bottom-0 before:left-0 before:border-l-[6px] before:border-[#515151] before:content-['']">
