@@ -23,20 +23,19 @@ import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
-import Link from '@tiptap/extension-link';
 // List Extension
 import ListItem from '@tiptap/extension-list-item';
-import Blockquote from '@tiptap/extension-blockquote';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 
 // Custom Extension
-import { getLinkOptions } from './common/Link';
 import CustomPaywall from './customComponent/CustomPaywall';
 import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
 import PreviewComponent from './PreviewComponrnt';
 import SelectMenu from './toolbar/SelectMenu';
+import CustomLink from './customComponent/CustomLink';
+import CustomQuotation from './customComponent/CustomBlockQuote';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -94,12 +93,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TextAlign.configure({
         types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
       }),
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: 'border-l-3 border-gray-300 pl-4 m-6',
-        },
-      }),
-      Link.configure(getLinkOptions()),
       Table.configure({
         resizable: true,
       }),
@@ -108,8 +101,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableHeader,
       TableRow,
       TableCell,
-      
+
       // 커스텀 콘텐츠
+      CustomQuotation,
+      CustomLink,
       CustomPhoto,
       CustomFile,
       CustomPaywall,
@@ -122,6 +117,15 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           const body = doc.body;
+
+          body
+            .querySelectorAll('.se-section-quotation .se-cite')
+            .forEach((citeElement) => {
+              const citationText = citeElement.textContent?.trim();
+              if (citationText === '출처 입력') {
+                citeElement.remove();
+              }
+            });
 
           const fragment = ProseMirrorDOMParser.fromSchema(
             view.state.schema,
