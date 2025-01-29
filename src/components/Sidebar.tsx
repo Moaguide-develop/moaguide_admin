@@ -1,8 +1,8 @@
 import { useNavigate } from 'react-router-dom';
-import Edit from '../../public/sidebar/Editor.svg';
-import Purchase from '../../public/sidebar/Purchase.svg';
-import Coupon from '../../public/sidebar/Coupon.svg';
-import Setting from '../../public/sidebar/Setting.svg';
+import Edit from '../assets/sidebar/Editor.svg';
+import Purchase from '../assets/sidebar/Purchase.svg';
+import Coupon from '../assets/sidebar/Coupon.svg';
+import Setting from '../assets/sidebar/Setting.svg';
 
 const Sidebar: React.FC = () => {
   const alertHandler = () => {
