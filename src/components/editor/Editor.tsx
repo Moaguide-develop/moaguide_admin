@@ -11,7 +11,6 @@ import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
 // Tiptap 기본 확장
 import StarterKit from '@tiptap/starter-kit';
 import Paragraph from '@tiptap/extension-paragraph';
-import HorizontalRule from '@tiptap/extension-horizontal-rule';
 import Focus from '@tiptap/extension-focus';
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
@@ -36,6 +35,7 @@ import PreviewComponent from './PreviewComponrnt';
 import SelectMenu from './toolbar/SelectMenu';
 import CustomLink from './customComponent/CustomLink';
 import CustomQuotation from './customComponent/CustomBlockQuote';
+import CustomDivider from './customComponent/CustomDivider';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -64,11 +64,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         HTMLAttributes: {
           class:
             'mb-4 text-black text-[15px] font-[Pretendard] leading-[30.80px] tracking-wide',
-        },
-      }),
-      HorizontalRule.configure({
-        HTMLAttributes: {
-          class: 'my-4 border-b-1 border-gray-200',
         },
       }),
       BulletList.configure({
@@ -103,6 +98,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableCell,
 
       // 커스텀 콘텐츠
+      CustomDivider,
       CustomQuotation,
       CustomLink,
       CustomPhoto,
