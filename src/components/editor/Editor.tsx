@@ -9,15 +9,21 @@ import { saveArticle } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
 
 // Tiptap 기본 확장
-import StarterKit from '@tiptap/starter-kit';
-import Paragraph from '@tiptap/extension-paragraph';
-import Focus from '@tiptap/extension-focus';
+import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import Strike from '@tiptap/extension-strike';
+import Underline from '@tiptap/extension-underline';
+
 import { Color } from '@tiptap/extension-color';
 import Highlight from '@tiptap/extension-highlight';
-import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
-import Underline from '@tiptap/extension-underline';
+import Placeholder from '@tiptap/extension-placeholder';
+
+import Document from '@tiptap/extension-document';
+import Text from '@tiptap/extension-text';
+
+import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
@@ -36,6 +42,7 @@ import SelectMenu from './toolbar/SelectMenu';
 import CustomLink from './customComponent/CustomLink';
 import CustomQuotation from './customComponent/CustomBlockQuote';
 import CustomDivider from './customComponent/CustomDivider';
+import CustomParagraph from './customComponent/CustomParagraph';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -53,19 +60,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        paragraph: false,
-        horizontalRule: false,
-        bulletList: false,
-        orderedList: false,
-        blockquote: false,
-      }),
-      Paragraph.configure({
-        HTMLAttributes: {
-          class:
-            'mb-4 text-black text-[15px] font-[Pretendard] leading-[30.80px] tracking-wide',
-        },
-      }),
+      Document.configure({ content: 'paragraph block*' }),
+      Bold,
+      Italic,
+      Strike,
+      Text,
+      ListItem,
       BulletList.configure({
         HTMLAttributes: {
           class: 'list-disc px-6',
@@ -98,6 +98,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableCell,
 
       // 커스텀 콘텐츠
+      CustomParagraph,
       CustomDivider,
       CustomQuotation,
       CustomLink,
@@ -105,6 +106,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomFile,
       CustomPaywall,
     ],
+    content: '<p></p>',
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
