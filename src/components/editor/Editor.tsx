@@ -13,13 +13,12 @@ import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
 import Underline from '@tiptap/extension-underline';
-
 import { Color } from '@tiptap/extension-color';
-import Highlight from '@tiptap/extension-highlight';
+// import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
-
+// import Paragraph from '@tiptap/extension-paragraph';
 import Document from '@tiptap/extension-document';
 import Text from '@tiptap/extension-text';
 
@@ -43,6 +42,7 @@ import CustomLink from './customComponent/CustomLink';
 import CustomQuotation from './customComponent/CustomBlockQuote';
 import CustomDivider from './customComponent/CustomDivider';
 import CustomParagraph from './customComponent/CustomParagraph';
+import CustomHighlight from './customComponent/CustomHighlight';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -60,7 +60,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
   const editor = useEditor({
     extensions: [
-      Document.configure({ content: 'paragraph block*' }),
+      Document,
       Bold,
       Italic,
       Strike,
@@ -84,7 +84,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       Placeholder.configure({
         placeholder: '내용을 입력하세요.',
       }),
-      Highlight.configure({ multicolor: true }),
+      CustomHighlight.configure({ multicolor: true }),
       TextAlign.configure({
         types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
       }),
@@ -110,7 +110,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
-        console.log(html);
+        // console.log(html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
