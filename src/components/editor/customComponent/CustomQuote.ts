@@ -52,7 +52,7 @@ const CustomQuota = Node.create({
         [
           'div',
           {
-            class: 'component-text mt-10',
+            class: 'component-text',
           },
           0,
         ],
