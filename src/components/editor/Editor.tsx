@@ -59,7 +59,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     paywallUp: '',
     paywallDown: '',
   });
-
   const [showPreview, setShowPreview] = useState(false);
 
   const editor = useEditor({
