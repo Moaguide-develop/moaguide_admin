@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react';
-import { Icon } from '../icons/IconButtons'; // Icon 모듈 가져오기
+import { Icon } from '../icons/IconButtons';
 
 interface ToolBarProps {
   editor: Editor | null;
@@ -49,11 +49,6 @@ function ToolBar({ editor }: ToolBarProps) {
           onChange={(e) => setHighlightColor(e.target.value)}
           className="ml-2"
         />
-      </div>
-      <div className="flex items-center justify-center gap-1">
-        <Icon.H1 editor={editor} />
-        <Icon.H2 editor={editor} />
-        <Icon.H3 editor={editor} />
       </div>
       <div className="flex items-center justify-center gap-1">
         <Icon.Bold editor={editor} />

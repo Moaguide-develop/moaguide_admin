@@ -1,6 +1,5 @@
 import { NodeViewWrapper } from '@tiptap/react';
 
-// 기본적으로 Node.attrs는 Record<string, any> 타입
 type PaywallAttributes = {
   title?: string;
   description?: string;

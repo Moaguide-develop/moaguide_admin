@@ -2,6 +2,7 @@ import { Editor } from '@tiptap/react';
 import AddPhoto from '../handler/AddPhoto';
 import AddPaywall from '../handler/AddPaywall';
 import AddFile from '../handler/AddFile';
+import AddLink from '../handler/AddLink';
 
 const isActive = (editor: Editor, name: string) =>
   editor.isActive(name) ? 'bg-gray-300' : 'bg-white';
@@ -10,7 +11,9 @@ const CustomIcon = {
   AddPhoto: ({ editor }: { editor: Editor }) => <AddPhoto editor={editor} />,
   HorizontalRule: ({ editor }: { editor: Editor }) => (
     <button
-      onClick={() => editor.chain().focus().setHorizontalRule().run()}
+      onClick={() =>
+        editor.chain().focus().insertContent({ type: 'default' }).run()
+      }
       className="cursor-pointer hover:opacity-40 p-2 rounded"
     >
       <svg
@@ -26,7 +29,9 @@ const CustomIcon = {
   ),
   Quote: ({ editor }: { editor: Editor }) => (
     <button
-      onClick={() => editor.chain().focus().toggleBlockquote().run()}
+      onClick={() =>
+        editor.chain().focus().insertContent({ type: 'blockquote' }).run()
+      }
       className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'blockquote')}`}
     >
       <svg
@@ -40,32 +45,7 @@ const CustomIcon = {
       </svg>
     </button>
   ),
-  AddLink: ({ editor }: { editor: Editor }) => (
-    <button
-      onClick={() => {
-        const url = prompt('링크를 입력하세요:');
-        if (url) {
-          editor
-            .chain()
-            .focus()
-            .extendMarkRange('link')
-            .setLink({ href: url })
-            .run();
-        }
-      }}
-      className="cursor-pointer hover:opacity-40 p-2 rounded"
-    >
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        height="24px"
-        viewBox="0 -960 960 960"
-        width="24px"
-        fill="#5f6368"
-      >
-        <path d="M680-160v-120H560v-80h120v-120h80v120h120v80H760v120h-80ZM440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm560-40h-80q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480Z" />
-      </svg>
-    </button>
-  ),
+  AddLink: ({ editor }: { editor: Editor }) => <AddLink editor={editor} />,
   AddFile: ({ editor }: { editor: Editor }) => <AddFile editor={editor} />,
   Table: ({ editor }: { editor: Editor }) => (
     <button

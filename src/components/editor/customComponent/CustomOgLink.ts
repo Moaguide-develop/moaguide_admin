@@ -11,8 +11,8 @@ function srcFormatter(url: string | null): string {
   return url;
 }
 
-const CustomLink = Node.create({
-  name: 'link',
+const CustomOgLink = Node.create({
+  name: 'oglink',
 
   group: 'block',
   atom: true,
@@ -30,7 +30,7 @@ const CustomLink = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-oglink.se-l-large_image.se-section-align-center',
+        tag: 'div.se-section.se-section-oglink.se-l-image.se-section-align-center',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -64,23 +64,22 @@ const CustomLink = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-
     return [
       'div',
       {
-        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 overflow-hidden`,
+        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 overflow-hidden flex`,
       },
       [
         'div',
         { class: 'se-module se-module-oglink __se-unit group' },
         [
           'div',
-          { class: 'max-h-[450px] overflow-hidden block z-10 relative' },
+          { class: 'w-[110px] block relative z-10' },
           [
             'img',
             {
               src: HTMLAttributes.thumbnail,
-              class: 'w-full h-auto align-top',
+              class: 'w-full min-h-[114px] h-auto align-top object-cover',
               alt: HTMLAttributes.title || '링크 썸네일',
             },
           ],
@@ -88,7 +87,7 @@ const CustomLink = Node.create({
             'div',
             {
               class:
-                'absolute top-1 left-3 w-px h-4 bg-white transform origin-center -rotate-45',
+                'absolute inset-0 w-px h-4 bg-white transform origin-center -rotate-45',
             },
           ],
         ],
@@ -132,4 +131,4 @@ const CustomLink = Node.create({
   },
 });
 
-export default CustomLink;
+export default CustomOgLink;

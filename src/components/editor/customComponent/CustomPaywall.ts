@@ -23,7 +23,7 @@ const CustomPaywall = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-custom.se-l-default.se-section-align-left',
+        tag: 'div.se-section.se-section-custom.se-l-default',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -64,7 +64,7 @@ const CustomPaywall = Node.create({
     return [
       'div',
       {
-        class: `block mx-[-20px] relative ${alignment}`,
+        class: `block mt-[30px] mx-[-20px] relative ${alignment}`,
       },
       [
         'div',

@@ -10,6 +10,9 @@ const config: Config = {
       colors: {
         normal: '#6F36E8',
       },
+      backgroundSize: {
+        custom: '1107px 1069px',
+      },
     },
   },
   plugins: [],

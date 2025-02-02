@@ -1,8 +1,7 @@
 import { apiClient } from './axiosInstance';
 
-// 파일 업로드
 export const addFile = async (file: File): Promise<string> => {
-  const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+  const MAX_FILE_SIZE = 5 * 1024 * 1024;
   const SUPPORTED_FORMATS = ['application/pdf', 'image/jpeg', 'image/png'];
 
   if (file.size > MAX_FILE_SIZE) {
@@ -27,15 +26,12 @@ export const addFile = async (file: File): Promise<string> => {
     return response.data;
   } catch (error: any) {
     if (error.response) {
-      // 서버 응답 오류
       console.error('서버 에러:', error.response.data);
       throw new Error(`서버 에러: ${error.response.data?.message}`);
     } else if (error.request) {
-      // 요청은 성공했으나 응답 없음
       console.error('응답 없음:', error.request);
       throw new Error('서버로부터 응답이 없습니다. 네트워크를 확인하세요.');
     } else {
-      // 요청 설정 오류
       console.error('요청 설정 오류:', error.message);
       throw new Error(`요청 오류: ${error.message}`);
     }

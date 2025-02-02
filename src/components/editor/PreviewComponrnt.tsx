@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Editor } from '@tiptap/react';
+import { useNavigate } from 'react-router-dom';
 
 interface PreviewProps {
   articleData: {
@@ -14,7 +15,7 @@ interface PreviewProps {
   };
   onConfirm: () => void;
   onCancel: () => void;
-  editor: Editor | null; // 에디터의 schema를 활용하기 위해 추가
+  editor: Editor | null;
 }
 
 const PreviewComponent: React.FC<PreviewProps> = ({
@@ -30,16 +31,23 @@ const PreviewComponent: React.FC<PreviewProps> = ({
     isPremium: initialIsPremium,
     authorName,
   } = articleData;
+  const navigate = useNavigate();
   const [isPremium, setIsPremium] = useState(initialIsPremium);
+
   const handleToggle = () => {
     setIsPremium(!isPremium);
+  };
+
+  const handleSave = () => {
+    onConfirm();
+    alert('저장되었습니다.');
+    navigate('/');
   };
 
   const cleanHTML = (html: string): string => {
     return html.replace(/^"|"$/g, '').replace(/\\"/g, '"');
   };
 
-  // renderContent 함수에서 적용
   const renderContent = (htmlString: string) => {
     if (!htmlString) return null;
 
@@ -176,7 +184,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
           </button>
           <button
             className="px-4 py-2 bg-blue-500 text-white rounded"
-            onClick={onConfirm}
+            onClick={handleSave}
           >
             저장
           </button>

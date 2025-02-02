@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../../public/header/logo.svg';
-import search from '../../public/header/search.svg';
-import alert from '../../public/header/alert.svg';
-import mypage from '../../public/header/mypage.svg';
+import logo from '../assets/header/logo.svg';
+import search from '../assets/header/search.svg';
+import alert from '../assets/header/alert.svg';
+import mypage from '../assets/header/mypage.svg';
 import { getCookie } from '../utils/useCookie';
 
 const Header: React.FC = () => {

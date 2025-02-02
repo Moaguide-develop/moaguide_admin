@@ -7,36 +7,45 @@ import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
 import { saveArticle } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
-
-// Tiptap 기본 확장
-import StarterKit from '@tiptap/starter-kit';
-import Paragraph from '@tiptap/extension-paragraph';
-import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Focus from '@tiptap/extension-focus';
+import Bold from '@tiptap/extension-bold';
+import Italic from '@tiptap/extension-italic';
+import Strike from '@tiptap/extension-strike';
+import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
-import Highlight from '@tiptap/extension-highlight';
-import Placeholder from '@tiptap/extension-placeholder';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
-import Underline from '@tiptap/extension-underline';
+import History from '@tiptap/extension-history';
+import HardBreak from '@tiptap/extension-hard-break';
+import Dropcursor from '@tiptap/extension-dropcursor';
+import Gapcursor from '@tiptap/extension-gapcursor';
+import Placeholder from '@tiptap/extension-placeholder';
+import Document from '@tiptap/extension-document';
+import Text from '@tiptap/extension-text';
+import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
-import Link from '@tiptap/extension-link';
-// List Extension
 import ListItem from '@tiptap/extension-list-item';
-import Blockquote from '@tiptap/extension-blockquote';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 
-// Custom Extension
-import { getLinkOptions } from './common/Link';
 import CustomPaywall from './customComponent/CustomPaywall';
 import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
 import PreviewComponent from './PreviewComponrnt';
 import SelectMenu from './toolbar/SelectMenu';
+import CustomLink from './customComponent/CustomLink';
+import CustomDivider from './customComponent/CustomDivider';
+import CustomParagraph from './customComponent/CustomParagraph';
+import CustomHighlight from './customComponent/CustomHighlight';
+import { CustomBlock } from './customComponent/CustomBlock';
+import CustomLine from './customComponent/CustomLine';
+import CustomQuota from './customComponent/CustomQuote';
+import CustomBlockQuotation from './customComponent/CustomBlockQuote';
+import CustomPhotoStrip from './customComponent/CustomPhotoStrip';
+import CustomVerticalLink from './customComponent/CustomVerticalLink';
+import CustomOgLink from './customComponent/CustomOgLink';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -49,29 +58,22 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     paywallUp: '',
     paywallDown: '',
   });
-
   const [showPreview, setShowPreview] = useState(false);
 
   const editor = useEditor({
     extensions: [
-      StarterKit.configure({
-        paragraph: false,
-        horizontalRule: false,
-        bulletList: false,
-        orderedList: false,
-        blockquote: false,
+      Document.configure({
+        content: 'customBlock+',
       }),
-      Paragraph.configure({
-        HTMLAttributes: {
-          class:
-            'mb-4 text-black text-[15px] font-[Pretendard] leading-[30.80px] tracking-wide',
-        },
-      }),
-      HorizontalRule.configure({
-        HTMLAttributes: {
-          class: 'my-4 border-b-1 border-gray-200',
-        },
-      }),
+      History,
+      HardBreak,
+      Dropcursor,
+      Gapcursor,
+      Bold,
+      Italic,
+      Strike,
+      Text,
+      ListItem,
       BulletList.configure({
         HTMLAttributes: {
           class: 'list-disc px-6',
@@ -84,22 +86,16 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       Focus.configure({
         className: 'rounded-3 border border-blue-500',
-        mode: 'all',
+        mode: 'shallowest',
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
         placeholder: '내용을 입력하세요.',
       }),
-      Highlight.configure({ multicolor: true }),
+      CustomHighlight.configure({ multicolor: true }),
       TextAlign.configure({
         types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
       }),
-      Blockquote.configure({
-        HTMLAttributes: {
-          class: 'border-l-3 border-gray-300 pl-4 m-6',
-        },
-      }),
-      Link.configure(getLinkOptions()),
       Table.configure({
         resizable: true,
       }),
@@ -108,20 +104,42 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableHeader,
       TableRow,
       TableCell,
-      
-      // 커스텀 콘텐츠
+
+      CustomBlock,
+      CustomParagraph,
+      CustomDivider,
+      CustomLine,
+      CustomQuota,
+      CustomBlockQuotation,
+      CustomLink,
+      CustomVerticalLink,
+      CustomOgLink,
       CustomPhoto,
+      CustomPhotoStrip,
       CustomFile,
       CustomPaywall,
     ],
+    content: `<div class="se-component se-text se-l-default">
+      <div class="component-text mt-10">
+        <p></p>
+      </div>
+    </div>`,
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
-        console.log(html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           const body = doc.body;
+
+          body
+            .querySelectorAll('.se-section-quotation .se-cite')
+            .forEach((citeElement) => {
+              const citationText = citeElement.textContent?.trim();
+              if (citationText === '출처 입력') {
+                citeElement.remove();
+              }
+            });
 
           const fragment = ProseMirrorDOMParser.fromSchema(
             view.state.schema,
