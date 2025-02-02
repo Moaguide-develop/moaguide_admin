@@ -61,9 +61,6 @@ function SelectMenu({ editor }: ToolBarProps) {
               className="ml-2"
             />
           </div>
-          <Icon.H1 editor={editor} />
-          <Icon.H2 editor={editor} />
-          <Icon.H3 editor={editor} />
           <Icon.Bold editor={editor} />
           <Icon.Italic editor={editor} />
           <Icon.Strikethrough editor={editor} />
