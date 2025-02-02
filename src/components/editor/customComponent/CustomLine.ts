@@ -1,14 +1,14 @@
 import { Node } from '@tiptap/core';
 
 const CustomLine = Node.create({
-  name: 'divider',
+  name: 'default',
 
   group: 'block',
   atom: true,
 
   addAttributes() {
     return {
-      alignment: { default: 'mr-auto ml-0' },
+      alignment: { default: 'mx-auto' },
     };
   },
 
