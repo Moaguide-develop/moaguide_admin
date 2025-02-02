@@ -47,6 +47,7 @@ import CustomLine from './customComponent/CustomLine';
 import CustomQuota from './customComponent/CustomQuote';
 import CustomBlockQuotation from './customComponent/CustomBlockQuote';
 import CustomPhotoStrip from './customComponent/CustomPhotoStrip';
+import CustomVerticalLink from './customComponent/CustomVerticalLink';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -110,6 +111,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomQuota,
       CustomBlockQuotation,
       CustomLink,
+      CustomVerticalLink,
       CustomPhoto,
       CustomPhotoStrip,
       CustomFile,

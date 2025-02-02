@@ -27,10 +27,9 @@ function SelectMenu({ editor }: ToolBarProps) {
 
   const getSelectedNode = (editor: Editor) => {
     const { selection } = editor.state;
-    let node = selection.$from.parent; // 현재 선택한 노드 가져오기
-    const pos = selection.$from.pos; // 현재 포커스 위치
+    let node = selection.$from.parent;
+    const pos = selection.$from.pos;
 
-    // `doc`인 경우, 포커스 위치를 기반으로 실제 노드를 찾음
     if (node.type.name === 'doc') {
       node = findNodeByPosition(editor, pos) || node;
     }
@@ -76,7 +75,7 @@ function SelectMenu({ editor }: ToolBarProps) {
       tippyOptions={{ duration: 200 }}
       shouldShow={({ editor }) => {
         const node = getSelectedNode(editor);
-        return node && ['file', 'link', 'default'].includes(node.type.name);
+        return node && ['file', 'link', 'verticalLink', 'default'].includes(node.type.name);
       }}
       className="flex gap-2"
     >
@@ -84,7 +83,7 @@ function SelectMenu({ editor }: ToolBarProps) {
         <div className="flex bg-white items-center justify-center">
           {(() => {
             const node = getSelectedNode(editor);
-            if (node && ['file', 'link', 'default'].includes(node.type.name)) {
+            if (node && ['file', 'link', 'verticalLink', 'default'].includes(node.type.name)) {
               return (
                 <div className="flex items-center justify-center gap-1">
                   <button

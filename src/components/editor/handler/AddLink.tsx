@@ -30,6 +30,22 @@ const AddLink = ({ editor }: { editor: Editor }) => {
         if (!url) return;
 
         fetchPreviewData(url).then(({ thumbnail, title, summary }) => {
+          if (url.includes('instagram.com')) {
+            editor
+              .chain()
+              .focus()
+              .insertContent({
+                type: 'verticalLink',
+                attrs: {
+                  title,
+                  summary,
+                  url,
+                },
+              })
+              .run();
+            return;
+          }
+
           editor
             .chain()
             .focus()
