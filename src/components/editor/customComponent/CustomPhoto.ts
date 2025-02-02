@@ -40,37 +40,44 @@ const CustomPhoto = Node.create({
             captionElement?.querySelector('.se-placeholder') !== null;
           const caption = isPlaceholder ? '' : captionText;
 
-          return { src, alt, width, alignment, caption };
+          return {
+            src,
+            alt,
+            width,
+            alignment,
+            caption,
+          };
         },
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { alignment } = HTMLAttributes;
-
     return [
       'div',
       {
-        class: `w-full relative ${alignment}`,
+        class: `w-full relative ${HTMLAttributes.alignment} mt-[30px]`,
       },
       [
-      'div',
-      {class: 'relative se-module-image __se-unit'},
-      [
-      'div',
-      {class: 'relative'},
-        [
-          'img',
-          {
-            src: HTMLAttributes.src,
-            alt: HTMLAttributes.alt,
-            width: HTMLAttributes.width,
-            class: 'block w-full relative h-auto',
-          },
-        ],
+        'img',
+        {
+          src: HTMLAttributes.src,
+          alt: HTMLAttributes.alt,
+          width: HTMLAttributes.width,
+          class: 'block w-full relative h-auto',
+        },
       ],
-      ],
+
+      HTMLAttributes.caption !== '사진 설명을 입력하세요.'
+        ? [
+            'p',
+            {
+              class: 'text-[13px] text-center mt-2',
+              style: 'line-height: 1.5;',
+            },
+            HTMLAttributes.caption,
+          ]
+        : null,
     ];
   },
 });
