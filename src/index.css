@@ -102,8 +102,8 @@
     cursor: ew-resize;
     cursor: col-resize;
   }
-  
-  p.is-editor-empty:first-child::before {
+
+  .component-text.is-editor-empty:first-child::before {
     color: #888;
     content: attr(data-placeholder);
     float: left;
@@ -117,5 +117,5 @@
   margin-right: auto;
   padding: 1em 3rem 25rem 4rem;
   caret-color: #000;
-  outline-width: 0
+  outline-width: 0;
 }
