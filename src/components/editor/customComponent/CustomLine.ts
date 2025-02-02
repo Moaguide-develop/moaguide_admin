@@ -36,7 +36,7 @@ const CustomLine = Node.create({
     return [
       'div',
       {
-        class: `w-[220px] mt-[30px] relative w-full pt-[30px] pb-[29px] ${alignment}`,
+        class: `w-[220px] mt-[30px] relative pt-[30px] pb-[29px] ${alignment}`,
       },
       [
         'div',

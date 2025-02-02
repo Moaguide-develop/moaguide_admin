@@ -36,7 +36,7 @@ const CustomDivider = Node.create({
     return [
       'div',
       {
-        class: `max-w-[680px] mt-[30px] relative w-full pt-[30px] pb-[29px] ${alignment}`,
+        class: `mt-[30px] relative w-full pt-[30px] pb-[29px] ${alignment}`,
       },
       [
         'div',
