@@ -46,6 +46,26 @@ const AddLink = ({ editor }: { editor: Editor }) => {
             return;
           }
 
+          // div 요소의 클래스 속성에서 is-small이 있거나 alt가 없을 시 type을 oglink로 변경
+          if (
+            editor.getAttributes('is-small') &&
+            !editor.getAttributes('alt')
+          ) {
+            editor
+              .chain()
+              .focus()
+              .insertContent({
+                type: 'oglink',
+                attrs: {
+                  thumbnail,
+                  title,
+                  summary,
+                  url,
+                },
+              })
+              .run();
+            return;
+          }
           editor
             .chain()
             .focus()

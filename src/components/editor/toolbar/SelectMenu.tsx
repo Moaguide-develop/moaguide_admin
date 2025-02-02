@@ -44,7 +44,7 @@ function SelectMenu({ editor }: ToolBarProps) {
       const endPos = startPos + node.nodeSize;
       if (pos >= startPos && pos <= endPos) {
         foundNode = node;
-        return false; // 찾으면 중단
+        return false;
       }
       return true;
     });
@@ -56,17 +56,11 @@ function SelectMenu({ editor }: ToolBarProps) {
     const node = getSelectedNode(editor);
     if (!node) return;
 
-    console.log('✅ 선택한 노드:', node);
-    console.log('✅ 선택한 노드 타입:', node.type.name);
-    console.log('✅ 변경 전 속성:', editor.getAttributes(node.type.name));
-
     editor
       .chain()
       .focus()
       .updateAttributes(node.type.name, { alignment })
       .run();
-
-    console.log('✅ 변경 후 속성:', editor.getAttributes(node.type.name));
   };
 
   return (
@@ -75,7 +69,12 @@ function SelectMenu({ editor }: ToolBarProps) {
       tippyOptions={{ duration: 200 }}
       shouldShow={({ editor }) => {
         const node = getSelectedNode(editor);
-        return node && ['file', 'link', 'verticalLink', 'default'].includes(node.type.name);
+        return (
+          node &&
+          ['file', 'oglink', 'link', 'verticalLink', 'default'].includes(
+            node.type.name,
+          )
+        );
       }}
       className="flex gap-2"
     >
@@ -83,7 +82,12 @@ function SelectMenu({ editor }: ToolBarProps) {
         <div className="flex bg-white items-center justify-center">
           {(() => {
             const node = getSelectedNode(editor);
-            if (node && ['file', 'link', 'verticalLink', 'default'].includes(node.type.name)) {
+            if (
+              node &&
+              ['file', 'oglink', 'link', 'verticalLink', 'default'].includes(
+                node.type.name,
+              )
+            ) {
               return (
                 <div className="flex items-center justify-center gap-1">
                   <button
