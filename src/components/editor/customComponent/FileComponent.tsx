@@ -3,13 +3,16 @@ import { NodeViewProps, NodeViewWrapper } from '@tiptap/react';
 type FileAttributes = {
   src: string;
   title: string;
+  alignment: string;
 };
 
 const FileComponent = ({ node }: NodeViewProps) => {
-  const { title } = node.attrs as FileAttributes;
+  const { title, alignment } = node.attrs as FileAttributes;
 
   return (
-    <NodeViewWrapper className="flex items-center justify-between p-3 border border-gray-300 rounded-lg shadow-sm bg-white max-w-md">
+    <NodeViewWrapper
+      className={`${alignment} flex items-center justify-between p-3 border border-gray-300 rounded-lg shadow-sm bg-white max-w-md`}
+    >
       <div className="flex items-center space-x-2">
         <svg
           xmlns="http://www.w3.org/2000/svg"
