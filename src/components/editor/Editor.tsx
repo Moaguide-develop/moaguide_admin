@@ -14,6 +14,10 @@ import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
+import History from '@tiptap/extension-history';
+import HardBreak from '@tiptap/extension-hard-break';
+import Dropcursor from '@tiptap/extension-dropcursor';
+import Gapcursor from '@tiptap/extension-gapcursor';
 import Placeholder from '@tiptap/extension-placeholder';
 import Document from '@tiptap/extension-document';
 import Text from '@tiptap/extension-text';
@@ -61,6 +65,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       Document.configure({
         content: 'customBlock+',
       }),
+      History,
+      HardBreak,
+      Dropcursor,
+      Gapcursor,
       Bold,
       Italic,
       Strike,
