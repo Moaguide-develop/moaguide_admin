@@ -39,10 +39,14 @@ import CustomFile from './customComponent/CustomFile';
 import PreviewComponent from './PreviewComponrnt';
 import SelectMenu from './toolbar/SelectMenu';
 import CustomLink from './customComponent/CustomLink';
-import CustomQuotation from './customComponent/CustomBlockQuote';
 import CustomDivider from './customComponent/CustomDivider';
 import CustomParagraph from './customComponent/CustomParagraph';
 import CustomHighlight from './customComponent/CustomHighlight';
+import { CustomBlock } from './customComponent/CustomBlock';
+import CustomLine from './customComponent/CustomLine';
+import CustomQuota from './customComponent/CustomQuote';
+import CustomBlockQuotation from './customComponent/CustomBlockQuote';
+import CustomPhotoStrip from './customComponent/CustomPhotoStrip';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -60,7 +64,9 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
   const editor = useEditor({
     extensions: [
-      Document,
+      Document.configure({
+        content: 'customBlock+',
+      }),
       Bold,
       Italic,
       Strike,
@@ -78,7 +84,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       Focus.configure({
         className: 'rounded-3 border border-blue-500',
-        mode: 'all',
+        mode: 'shallowest',
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
@@ -98,15 +104,23 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableCell,
 
       // 커스텀 콘텐츠
+      CustomBlock,
       CustomParagraph,
       CustomDivider,
-      CustomQuotation,
+      CustomLine,
+      CustomQuota,
+      CustomBlockQuotation,
       CustomLink,
       CustomPhoto,
+      CustomPhotoStrip,
       CustomFile,
       CustomPaywall,
     ],
-    content: '<p></p>',
+    content: `<div class="se-component se-text se-l-default">
+      <div class="component-text mt-10">
+        <p></p>
+      </div>
+    </div>`,
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
