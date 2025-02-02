@@ -32,11 +32,10 @@ const CustomLine = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { alignment } = HTMLAttributes;
     return [
       'div',
       {
-        class: `w-[220px] mt-[30px] relative pt-[30px] pb-[29px] ${alignment}`,
+        class: `w-[220px] mt-[30px] relative pt-[30px] pb-[29px] ${HTMLAttributes.alignment}`,
       },
       [
         'div',

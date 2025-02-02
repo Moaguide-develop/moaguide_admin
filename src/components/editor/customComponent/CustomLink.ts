@@ -64,12 +64,12 @@ const CustomLink = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    const { thumbnail, title, summary, url, alignment } = HTMLAttributes;
+    console.log('🛠 Applying alignment:', HTMLAttributes.alignment);
 
     return [
       'div',
       {
-        class: `mt-10 max-w-[450px] w-full relative ${alignment} border border-black/10 overflow-hidden`,
+        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 overflow-hidden`,
       },
       [
         'div',
@@ -80,9 +80,9 @@ const CustomLink = Node.create({
           [
             'img',
             {
-              src: thumbnail,
+              src: HTMLAttributes.thumbnail,
               class: 'w-full h-auto align-top',
-              alt: title || '링크 썸네일',
+              alt: HTMLAttributes.title || '링크 썸네일',
             },
           ],
           [
@@ -109,7 +109,7 @@ const CustomLink = Node.create({
               class:
                 'text-[15px] text-ellipsis whitespace-nowrap overflow-hidden break-all block font-bold text-[#333] ',
             },
-            title,
+            HTMLAttributes.title,
           ],
           [
             'p',
@@ -117,7 +117,7 @@ const CustomLink = Node.create({
               class:
                 'whitespace-nowrap overflow-hidden text-ellipsis break-all max-h-9 leading-[18px] mt-[7px] text-[13px] text-[#999]',
             },
-            summary,
+            HTMLAttributes.summary,
           ],
           [
             'p',
@@ -125,7 +125,7 @@ const CustomLink = Node.create({
               class:
                 'whitespace-nowrap overflow-hidden text-ellipsis break-all mt-[9px] text-[#a1885f] text-[13px] no-underline',
             },
-            url,
+            HTMLAttributes.url,
           ],
         ],
       ],
