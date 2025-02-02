@@ -1,5 +1,5 @@
 import { Editor } from '@tiptap/react';
-import { Icon } from '../icons/IconButtons'; // Icon 모듈 가져오기
+import { Icon } from '../icons/IconButtons';
 
 interface ToolBarProps {
   editor: Editor | null;

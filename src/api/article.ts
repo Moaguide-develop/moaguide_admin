@@ -20,7 +20,7 @@ export const saveArticle = async (articleData: AddArticleData) => {
     }
     const { data } = await apiClient.post('/articles', articleData, {
       headers: {
-        Authorization: `${token}`, // 헤더에 토큰 추가
+        Authorization: `${token}`,
       },
     });
     return data;

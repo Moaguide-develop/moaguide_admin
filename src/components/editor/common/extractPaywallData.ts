@@ -45,7 +45,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
     return tempDiv.innerHTML.replace(/\\"/g, '"');
   };
 
-  paywallUp = convertToHTML(content); // Default to the entire content if no paywall is found
+  paywallUp = convertToHTML(content);
 
   content.forEach((node, index) => {
     if (node.type === 'paywall') {

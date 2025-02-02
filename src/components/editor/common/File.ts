@@ -8,7 +8,6 @@ export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
   fileWrapper.className =
     'flex items-center justify-between p-3 border border-gray-300 rounded-lg shadow-sm bg-white max-w-md';
 
-  // 왼쪽 아이콘과 파일 제목
   const leftDiv = document.createElement('div');
   leftDiv.className = 'flex items-center space-x-2';
 
@@ -25,7 +24,6 @@ export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
 
   leftDiv.appendChild(fileTitle);
 
-  // 오른쪽 다운로드 아이콘
   const rightSpan = document.createElement('span');
   rightSpan.className =
     'flex items-center justify-center w-8 h-8 text-blue-600 rounded-full transition';
@@ -44,7 +42,6 @@ export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
 
   rightSpan.appendChild(downloadLink);
 
-  // 전체 구조 결합
   fileWrapper.appendChild(leftDiv);
   fileWrapper.appendChild(rightSpan);
 

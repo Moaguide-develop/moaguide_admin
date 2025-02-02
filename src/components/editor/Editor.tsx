@@ -7,32 +7,25 @@ import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
 import { saveArticle } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
-
-// Tiptap 기본 확장
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
 import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
-// import Highlight from '@tiptap/extension-highlight';
 import TextAlign from '@tiptap/extension-text-align';
 import TextStyle from '@tiptap/extension-text-style';
 import Placeholder from '@tiptap/extension-placeholder';
-// import Paragraph from '@tiptap/extension-paragraph';
 import Document from '@tiptap/extension-document';
 import Text from '@tiptap/extension-text';
-
 import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
-// List Extension
 import ListItem from '@tiptap/extension-list-item';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
 
-// Custom Extension
 import CustomPaywall from './customComponent/CustomPaywall';
 import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
@@ -104,7 +97,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TableRow,
       TableCell,
 
-      // 커스텀 콘텐츠
       CustomBlock,
       CustomParagraph,
       CustomDivider,
@@ -127,7 +119,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
-        // console.log(html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');

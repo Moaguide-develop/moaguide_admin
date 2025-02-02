@@ -50,7 +50,7 @@ const CustomFile = Node.create({
   },
 
   addNodeView() {
-    return ReactNodeViewRenderer(FileComponent); // React 컴포넌트와 연결
+    return ReactNodeViewRenderer(FileComponent);
   },
 });
 
