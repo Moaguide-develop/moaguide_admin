@@ -1,9 +1,5 @@
 import { Node } from '@tiptap/core';
 
-function truncateText(text: string, maxLength: number) {
-  return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
-}
-
 const CustomVerticalLink = Node.create({
   name: 'verticalLink',
 
@@ -35,16 +31,13 @@ const CustomVerticalLink = Node.create({
           const ogLinkElement = element.querySelector('.se-module-oglink');
           if (!ogLinkElement) return false;
 
-          let title =
+          const title =
             ogLinkElement.querySelector('.se-oglink-title')?.textContent || '';
-          let summary =
+          const summary =
             ogLinkElement.querySelector('.se-oglink-summary')?.textContent ||
             '';
           const url =
             ogLinkElement.querySelector('.se-oglink-url')?.textContent || '';
-
-          title = truncateText(title, 42);
-          summary = truncateText(summary, 145);
 
           return { title, summary, url, alignment };
         },
@@ -71,14 +64,16 @@ const CustomVerticalLink = Node.create({
           [
             'strong',
             {
-              class: 'text-[15px] font-bold text-[#333] block mb-1',
+              class:
+                'text-[15px] font-bold text-[#333] block mb-1 whitespace-nowrap overflow-hidden text-ellipsis',
             },
             HTMLAttributes.title,
           ],
           [
             'p',
             {
-              class: 'text-[13px] text-[#666] leading-[1.4] mb-2',
+              class:
+                'text-[13px] text-[#666] leading-[1.4] mb-2 whitespace-nowrap overflow-hidden text-ellipsis',
             },
             HTMLAttributes.summary,
           ],

@@ -64,7 +64,6 @@ const CustomLink = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log('🛠 Applying alignment:', HTMLAttributes.alignment);
 
     return [
       'div',
