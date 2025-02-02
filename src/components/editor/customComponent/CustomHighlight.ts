@@ -15,16 +15,16 @@ const CustomHighlight = Highlight.extend({
       color: {
         default: null,
         parseHTML: (element: HTMLElement) => {
-          const parentSpan = element.closest('span.se-highlight') as HTMLElement | null;
-          const backgroundColor = parentSpan ? parentSpan.style.backgroundColor : element.style.backgroundColor;
-
-          console.log('🎯 Parsing element:', element);
-          console.log('🎨 Background Color:', backgroundColor);
+          const parentSpan = element.closest(
+            'span.se-highlight',
+          ) as HTMLElement | null;
+          const backgroundColor = parentSpan
+            ? parentSpan.style.backgroundColor
+            : element.style.backgroundColor;
 
           return backgroundColor ? rgbToHex(backgroundColor) : null;
         },
         renderHTML: (attributes) => {
-          console.log('✨ Render HTMLAttributes:', attributes);
           return {
             style: `background-color: ${attributes.color ?? 'transparent'}; color: inherit;`,
           };
@@ -38,11 +38,12 @@ const CustomHighlight = Highlight.extend({
       {
         tag: 'mark',
         getAttrs: (element: HTMLElement) => {
-          const parentSpan = element.closest('span.se-highlight') as HTMLElement | null;
-          const backgroundColor = parentSpan ? parentSpan.style.backgroundColor : element.style.backgroundColor;
-
-          console.log('🛠 Detected mark with parent:', parentSpan);
-          console.log('🎨 Extracted Background Color:', backgroundColor);
+          const parentSpan = element.closest(
+            'span.se-highlight',
+          ) as HTMLElement | null;
+          const backgroundColor = parentSpan
+            ? parentSpan.style.backgroundColor
+            : element.style.backgroundColor;
 
           return {
             color: backgroundColor ? rgbToHex(backgroundColor) : null,
@@ -54,9 +55,6 @@ const CustomHighlight = Highlight.extend({
         getAttrs: (element: HTMLElement) => {
           const backgroundColor = element.style.backgroundColor || null;
 
-          console.log('🔍 Found span.se-highlight:', element);
-          console.log('🎨 Background Color:', backgroundColor);
-
           return {
             color: backgroundColor ? rgbToHex(backgroundColor) : null,
           };
@@ -66,7 +64,6 @@ const CustomHighlight = Highlight.extend({
   },
 
   renderHTML({ HTMLAttributes }) {
-    console.log('🚀 Render HTMLAttributes:', HTMLAttributes);
     return ['mark', mergeAttributes(HTMLAttributes), 0];
   },
 });

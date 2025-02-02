@@ -77,7 +77,11 @@ const CustomParagraph = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-    return ['p', mergeAttributes(HTMLAttributes, { class: 'leading-[1.8]' }), 0];
+    return [
+      'p',
+      mergeAttributes(HTMLAttributes, { style: 'line-height: 1.8;' }),
+      0,
+    ];
   },
 });
 
