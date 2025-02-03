@@ -31,6 +31,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           const fileWrapper = createFileNodeHTML({
             src: node.attrs.src,
             title: node.attrs.title,
+            alignment: node.attrs.alignment,
           } as FileAttributes);
 
           tempDiv.appendChild(fileWrapper);

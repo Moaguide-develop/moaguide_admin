@@ -1,12 +1,12 @@
 export interface FileAttributes {
   src: string;
   title: string;
+  alignment: string;
 }
-
+const API_URL = import.meta.env.VITE_API_KEY;
 export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
   const fileWrapper = document.createElement('div');
-  fileWrapper.className =
-    'flex items-center justify-between p-3 border border-gray-300 rounded-lg shadow-sm bg-white max-w-md';
+  fileWrapper.className = `${attrs.alignment} mt-[30px] flex items-center justify-between p-3 border border-gray-300 shadow-sm bg-white max-w-md`;
 
   const leftDiv = document.createElement('div');
   leftDiv.className = 'flex items-center space-x-2';
@@ -29,7 +29,7 @@ export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
     'flex items-center justify-center w-8 h-8 text-blue-600 rounded-full transition';
 
   const downloadLink = document.createElement('a');
-  downloadLink.href = `http://43.200.90.72/file/download/${attrs.src}`;
+  downloadLink.href = `${API_URL}file/download/${attrs.src}`;
   downloadLink.target = '_blank';
   downloadLink.rel = 'noopener noreferrer';
 
