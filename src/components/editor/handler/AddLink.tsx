@@ -12,6 +12,7 @@ const AddLink = ({ editor }: { editor: Editor }) => {
         thumbnail: data.hybridGraph.image || '',
         title: data.hybridGraph.title || '제목 없음',
         summary: data.hybridGraph.description || '설명 없음',
+        url: data.hybridGraph.url || url,
       };
     } catch (error) {
       console.error('미리보기 데이터를 가져오는 중 오류 발생:', error);
@@ -19,8 +20,25 @@ const AddLink = ({ editor }: { editor: Editor }) => {
         thumbnail: 'https://via.placeholder.com/150',
         title: '링크 제목',
         summary: '링크 요약 내용',
+        url: url,
       };
     }
+  };
+
+  const determineLinkType = ({
+    thumbnail,
+    url,
+  }: {
+    thumbnail: string;
+    url: string;
+  }) => {
+    if (
+      url.includes('n.news.naver.com/mnews/article/018/') ||
+      thumbnail.includes('imgnews.pstatic.net/image/018/')
+    ) {
+      return 'oglink';
+    }
+    return 'link';
   };
 
   return (
@@ -29,7 +47,7 @@ const AddLink = ({ editor }: { editor: Editor }) => {
         const url = prompt('링크를 입력하세요:');
         if (!url) return;
 
-        fetchPreviewData(url).then(({ thumbnail, title, summary }) => {
+        fetchPreviewData(url).then(({ url, thumbnail, title, summary }) => {
           if (url.includes('instagram.com')) {
             editor
               .chain()
@@ -46,30 +64,12 @@ const AddLink = ({ editor }: { editor: Editor }) => {
             return;
           }
 
-          if (
-            editor.getAttributes('is-small') &&
-            !editor.getAttributes('alt')
-          ) {
-            editor
-              .chain()
-              .focus()
-              .insertContent({
-                type: 'oglink',
-                attrs: {
-                  thumbnail,
-                  title,
-                  summary,
-                  url,
-                },
-              })
-              .run();
-            return;
-          }
+          const linkType = determineLinkType({ thumbnail, url });
           editor
             .chain()
             .focus()
             .insertContent({
-              type: 'link',
+              type: linkType,
               attrs: {
                 thumbnail,
                 title,

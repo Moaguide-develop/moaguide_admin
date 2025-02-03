@@ -11,7 +11,7 @@ const FileComponent = ({ node }: NodeViewProps) => {
 
   return (
     <NodeViewWrapper
-      className={`${alignment} flex items-center justify-between p-3 border border-gray-300 rounded-lg shadow-sm bg-white max-w-md`}
+      className={`${alignment} mt-[30px] flex items-center justify-between p-3 border border-gray-300 shadow-sm bg-white max-w-md`}
     >
       <div className="flex items-center space-x-2">
         <svg

@@ -2,6 +2,7 @@ import { Editor } from '@tiptap/react';
 import { JSONContent } from '@tiptap/core';
 import { DOMSerializer } from '@tiptap/pm/model';
 import { createFileNodeHTML, FileAttributes } from './File';
+import { createLinkNodeHTML, LinkAttributes } from './link';
 
 interface PaywallData {
   isPremium: boolean;
@@ -30,9 +31,22 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           const fileWrapper = createFileNodeHTML({
             src: node.attrs.src,
             title: node.attrs.title,
+            alignment: node.attrs.alignment,
           } as FileAttributes);
 
           tempDiv.appendChild(fileWrapper);
+        } else if (
+          ['link', 'oglink', 'verticalLink'].includes(node.type) &&
+          node.attrs?.url
+        ) {
+          const linkElement = createLinkNodeHTML({
+            thumbnail: node.attrs.thumbnail,
+            title: node.attrs.title,
+            summary: node.attrs.summary,
+            url: node.attrs.url,
+            alignment: node.attrs.alignment,
+          } as LinkAttributes);
+          tempDiv.appendChild(linkElement);
         } else {
           const pmNode = schema.nodeFromJSON(node);
           const serializedNode = domSerializer.serializeNode(pmNode);
