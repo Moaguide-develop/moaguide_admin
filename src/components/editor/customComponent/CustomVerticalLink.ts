@@ -54,12 +54,12 @@ const CustomVerticalLink = Node.create({
       [
         'div',
         {
-          class: `text-left border-box relative block px-[26px] pt-[21px] pb-[18px] leading-[1.4] before:content-[''] before:inline-block before:h-full before:vertical-align-middle`,
+          class: `text-left border-box relative block px-[26px] pt-[21px] pb-[18px] leading-[1.4] before:content-[''] before:inline-block before:h-full before:align-middle`,
         },
         [
           'div',
           {
-            class: 'inline-block max-w-full vertical-align-middle',
+            class: 'inline-block max-w-full align-middle',
           },
           [
             'strong',

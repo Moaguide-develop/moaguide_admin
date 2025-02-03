@@ -67,11 +67,13 @@ const CustomOgLink = Node.create({
     return [
       'div',
       {
-        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 overflow-hidden flex`,
+        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 inset-0 text-inherit vertical-align-baseline`,
       },
       [
         'div',
-        { class: 'se-module se-module-oglink __se-unit group' },
+        {
+          class: 'block relative w-full bg-[#fff] decoration-none shadow-md',
+        },
         [
           'div',
           { class: 'w-[110px] block relative z-10' },
@@ -86,45 +88,50 @@ const CustomOgLink = Node.create({
           [
             'div',
             {
-              class:
-                'absolute inset-0 w-px h-4 bg-white transform origin-center -rotate-45',
+              class: 'absolute inset-0 border-black/10',
             },
           ],
         ],
-      ],
-      [
-        'div',
-        {
-          class:
-            'px-[26px] pt-[21px] pb-[18px] leading-[1.4] block relative text-left box-border text-[0] obsolute inset-0 border border-black/10',
-        },
+
         [
           'div',
-          { class: 'inline-block max-w-full align-middle' },
+          {
+            class: `left-[110px] absolute inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle`,
+          },
           [
-            'strong',
-            {
-              class:
-                'text-[15px] text-ellipsis whitespace-nowrap overflow-hidden break-all block font-bold text-[#333] ',
-            },
-            HTMLAttributes.title,
+            'div',
+            { class: 'inline-block max-w-full align-middle' },
+            [
+              'strong',
+              {
+                class:
+                  'text-[15px] font-bold text-[#333] break-all block mb-1 whitespace-nowrap overflow-hidden text-ellipsis',
+              },
+              HTMLAttributes.title,
+            ],
+            [
+              'p',
+              {
+                class:
+                  'mt-[7px] text-[13px] leading-[1.4] text-[#999] break-all whitespace-nowrap overflow-hidden text-ellipsis',
+              },
+              HTMLAttributes.summary,
+            ],
+            [
+              'p',
+              {
+                class:
+                  'mt-[9px] text-[#a1885f] text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline',
+              },
+              HTMLAttributes.url,
+            ],
           ],
-          [
-            'p',
-            {
-              class:
-                'whitespace-nowrap overflow-hidden text-ellipsis break-all max-h-9 leading-[18px] mt-[7px] text-[13px] text-[#999]',
-            },
-            HTMLAttributes.summary,
-          ],
-          [
-            'p',
-            {
-              class:
-                'whitespace-nowrap overflow-hidden text-ellipsis break-all mt-[9px] text-[#a1885f] text-[13px] no-underline',
-            },
-            HTMLAttributes.url,
-          ],
+        ],
+        [
+          'div',
+          {
+            class: 'absolute inset-0 border border-black/10',
+          },
         ],
       ],
     ];
