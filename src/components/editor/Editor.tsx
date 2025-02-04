@@ -72,9 +72,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       Bold,
       Italic,
       Strike,
+      Underline,
       Text,
+      TextStyle,
       ListItem,
       BulletList.configure({
+        keepAttributes: true,
         HTMLAttributes: {
           class: 'list-disc px-6',
         },
@@ -98,12 +101,27 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       Table.configure({
         resizable: true,
+        HTMLAttributes: {
+          class: 'border-collapse w-full table-fixed overflow-hidden',
+        },
       }),
-      TextStyle,
-      Underline,
-      TableHeader,
-      TableRow,
-      TableCell,
+      TableHeader.configure({
+        HTMLAttributes: {
+          class:
+            'bg-[rgba(61,37,20,0.05)] border border-[rgba(61,37,20,0.12)] box-border min-w-[1em] px-2 py-1 relative align-middle',
+        },
+      }),
+      TableRow.configure({
+        HTMLAttributes: {
+          class: 'h-10',
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          class:
+            'border border-[rgba(61,37,20,0.12)] box-border min-w-[1em] px-2 py-1 relative align-middle',
+        },
+      }),
 
       CustomBlock,
       CustomParagraph,
@@ -127,10 +145,17 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
+        console.log('html', html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           const body = doc.body;
+          console.log('body', body);
+          body.innerHTML = body.innerHTML.replace(/\uFEFF/g, '').trim();
+
+          body.querySelectorAll('span[data-input-buffer]').forEach((span) => {
+            span.remove();
+          });
 
           body
             .querySelectorAll('.se-section-quotation .se-cite')
@@ -139,6 +164,29 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               if (citationText === '출처 입력') {
                 citeElement.remove();
               }
+            });
+
+          body
+            .querySelectorAll('.se-table-control')
+            .forEach((controlBarElement) => {
+              controlBarElement.remove();
+            });
+
+          body.querySelectorAll('table').forEach((tableElement) => {
+            tableElement.querySelectorAll('tr').forEach((trElement, index) => {
+              if (index === 0) {
+                trElement.querySelectorAll('td').forEach((tdElement) => {
+                  const thElement = document.createElement('th');
+                  thElement.innerHTML = tdElement.innerHTML;
+                  trElement.replaceChild(thElement, tdElement);
+                });
+              }
+            });
+          });
+          body
+            .querySelectorAll('.se-cell-context-menu')
+            .forEach((controlBarElement) => {
+              controlBarElement.remove();
             });
 
           const fragment = ProseMirrorDOMParser.fromSchema(

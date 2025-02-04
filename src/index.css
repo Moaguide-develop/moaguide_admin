@@ -57,7 +57,7 @@
       min-width: 1em;
       padding: 6px 8px;
       position: relative;
-      vertical-align: top;
+      vertical-align: middle;
 
       > * {
         margin-bottom: 0;
