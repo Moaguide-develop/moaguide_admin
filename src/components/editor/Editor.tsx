@@ -52,12 +52,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
     title: '',
     authorName: '모아가이드',
-    categoryName: 'none',
-    type: 'all',
-    isPremium: false,
-    imageLink: '테스트',
+    categoryName: '',
+    type: '',
     paywallUp: '',
     paywallDown: '',
+    imageLink: '테스트',
+    isPremium: false,
   });
   const [showPreview, setShowPreview] = useState(false);
 
@@ -138,8 +138,8 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomFile,
       CustomPaywall,
     ],
-    content: `<div class="se-component se-text se-l-default">
-      <div class="component-text mt-10">
+    content: `<div class="se-section se-section-text se-l-default">
+      <div class="component-text mt-10 relative px-[44px] mx-[-44px]">
         <p></p>
       </div>
     </div>`,
@@ -204,6 +204,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
   });
 
   useEffect(() => {
+    console.log('content', editor?.getHTML());
     if (content && editor?.commands) {
       editor?.commands.setContent(content);
     }
@@ -212,8 +213,51 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const handleSavePreview = () => {
     if (!editor) return;
 
-    const { isPremium, paywallUp, paywallDown, imageLink } =
+    const { categoryName, authorName, type, title } = articleData;
+    const validations = [
+      {
+        condition: categoryName === 'none',
+        message: '카테고리를 선택해주세요.',
+      },
+      { condition: authorName === 'none', message: '작성자를 선택해주세요.' },
+      { condition: type === 'none', message: '콘텐츠를 선택해주세요.' },
+      { condition: !title.trim(), message: '제목을 입력해주세요.' },
+    ];
+
+    for (const { condition, message } of validations) {
+      if (condition) {
+        alert(message);
+        return;
+      }
+    }
+    
+    if (
+      editor.getHTML() ===
+      '<div class="component-text mt-10 relative px-[44px] mx-[-44px]"><p class="text-left text-[15px]" style="line-height: 1.8;"></p></div>'
+    ) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+
+    const { paywallUp, paywallDown, isPremium, imageLink } =
       extractPaywallData(editor);
+
+    if (!paywallUp) {
+      alert('내용을 입력해주세요.');
+      return;
+    }
+
+    if (!isPremium) {
+      alert('페이월을 삽입해주세요.');
+      return;
+    }
+
+    if (!paywallDown) {
+      alert(
+        '페이월은 콘텐츠 최하단에\n 노출할 수 없습니다.\n 페이월 이후 내용을 입력해주세요.',
+      );
+      return;
+    }
 
     setArticleData((prev) => ({
       ...prev,
