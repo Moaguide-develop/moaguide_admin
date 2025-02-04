@@ -7,6 +7,7 @@ import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
 import { saveArticle } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
+
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
@@ -264,37 +265,45 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           </button>
         )}
       </div>
-      <div className="border-2">
+      <div className="border-2 w-full overflow-y-auto flex flex-col">
         <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
-        <div className="p-6">
-          <h1 className="p-4 pl-20 border-b-2 border-b-gray-200">
-            <input
-              type="text"
-              className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
-              placeholder="제목"
-              value={articleData.title}
-              onChange={(e) =>
-                setArticleData({ ...articleData, title: e.target.value })
-              }
-            />
-          </h1>
-          <EditorContent
-            id="tiptap"
-            editor={editor}
-            onClick={() => editor?.commands.focus()}
-            className="w-full p-4"
-          />
+        <div className="overflow-y-auto">
+          <div className="px-6 max-w-[1000px] mx-auto">
+            <div className="pt-10 pb-[435px]">
+              <div className="px-6">
+                <h1 className="p-4">
+                  <input
+                    type="text"
+                    className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
+                    placeholder="제목"
+                    value={articleData.title}
+                    onChange={(e) =>
+                      setArticleData({ ...articleData, title: e.target.value })
+                    }
+                  />
+                </h1>
+
+                <hr className="mx-4 px-2 border-b-2 border-b-gray-200" />
+              </div>
+              <EditorContent
+                id="tiptap"
+                editor={editor}
+                onClick={() => editor?.commands.focus()}
+                className="w-full px-10 pt-4"
+              />
+            </div>
+          </div>
           <SelectMenu editor={editor} />
+          {showPreview && (
+            <PreviewComponent
+              articleData={articleData}
+              onConfirm={handleSave}
+              onCancel={() => setShowPreview(false)}
+              editor={editor}
+            />
+          )}
         </div>
-        {showPreview && (
-          <PreviewComponent
-            articleData={articleData}
-            onConfirm={handleSave}
-            onCancel={() => setShowPreview(false)}
-            editor={editor}
-          />
-        )}
       </div>
     </>
   );

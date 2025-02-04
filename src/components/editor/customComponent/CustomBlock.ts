@@ -8,13 +8,13 @@ export const CustomBlock = Node.create({
   content: 'block+',
 
   parseHTML() {
-    return [{ tag: 'div.se-component.se-text.se-l-default' }];
+    return [{ tag: 'div.se-section.se-section-text.se-l-default' }];
   },
   renderHTML({ HTMLAttributes }) {
     return [
       'div',
       mergeAttributes(HTMLAttributes, {
-        class: 'component-text mt-10',
+        class: 'component-text mt-10 relative px-[44px] mx-[-44px]',
       }),
       0,
     ];

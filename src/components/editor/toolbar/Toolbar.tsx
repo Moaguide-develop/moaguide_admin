@@ -25,7 +25,7 @@ function ToolBar({ editor }: ToolBarProps) {
   };
 
   return (
-    <div className="flex items-center justify-start gap-1 px-2 border-b-2 sm:gap-8">
+    <div className="flex items-center bg-white justify-start gap-1 px-2 border-b-2 sm:gap-8">
       <div className="flex items-center justify-center gap-1">
         <button
           onClick={() => setTextColor(null)}

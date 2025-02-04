@@ -111,11 +111,3 @@
     pointer-events: none;
   }
 }
-.ProseMirror {
-  z-index: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1em 3rem 25rem 4rem;
-  caret-color: #000;
-  outline-width: 0;
-}
