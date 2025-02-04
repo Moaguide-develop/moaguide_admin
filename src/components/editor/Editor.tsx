@@ -239,16 +239,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     const { paywallUp, paywallDown, isPremium, imageLink } =
       extractPaywallData(editor);
 
-    if (!paywallUp) {
-      alert('내용을 입력해주세요.');
-      return;
-    }
-
-    if (!isPremium) {
-      alert('페이월을 삽입해주세요.');
-      return;
-    }
-
     if (!paywallDown) {
       alert(
         '페이월은 콘텐츠 최하단에\n 노출할 수 없습니다.\n 페이월 이후 내용을 입력해주세요.',
