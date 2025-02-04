@@ -146,12 +146,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
-        console.log('html', html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           const body = doc.body;
-          console.log('body', body);
           body.innerHTML = body.innerHTML.replace(/\uFEFF/g, '').trim();
 
           body.querySelectorAll('span[data-input-buffer]').forEach((span) => {
@@ -204,7 +202,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
   });
 
   useEffect(() => {
-    console.log('content', editor?.getHTML());
     if (content && editor?.commands) {
       editor?.commands.setContent(content);
     }
@@ -230,7 +227,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         return;
       }
     }
-    
+
     if (
       editor.getHTML() ===
       '<div class="component-text mt-10 relative px-[44px] mx-[-44px]"><p class="text-left text-[15px]" style="line-height: 1.8;"></p></div>'
