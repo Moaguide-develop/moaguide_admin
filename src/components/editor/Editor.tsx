@@ -51,9 +51,9 @@ import CustomOgLink from './customComponent/CustomOgLink';
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
     title: '',
-    authorName: '모아가이드',
-    categoryName: '',
-    type: '',
+    authorName: 'none',
+    categoryName: 'none',
+    type: 'none',
     paywallUp: '',
     paywallDown: '',
     imageLink: '테스트',
@@ -212,12 +212,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
     const { categoryName, authorName, type, title } = articleData;
     const validations = [
+      { condition: authorName === 'none', message: '작성자를 선택해주세요.' },
+      { condition: type === 'none', message: '콘텐츠를 선택해주세요.' },
       {
         condition: categoryName === 'none',
         message: '카테고리를 선택해주세요.',
       },
-      { condition: authorName === 'none', message: '작성자를 선택해주세요.' },
-      { condition: type === 'none', message: '콘텐츠를 선택해주세요.' },
       { condition: !title.trim(), message: '제목을 입력해주세요.' },
     ];
 
@@ -289,9 +289,9 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     <>
       <SelectComponent
         data={[
-          { label: '작성자', value: 'authorName', options: authors },
-          { label: '콘텐츠', value: 'type', options: types },
-          { label: '카테고리', value: 'categoryName', options: categories },
+          { name: '작성자', value: 'authorName', options: authors },
+          { name: '콘텐츠', value: 'type', options: types },
+          { name: '카테고리', value: 'categoryName', options: categories },
         ]}
         values={values}
         onChange={handleSelectChange}

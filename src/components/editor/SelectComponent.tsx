@@ -1,14 +1,14 @@
 import React from 'react';
 
 interface Option {
-  label: string;
+  name: string;
   value: string;
   icon?: string;
 }
 
 interface SelectComponentProps {
   data: {
-    label: string;
+    name: string;
     value: string;
     options: Option[];
   }[];
@@ -23,10 +23,10 @@ const SelectComponent: React.FC<SelectComponentProps> = ({
 }) => {
   return (
     <div className="flex">
-      {data.map(({ label, value, options }) => (
+      {data.map(({ name, value, options }) => (
         <div key={value} className="flex px-6 items-center mb-4">
           <label className="text-sm font-medium text-gray-700 w-32">
-            {label}
+            {name}
           </label>
           <select
             value={values[value]}
@@ -35,7 +35,7 @@ const SelectComponent: React.FC<SelectComponentProps> = ({
           >
             {options.map((option) => (
               <option key={option.value} value={option.value}>
-                {option.label}
+                {option.name}
               </option>
             ))}
           </select>
