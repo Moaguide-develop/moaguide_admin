@@ -27,14 +27,23 @@ const CustomPhotoStrip = Node.create({
       {
         tag: 'div.se-section.se-section-imageStrip.se-l-default',
         getAttrs: (element: Element) => {
-          const images: ImageAttributes[] =
-            Array.from(element.querySelectorAll('img.se-image-resource')).map(
-              (img) => ({
-                src: img.getAttribute('src') || '',
-                alt: img.getAttribute('alt') || '',
-                width: img.getAttribute('width') || '680',
-              }),
-            ) ?? [];
+          const images: ImageAttributes[] = Array.from(
+            element.querySelectorAll('.se-module-image'),
+          ).map((imgWrapper) => {
+            const imgElement = imgWrapper.querySelector(
+              'img.se-image-resource',
+            );
+            const widthStyle = imgWrapper.getAttribute('style') || '';
+
+            const widthMatch = widthStyle.match(/width:\s*([\d.]+)%/);
+            const width = widthMatch ? `${widthMatch[1]}%` : 'auto';
+
+            return {
+              src: imgElement?.getAttribute('src') || '',
+              alt: imgElement?.getAttribute('alt') || '',
+              width,
+            };
+          });
 
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -60,19 +69,28 @@ const CustomPhotoStrip = Node.create({
     return [
       'div',
       {
-        class: `w-full relative ${HTMLAttributes.alignment} mt-[30px]`,
+        class: `w-full relative ${HTMLAttributes.alignment} mt-[20px]`,
       },
       [
         'div',
-        { class: 'flex gap-2' },
+        {
+          class: 'flex relative gap-2',
+        },
         ...(HTMLAttributes.images ?? []).map((img: ImageAttributes) => [
-          'img',
+          'div',
           {
-            src: img.src,
-            alt: img.alt,
-            width: img.width,
-            class: 'block w-[48%] h-auto',
+            class: 'relative',
+            style: `width: ${img.width};`,
           },
+          [
+            'img',
+            {
+              src: img.src,
+              alt: img.alt,
+              width: img.width,
+              class: 'block relative w-full h-auto',
+            },
+          ],
         ]),
       ],
       ...(HTMLAttributes.caption !== '사진 설명을 입력하세요.'
