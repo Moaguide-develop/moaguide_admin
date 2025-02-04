@@ -47,6 +47,41 @@ const extractPaywallData = (editor: Editor): PaywallData => {
             alignment: node.attrs.alignment,
           } as LinkAttributes);
           tempDiv.appendChild(linkElement);
+        } else if (node.type === 'table') {
+          const tableWrapper = document.createElement('div');
+          tableWrapper.className =
+            'mt-[30px] relative max-w-[680px] mx-auto px-5 w-full';
+          tableWrapper.style.width = '100%';
+
+          const pmNode = schema.nodeFromJSON(node);
+          const serializedNode = domSerializer.serializeNode(pmNode);
+          tableWrapper.appendChild(serializedNode);
+
+          tempDiv.appendChild(tableWrapper);
+        } else if (node.type === 'customBlock') {
+          const blockWrapper = document.createElement('div');
+          blockWrapper.className =
+            'component-text mt-10 relative px-[44px] mx-[-44px]';
+
+          if (node.content && node.content.length > 0) {
+            node.content.forEach((childNode: JSONContent) => {
+              if (
+                childNode.type === 'paragraph' &&
+                (!childNode.content || childNode.content.length === 0)
+              ) {
+                const emptyParagraph = document.createElement('p');
+                emptyParagraph.className = 'text-center text-[19px]';
+                emptyParagraph.style.lineHeight = '1.8';
+                emptyParagraph.appendChild(document.createElement('br'));
+                blockWrapper.appendChild(emptyParagraph);
+              } else {
+                const pmNode = schema.nodeFromJSON(childNode);
+                const serializedNode = domSerializer.serializeNode(pmNode);
+                blockWrapper.appendChild(serializedNode);
+              }
+            });
+          }
+          tempDiv.appendChild(blockWrapper);
         } else {
           const pmNode = schema.nodeFromJSON(node);
           const serializedNode = domSerializer.serializeNode(pmNode);

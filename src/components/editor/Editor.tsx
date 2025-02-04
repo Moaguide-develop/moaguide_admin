@@ -7,6 +7,7 @@ import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
 import { saveArticle } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
+
 import Bold from '@tiptap/extension-bold';
 import Italic from '@tiptap/extension-italic';
 import Strike from '@tiptap/extension-strike';
@@ -72,9 +73,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       Bold,
       Italic,
       Strike,
+      Underline,
       Text,
+      TextStyle,
       ListItem,
       BulletList.configure({
+        keepAttributes: true,
         HTMLAttributes: {
           class: 'list-disc px-6',
         },
@@ -98,12 +102,27 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       Table.configure({
         resizable: true,
+        HTMLAttributes: {
+          class: 'border-collapse w-full table-fixed overflow-hidden',
+        },
       }),
-      TextStyle,
-      Underline,
-      TableHeader,
-      TableRow,
-      TableCell,
+      TableHeader.configure({
+        HTMLAttributes: {
+          class:
+            'bg-[rgba(61,37,20,0.05)] border border-[rgba(61,37,20,0.12)] box-border min-w-[1em] px-2 py-1 relative align-middle',
+        },
+      }),
+      TableRow.configure({
+        HTMLAttributes: {
+          class: 'h-10',
+        },
+      }),
+      TableCell.configure({
+        HTMLAttributes: {
+          class:
+            'border border-[rgba(61,37,20,0.12)] box-border min-w-[1em] px-2 py-1 relative align-middle',
+        },
+      }),
 
       CustomBlock,
       CustomParagraph,
@@ -127,10 +146,17 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
+        console.log('html', html);
         if (html) {
           const parser = new DOMParser();
           const doc = parser.parseFromString(html, 'text/html');
           const body = doc.body;
+          console.log('body', body);
+          body.innerHTML = body.innerHTML.replace(/\uFEFF/g, '').trim();
+
+          body.querySelectorAll('span[data-input-buffer]').forEach((span) => {
+            span.remove();
+          });
 
           body
             .querySelectorAll('.se-section-quotation .se-cite')
@@ -139,6 +165,29 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               if (citationText === '출처 입력') {
                 citeElement.remove();
               }
+            });
+
+          body
+            .querySelectorAll('.se-table-control')
+            .forEach((controlBarElement) => {
+              controlBarElement.remove();
+            });
+
+          body.querySelectorAll('table').forEach((tableElement) => {
+            tableElement.querySelectorAll('tr').forEach((trElement, index) => {
+              if (index === 0) {
+                trElement.querySelectorAll('td').forEach((tdElement) => {
+                  const thElement = document.createElement('th');
+                  thElement.innerHTML = tdElement.innerHTML;
+                  trElement.replaceChild(thElement, tdElement);
+                });
+              }
+            });
+          });
+          body
+            .querySelectorAll('.se-cell-context-menu')
+            .forEach((controlBarElement) => {
+              controlBarElement.remove();
             });
 
           const fragment = ProseMirrorDOMParser.fromSchema(
@@ -216,37 +265,45 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           </button>
         )}
       </div>
-      <div className="border-2">
+      <div className="border-2 w-full overflow-y-auto flex flex-col">
         <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
-        <div className="p-6">
-          <h1 className="p-4 pl-20 border-b-2 border-b-gray-200">
-            <input
-              type="text"
-              className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
-              placeholder="제목"
-              value={articleData.title}
-              onChange={(e) =>
-                setArticleData({ ...articleData, title: e.target.value })
-              }
-            />
-          </h1>
-          <EditorContent
-            id="tiptap"
-            editor={editor}
-            onClick={() => editor?.commands.focus()}
-            className="w-full p-4"
-          />
+        <div className="overflow-y-auto">
+          <div className="px-6 max-w-[1000px] mx-auto">
+            <div className="pt-10 pb-[435px]">
+              <div className="px-6">
+                <h1 className="p-4">
+                  <input
+                    type="text"
+                    className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
+                    placeholder="제목"
+                    value={articleData.title}
+                    onChange={(e) =>
+                      setArticleData({ ...articleData, title: e.target.value })
+                    }
+                  />
+                </h1>
+
+                <hr className="mx-4 px-2 border-b-2 border-b-gray-200" />
+              </div>
+              <EditorContent
+                id="tiptap"
+                editor={editor}
+                onClick={() => editor?.commands.focus()}
+                className="w-full px-10 pt-4"
+              />
+            </div>
+          </div>
           <SelectMenu editor={editor} />
+          {showPreview && (
+            <PreviewComponent
+              articleData={articleData}
+              onConfirm={handleSave}
+              onCancel={() => setShowPreview(false)}
+              editor={editor}
+            />
+          )}
         </div>
-        {showPreview && (
-          <PreviewComponent
-            articleData={articleData}
-            onConfirm={handleSave}
-            onCancel={() => setShowPreview(false)}
-            editor={editor}
-          />
-        )}
       </div>
     </>
   );

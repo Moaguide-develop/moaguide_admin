@@ -13,6 +13,7 @@ const CustomPhoto = Node.create({
       width: { default: '680' },
       alignment: { default: 'mr-auto ml-0' },
       caption: { default: '' },
+      style: { default: '' },
     };
   },
 
@@ -21,6 +22,10 @@ const CustomPhoto = Node.create({
       {
         tag: 'div.se-section.se-section-image',
         getAttrs: (element) => {
+          const widthStyle = element?.getAttribute('style') || '';
+          const widthMatch = widthStyle.match(/max-width:\s*([\d.]+)px/);
+          const style = widthMatch ? `${widthMatch[1]}px` : 'w-full';
+
           const imgElement = element.querySelector('img.se-image-resource');
           const src = imgElement?.getAttribute('src') || '';
           const alt = imgElement?.getAttribute('alt') || '';
@@ -46,6 +51,7 @@ const CustomPhoto = Node.create({
             width,
             alignment,
             caption,
+            style,
           };
         },
       },
@@ -56,7 +62,7 @@ const CustomPhoto = Node.create({
     return [
       'div',
       {
-        class: `w-full relative ${HTMLAttributes.alignment} mt-[30px]`,
+        class: `relative mt-10 ${HTMLAttributes.alignment}`,
       },
       [
         'img',
@@ -64,7 +70,7 @@ const CustomPhoto = Node.create({
           src: HTMLAttributes.src,
           alt: HTMLAttributes.alt,
           width: HTMLAttributes.width,
-          class: 'block w-full relative h-auto',
+          class: `block relative h-auto ${HTMLAttributes.style}`,
         },
       ],
 

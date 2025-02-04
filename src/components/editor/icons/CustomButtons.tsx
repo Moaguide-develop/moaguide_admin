@@ -30,9 +30,16 @@ const CustomIcon = {
   Quote: ({ editor }: { editor: Editor }) => (
     <button
       onClick={() =>
-        editor.chain().focus().insertContent({ type: 'blockquote' }).run()
+        editor
+          .chain()
+          .focus()
+          .insertContent({
+            type: 'lineQuotation',
+            content: [{ type: 'paragraph+' }],
+          })
+          .run()
       }
-      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'blockquote')}`}
+      className={`cursor-pointer hover:opacity-40 p-2 rounded ${isActive(editor, 'defaultQuotation')}`}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"

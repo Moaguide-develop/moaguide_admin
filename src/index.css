@@ -57,7 +57,7 @@
       min-width: 1em;
       padding: 6px 8px;
       position: relative;
-      vertical-align: top;
+      vertical-align: middle;
 
       > * {
         margin-bottom: 0;
@@ -110,12 +110,4 @@
     height: 0;
     pointer-events: none;
   }
-}
-.ProseMirror {
-  z-index: 0;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 1em 3rem 25rem 4rem;
-  caret-color: #000;
-  outline-width: 0;
 }
