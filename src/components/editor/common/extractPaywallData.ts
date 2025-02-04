@@ -5,10 +5,10 @@ import { createFileNodeHTML, FileAttributes } from './File';
 import { createLinkNodeHTML, LinkAttributes } from './link';
 
 interface PaywallData {
-  isPremium: boolean;
   paywallUp: string;
   paywallDown: string;
   imageLink: string;
+  isPremium: boolean;
 }
 
 const extractPaywallData = (editor: Editor): PaywallData => {
