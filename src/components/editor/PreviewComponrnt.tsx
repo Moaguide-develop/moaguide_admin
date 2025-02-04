@@ -25,6 +25,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
 }) => {
   const {
     title,
+    type,
     categoryName,
     paywallUp,
     paywallDown,
@@ -66,7 +67,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
       <div className="bg-white p-6 rounded-lg shadow-lg w-full max-w-[900px] max-h-[90vh] overflow-y-auto flex flex-col">
         <div className="w-[90%] mx-auto py-12 flex items-center justify-between border-b border-[#ececec]">
           <div className="text-sm text-[#a0a0a0]">
-            학습하기 &gt; 아티클 &gt; {categoryName}
+            학습하기 &gt; {type} &gt; {categoryName}
           </div>
           <div className="absolute inset-x-0 text-center pl-4">
             <h1 className="text-lg font-semibold text-[#777777]">{title}</h1>
