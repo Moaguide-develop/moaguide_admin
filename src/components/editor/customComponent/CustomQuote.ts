@@ -4,7 +4,7 @@ const CustomQuota = Node.create({
   name: 'defaultQuotation',
 
   group: 'block',
-  atom: false,
+  atom: true,
 
   content: 'paragraph+',
 
@@ -38,7 +38,7 @@ const CustomQuota = Node.create({
     return [
       'div',
       {
-        class: `se-section se-section-quotation se-l-default py-2 relative ${alignment} mt-10 mx-auto`,
+        class: `py-2 relative ${alignment} mt-10 mx-auto`,
       },
       [
         'div',

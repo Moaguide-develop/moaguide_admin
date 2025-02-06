@@ -6,7 +6,7 @@ const CustomBlockQuotation = Node.create({
   name: 'lineQuotation',
 
   group: 'block',
-  atom: false,
+  atom: true,
 
   content: 'paragraph+',
 
