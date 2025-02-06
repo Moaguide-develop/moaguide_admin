@@ -71,7 +71,6 @@ const LinkModal = ({
       </div>
 
       <div className="mb-5">
-        {/* URL 입력 필드 */}
         <div className="relative flex items-center border border-gray-300 rounded-md h-12 pl-4 pr-12">
           <input
             type="url"
@@ -88,8 +87,6 @@ const LinkModal = ({
             🔍
           </button>
         </div>
-
-        {/* 링크 타입 선택 버튼 */}
         <div className="flex justify-center gap-2 mt-4">
           {['imageLink', 'oglink', 'verticalLink', 'textLink'].map((type) => (
             <button
@@ -105,8 +102,6 @@ const LinkModal = ({
             </button>
           ))}
         </div>
-
-        {/* 미리보기 영역 */}
         <div className="mt-4 p-3 border border-black/10 rounded-md shadow-md max-h-[300px] overflow-y-auto">
           {loading ? (
             <p className="text-center text-gray-500">
@@ -127,8 +122,6 @@ const LinkModal = ({
           )}
         </div>
       </div>
-
-      {/* 확인 버튼 */}
       <div className="text-center">
         <button
           type="button"
@@ -139,8 +132,6 @@ const LinkModal = ({
           확인
         </button>
       </div>
-
-      {/* 닫기 버튼 */}
       <button
         type="button"
         className="absolute top-3 right-3 w-8 h-8 flex items-center justify-center text-gray-500 hover:text-gray-700"
