@@ -15,7 +15,7 @@ const CustomDivider = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-horizontalLine.se-l-line1.se-section-align-left',
+        tag: 'div.se-section.se-section-horizontalLine.se-l-line1',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
