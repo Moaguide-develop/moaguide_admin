@@ -20,14 +20,17 @@ const CustomPhoto = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-image',
+        tag: 'div.se-section.se-section-image.se-l-default',
         getAttrs: (element) => {
           const widthStyle = element?.getAttribute('style') || '';
           const widthMatch = widthStyle.match(/max-width:\s*([\d.]+)px/);
           const style = widthMatch ? `${widthMatch[1]}px` : 'w-full';
 
           const imgElement = element.querySelector('img.se-image-resource');
-          const src = imgElement?.getAttribute('src') || '';
+          const src =
+            imgElement?.getAttribute('data-src')?.trim() ||
+            imgElement?.getAttribute('src')?.trim();
+          console.log('Extracted src:', src);
           const alt = imgElement?.getAttribute('alt') || '';
           const width = imgElement?.getAttribute('width') || '680';
 
@@ -62,7 +65,7 @@ const CustomPhoto = Node.create({
     return [
       'div',
       {
-        class: `relative mt-10 ${HTMLAttributes.alignment}`,
+        class: `relative mt-[30px] ${HTMLAttributes.alignment}`,
       },
       [
         'img',
@@ -70,7 +73,7 @@ const CustomPhoto = Node.create({
           src: HTMLAttributes.src,
           alt: HTMLAttributes.alt,
           width: HTMLAttributes.width,
-          class: `block relative h-auto ${HTMLAttributes.style}`,
+          class: `block relative h-auto ${HTMLAttributes.alignment} ${HTMLAttributes.style}`,
         },
       ],
 

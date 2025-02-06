@@ -6,8 +6,8 @@ interface ImageAttributes {
   width?: string;
 }
 
-const CustomPhotoStrip = Node.create({
-  name: 'photoStrip',
+const CustomPhotoGroup = Node.create({
+  name: 'photoGroup',
 
   group: 'block',
   atom: true,
@@ -25,7 +25,7 @@ const CustomPhotoStrip = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-imageStrip.se-l-default',
+        tag: 'div.se-section.se-section-imageGroup.se-l-slide',
         getAttrs: (element: Element) => {
           const images: ImageAttributes[] = Array.from(
             element.querySelectorAll('.se-module-image'),
@@ -113,4 +113,4 @@ const CustomPhotoStrip = Node.create({
   },
 });
 
-export default CustomPhotoStrip;
+export default CustomPhotoGroup;
