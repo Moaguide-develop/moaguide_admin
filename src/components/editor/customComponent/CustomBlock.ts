@@ -6,7 +6,7 @@ export const CustomBlock = Node.create({
   name: 'customBlock',
   group: 'block',
   content: 'block+',
-  atom: true,
+  defining: true,
 
   parseHTML() {
     return [{ tag: 'div.se-section.se-section-text' }];
@@ -16,6 +16,7 @@ export const CustomBlock = Node.create({
       'div',
       mergeAttributes(HTMLAttributes, {
         class: 'component-text mt-10 relative px-[44px] mx-[-44px]',
+        draggable: false,
       }),
       0,
     ];
