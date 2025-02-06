@@ -6,9 +6,10 @@ export const CustomBlock = Node.create({
   name: 'customBlock',
   group: 'block',
   content: 'block+',
+  atom: true,
 
   parseHTML() {
-    return [{ tag: 'div.se-section.se-section-text.se-l-default' }];
+    return [{ tag: 'div.se-section.se-section-text' }];
   },
   renderHTML({ HTMLAttributes }) {
     return [
