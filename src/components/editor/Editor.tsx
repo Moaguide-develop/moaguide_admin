@@ -14,14 +14,14 @@ import Strike from '@tiptap/extension-strike';
 import Underline from '@tiptap/extension-underline';
 import { Color } from '@tiptap/extension-color';
 import TextAlign from '@tiptap/extension-text-align';
-import TextStyle from '@tiptap/extension-text-style';
+import Text from '@tiptap/extension-text';
 import History from '@tiptap/extension-history';
 import HardBreak from '@tiptap/extension-hard-break';
 import Dropcursor from '@tiptap/extension-dropcursor';
 import Gapcursor from '@tiptap/extension-gapcursor';
 import Placeholder from '@tiptap/extension-placeholder';
 import Document from '@tiptap/extension-document';
-import Text from '@tiptap/extension-text';
+import TextStyle from '@tiptap/extension-text-style';
 import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
@@ -30,7 +30,6 @@ import TableRow from '@tiptap/extension-table-row';
 import ListItem from '@tiptap/extension-list-item';
 import BulletList from '@tiptap/extension-bullet-list';
 import OrderedList from '@tiptap/extension-ordered-list';
-
 import CustomPaywall from './customComponent/CustomPaywall';
 import CustomPhoto from './customComponent/CustomPhoto';
 import CustomFile from './customComponent/CustomFile';
@@ -39,7 +38,6 @@ import SelectMenu from './toolbar/SelectMenu';
 import CustomLink from './customComponent/CustomLink';
 import CustomDivider from './customComponent/CustomDivider';
 import CustomParagraph from './customComponent/CustomParagraph';
-import CustomHighlight from './customComponent/CustomHighlight';
 import { CustomBlock } from './customComponent/CustomBlock';
 import CustomLine from './customComponent/CustomLine';
 import CustomQuota from './customComponent/CustomQuote';
@@ -47,6 +45,12 @@ import CustomBlockQuotation from './customComponent/CustomBlockQuote';
 import CustomPhotoStrip from './customComponent/CustomPhotoStrip';
 import CustomVerticalLink from './customComponent/CustomVerticalLink';
 import CustomOgLink from './customComponent/CustomOgLink';
+import CustomCorner from './customComponent/CustomConer';
+import CustomPostit from './customComponent/CustomPostit';
+import CustomPhotoGroup from './customComponent/CustomPhotoGroup';
+import CustomBlockLink from './customComponent/CustomBlockLink';
+import CustomHighlight from './extension/CustomHighlight';
+import CustomTextLink from './extension/CustomTextLink';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -68,17 +72,16 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       History,
       HardBreak,
+      TextStyle,
+      Text,
       Dropcursor,
       Gapcursor,
       Bold,
       Italic,
       Strike,
       Underline,
-      Text,
-      TextStyle,
       ListItem,
       BulletList.configure({
-        keepAttributes: true,
         HTMLAttributes: {
           class: 'list-disc px-6',
         },
@@ -94,7 +97,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       Color.configure({ types: [TextStyle.name, ListItem.name] }),
       Placeholder.configure({
-        placeholder: '내용을 입력하세요.',
+        placeholder: '내용을 입력해주세요.',
       }),
       CustomHighlight.configure({ multicolor: true }),
       TextAlign.configure({
@@ -126,23 +129,29 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
       CustomBlock,
       CustomParagraph,
+      CustomTextLink,
       CustomDivider,
       CustomLine,
       CustomQuota,
       CustomBlockQuotation,
+      CustomCorner,
+      CustomPostit,
       CustomLink,
-      CustomVerticalLink,
       CustomOgLink,
+      CustomVerticalLink,
+      CustomBlockLink,
       CustomPhoto,
+      CustomPhotoGroup,
       CustomPhotoStrip,
       CustomFile,
       CustomPaywall,
     ],
-    content: `<div class="se-section se-section-text se-l-default">
-      <div class="component-text mt-10 relative px-[44px] mx-[-44px]">
-        <p></p>
-      </div>
-    </div>`,
+    content: `
+    <div class="se-section se-section-text">
+        <div class="component-text">
+          <p></p>
+        </div>
+      </div>`,
     editorProps: {
       handlePaste(view, event) {
         const html = event.clipboardData?.getData('text/html');
@@ -238,16 +247,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
     const { paywallUp, paywallDown, isPremium, imageLink } =
       extractPaywallData(editor);
-
-    if (!paywallUp) {
-      alert('내용을 입력해주세요.');
-      return;
-    }
-
-    if (!isPremium) {
-      alert('페이월을 삽입해주세요.');
-      return;
-    }
 
     if (!paywallDown) {
       alert(

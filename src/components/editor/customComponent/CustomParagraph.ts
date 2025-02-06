@@ -18,7 +18,6 @@ const CustomParagraph = Node.create({
   name: 'paragraph',
   group: 'block',
   content: 'inline*',
-  defining: true,
 
   addAttributes() {
     return {

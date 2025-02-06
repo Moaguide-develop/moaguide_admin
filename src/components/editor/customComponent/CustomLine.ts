@@ -15,7 +15,7 @@ const CustomLine = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-horizontalLine.se-l-default.se-section-align-center',
+        tag: 'div.se-section.se-section-horizontalLine.se-l-default',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',

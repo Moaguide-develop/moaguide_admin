@@ -12,7 +12,7 @@ function srcFormatter(url: string | null): string {
 }
 
 const CustomLink = Node.create({
-  name: 'link',
+  name: 'imageLink',
 
   group: 'block',
   atom: true,
@@ -30,7 +30,7 @@ const CustomLink = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-oglink.se-l-large_image.se-section-align-center',
+        tag: 'div.se-section.se-section-oglink.se-l-large_image',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -64,7 +64,6 @@ const CustomLink = Node.create({
   },
 
   renderHTML({ HTMLAttributes }) {
-
     return [
       'div',
       {
@@ -73,25 +72,29 @@ const CustomLink = Node.create({
       [
         'div',
         { class: 'se-module se-module-oglink __se-unit group' },
-        [
-          'div',
-          { class: 'max-h-[450px] overflow-hidden block z-10 relative' },
-          [
-            'img',
-            {
-              src: HTMLAttributes.thumbnail,
-              class: 'w-full h-auto align-top',
-              alt: HTMLAttributes.title || '링크 썸네일',
-            },
-          ],
-          [
-            'div',
-            {
-              class:
-                'absolute top-1 left-3 w-px h-4 bg-white transform origin-center -rotate-45',
-            },
-          ],
-        ],
+        ...(HTMLAttributes.thumbnail
+          ? [
+              [
+                'div',
+                { class: 'max-h-[450px] overflow-hidden block z-10 relative' },
+                [
+                  'img',
+                  {
+                    src: HTMLAttributes.thumbnail,
+                    class: 'w-full h-auto align-top bg-cover',
+                    alt: HTMLAttributes.title || '링크 썸네일',
+                  },
+                ],
+                [
+                  'div',
+                  {
+                    class:
+                      'absolute top-1 left-3 w-px h-4 bg-white transform origin-center -rotate-45',
+                  },
+                ],
+              ],
+            ]
+          : []),
       ],
       [
         'div',
