@@ -30,7 +30,7 @@ const CustomOgLink = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-oglink.se-l-image.se-section-align-center',
+        tag: 'div.se-section.se-section-oglink.se-l-image',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -74,25 +74,28 @@ const CustomOgLink = Node.create({
         {
           class: 'block relative w-full bg-[#fff] decoration-none shadow-md',
         },
-        [
-          'div',
-          { class: 'w-[110px] block relative z-10' },
-          [
-            'img',
-            {
-              src: HTMLAttributes.thumbnail,
-              class: 'w-full min-h-[114px] h-auto align-top object-cover',
-              alt: HTMLAttributes.title || '링크 썸네일',
-            },
-          ],
-          [
-            'div',
-            {
-              class: 'absolute inset-0 border-black/10',
-            },
-          ],
-        ],
-
+        ...(HTMLAttributes.thumbnail
+          ? [
+              [
+                'div',
+                { class: 'w-[110px] block relative z-10' },
+                [
+                  'img',
+                  {
+                    src: HTMLAttributes.thumbnail,
+                    class: 'w-full min-h-[114px] h-auto align-top object-cover',
+                    alt: HTMLAttributes.title || '링크 썸네일',
+                  },
+                ],
+                [
+                  'div',
+                  {
+                    class: 'inset-0 border-black/10',
+                  },
+                ],
+              ],
+            ]
+          : []),
         [
           'div',
           {

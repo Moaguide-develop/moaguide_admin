@@ -1,7 +1,7 @@
 import { Node } from '@tiptap/core';
 
-const CustomVerticalLink = Node.create({
-  name: 'verticalLink',
+const CustomBlockLink = Node.create({
+  name: 'textLink',
 
   group: 'block',
   atom: true,
@@ -19,7 +19,7 @@ const CustomVerticalLink = Node.create({
   parseHTML() {
     return [
       {
-        tag: 'div.se-section.se-section-oglink.se-l-vertical_image',
+        tag: 'div.se-section.se-section-oglink.se-l-text',
         getAttrs: (element) => {
           const alignment = element.classList.contains(
             'se-section-align-center',
@@ -37,7 +37,9 @@ const CustomVerticalLink = Node.create({
           const summary =
             ogLinkElement.querySelector('.se-oglink-summary')?.textContent ||
             '';
-          const whiteSpace = 'whitespace-normal max-h-[58px] leading-[20px]';
+          const whiteSpace =
+            'whitespace-nowrap mt-[7px] text-[#999] leading-[1.4]';
+
           const url =
             ogLinkElement.querySelector('.se-oglink-url')?.textContent || '';
 
@@ -51,7 +53,7 @@ const CustomVerticalLink = Node.create({
     return [
       'div',
       {
-        class: `mt-10 max-w-[490px] w-full relative ${HTMLAttributes.alignment} border border-black/10 shadow-md`,
+        class: `mt-10 max-w-[450px] w-full relative ${HTMLAttributes.alignment} border border-black/10 shadow-md`,
       },
       [
         'div',
@@ -91,4 +93,4 @@ const CustomVerticalLink = Node.create({
   },
 });
 
-export default CustomVerticalLink;
+export default CustomBlockLink;
