@@ -36,7 +36,9 @@ const extractPaywallData = (editor: Editor): PaywallData => {
 
           tempDiv.appendChild(fileWrapper);
         } else if (
-          ['link', 'oglink', 'verticalLink'].includes(node.type) &&
+          ['imageLink', 'oglink', 'verticalLink', 'textLink'].includes(
+            node.type,
+          ) &&
           node.attrs?.url
         ) {
           const linkElement = createLinkNodeHTML({

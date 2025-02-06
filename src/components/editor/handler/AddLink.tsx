@@ -38,7 +38,7 @@ const AddLink = ({ editor }: { editor: Editor }) => {
     ) {
       return 'oglink';
     }
-    return 'link';
+    return 'imageLink';
   };
 
   return (

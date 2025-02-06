@@ -47,6 +47,10 @@ import CustomBlockQuotation from './customComponent/CustomBlockQuote';
 import CustomPhotoStrip from './customComponent/CustomPhotoStrip';
 import CustomVerticalLink from './customComponent/CustomVerticalLink';
 import CustomOgLink from './customComponent/CustomOgLink';
+import CustomCorner from './customComponent/CustomConer';
+import CustomPostit from './customComponent/CustomPostit';
+import CustomPhotoGroup from './customComponent/CustomPhotoGroup';
+import CustomBlockLink from './customComponent/CustomBlockLink';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -78,7 +82,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TextStyle,
       ListItem,
       BulletList.configure({
-        keepAttributes: true,
+        itemTypeName: ListItem.name,
         HTMLAttributes: {
           class: 'list-disc px-6',
         },
@@ -130,10 +134,14 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomLine,
       CustomQuota,
       CustomBlockQuotation,
+      CustomCorner,
+      CustomPostit,
       CustomLink,
-      CustomVerticalLink,
       CustomOgLink,
+      CustomVerticalLink,
+      CustomBlockLink,
       CustomPhoto,
+      CustomPhotoGroup,
       CustomPhotoStrip,
       CustomFile,
       CustomPaywall,
