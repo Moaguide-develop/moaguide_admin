@@ -5,7 +5,7 @@ import extractPaywallData from './common/extractPaywallData';
 import { authors, types, categories } from '../../types/options';
 import SelectComponent from './SelectComponent';
 import CustomToolbar from './toolbar/CustomToolbar';
-import { saveArticle } from '../../api/article';
+import { saveArticle, uploadImage } from '../../api/article';
 import { DOMParser as ProseMirrorDOMParser } from 'prosemirror-model';
 
 import Bold from '@tiptap/extension-bold';
@@ -197,18 +197,59 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               controlBarElement.remove();
             });
 
-          const fragment = ProseMirrorDOMParser.fromSchema(
-            view.state.schema,
-          ).parse(body);
+          // 모든 이미지 업로드 실행
+          uploadAllImages(body).then(() => {
+            console.log('모든 이미지 업로드 완료');
 
-          const transaction = view.state.tr.replaceSelectionWith(fragment);
-          view.dispatch(transaction);
+            // 변경된 HTML을 Tiptap 에디터에 삽입
+            const fragment = ProseMirrorDOMParser.fromSchema(
+              view.state.schema,
+            ).parse(body);
+            const transaction = view.state.tr.replaceSelectionWith(fragment);
+            view.dispatch(transaction);
+          });
+
           return true;
         }
         return false;
       },
     },
   });
+
+  const uploadAllImages = async (body: HTMLElement) => {
+    // `.se-section-image`, `.se-section-imageStrip`, `.se-section-imageGroup`을 모두 찾음
+    const imageContainers = body.querySelectorAll(
+      '.se-section-image, .se-section-imageStrip, .se-section-imageGroup',
+    );
+
+    // 각 요소에 대해 이미지 업로드 실행
+    for (const element of imageContainers) {
+      await uploadImagesInElement(element as HTMLElement);
+    }
+  };
+
+  const uploadImagesInElement = async (element: HTMLElement) => {
+    if (!element) return;
+
+    const imageElements = element.querySelectorAll('img.se-image-resource');
+
+    for (const img of imageElements) {
+      const src = img.getAttribute('src') || '';
+
+      // 특정 URL로 시작하는 이미지는 업로드 제외
+      if (!src || src.startsWith('https://scs-phinf.pstatic.net/')) continue;
+
+      try {
+        console.log(`Uploading image: ${src}`);
+        const uploadedUrl = await uploadImage(src);
+
+        console.log(`Uploaded URL: ${uploadedUrl}`);
+        img.setAttribute('src', uploadedUrl);
+      } catch (error) {
+        console.error('이미지 업로드 실패:', error);
+      }
+    }
+  };
 
   useEffect(() => {
     if (content && editor?.commands) {
