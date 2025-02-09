@@ -37,7 +37,7 @@ const CustomVerticalLink = Node.create({
           const summary =
             ogLinkElement.querySelector('.se-oglink-summary')?.textContent ||
             '';
-          const whiteSpace = 'whitespace-normal max-h-[58px] leading-[20px]';
+          const whiteSpace = 'whitespace-nowrap max-h-[58px] leading-[20px]';
           const url =
             ogLinkElement.querySelector('.se-oglink-url')?.textContent || '';
 
