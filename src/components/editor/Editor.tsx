@@ -197,11 +197,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               controlBarElement.remove();
             });
 
-          // 모든 이미지 업로드 실행
           uploadAllImages(body).then(() => {
-            console.log('모든 이미지 업로드 완료');
-
-            // 변경된 HTML을 Tiptap 에디터에 삽입
             const fragment = ProseMirrorDOMParser.fromSchema(
               view.state.schema,
             ).parse(body);
@@ -217,12 +213,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
   });
 
   const uploadAllImages = async (body: HTMLElement) => {
-    // `.se-section-image`, `.se-section-imageStrip`, `.se-section-imageGroup`을 모두 찾음
     const imageContainers = body.querySelectorAll(
       '.se-section-image, .se-section-imageStrip, .se-section-imageGroup',
     );
 
-    // 각 요소에 대해 이미지 업로드 실행
     for (const element of imageContainers) {
       await uploadImagesInElement(element as HTMLElement);
     }
@@ -236,7 +230,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
     for (const img of imageElements) {
       const src = img.getAttribute('src') || '';
 
-      // 특정 URL로 시작하는 이미지는 업로드 제외
       if (!src || src.startsWith('https://scs-phinf.pstatic.net/')) continue;
 
       try {
