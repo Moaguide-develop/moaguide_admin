@@ -43,6 +43,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
         ) {
           const linkElement = createLinkNodeHTML({
             type: node.type,
+            style: node.attrs.style,
             thumbnail: node.attrs.thumbnail,
             title: node.attrs.title,
             summary: node.attrs.summary,

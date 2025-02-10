@@ -5,10 +5,21 @@ function srcFormatter(url: string | null): string {
   const decodedUrl = decodeURIComponent(url);
 
   const srcMatch = decodedUrl.match(/src="([^"]+)"/);
-  if (srcMatch && srcMatch[1]) {
-    return srcMatch[1];
+  return srcMatch && srcMatch[1] ? srcMatch[1] : url;
+}
+
+function styleFormatter(url: string | null): string {
+  if (!url) return '';
+  let width = 'auto';
+  let height = 'auto';
+
+  const typeMatch = url.match(/type=ff?(\d+)_(\d+)/);
+  if (typeMatch) {
+    width = `${parseInt(typeMatch[1], 10)}px`;
+    height = `${parseInt(typeMatch[2], 10)}px`;
   }
-  return url;
+
+  return `width: ${width}; height: ${height};`;
 }
 
 const CustomOgLink = Node.create({
@@ -20,6 +31,7 @@ const CustomOgLink = Node.create({
   addAttributes() {
     return {
       thumbnail: { default: null },
+      style: { default: '' },
       title: { default: '' },
       summary: { default: '' },
       url: { default: '' },
@@ -49,6 +61,8 @@ const CustomOgLink = Node.create({
             .querySelector('.se-oglink-thumbnail img')
             ?.getAttribute('src');
           const thumbnail = rawThumbnail ? srcFormatter(rawThumbnail) : '';
+          const style = rawThumbnail ? styleFormatter(rawThumbnail) : '';
+
           const title =
             ogLinkElement.querySelector('.se-oglink-title')?.textContent || '';
           const summary =
@@ -57,7 +71,7 @@ const CustomOgLink = Node.create({
           const url =
             ogLinkElement.querySelector('.se-oglink-url')?.textContent || '';
 
-          return { thumbnail, title, summary, url, alignment };
+          return { thumbnail, style, title, summary, url, alignment };
         },
       },
     ];
@@ -83,14 +97,10 @@ const CustomOgLink = Node.create({
                   'img',
                   {
                     src: HTMLAttributes.thumbnail,
-                    class: 'w-full min-h-[114px] h-auto align-top object-cover',
+                    style: HTMLAttributes.style,
+                    class:
+                      'w-full min-h-[114px] border h-auto align-top object-cover',
                     alt: HTMLAttributes.title || '링크 썸네일',
-                  },
-                ],
-                [
-                  'div',
-                  {
-                    class: 'inset-0 border-black/10',
                   },
                 ],
               ],
