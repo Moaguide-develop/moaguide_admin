@@ -29,7 +29,7 @@ const LinkModal = ({
     setLoading(true);
     try {
       const response = await fetch(
-        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=c0d9f0d4-6763-4e41-8377-79f24e15e717`,
+        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=653faa30-b985-4463-bfb7-ba1ba9b36501`,
       );
       const data = await response.json();
 
@@ -221,17 +221,86 @@ const LinkModal = ({
           </button>
         </div>
         <div className="flex justify-center gap-2 mt-4">
-          {['imageLink', 'oglink', 'verticalLink', 'textLink'].map((type) => (
+          {[
+            {
+              type: 'imageLink',
+              icon: (
+                <svg
+                  width="34"
+                  height="34"
+                  viewBox="0 0 26 26"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="26" height="14" fill="black" />
+                  <rect y="16" width="26" height="2" fill="black" />
+                  <rect y="20" width="26" height="2" fill="black" />
+                  <rect y="24" width="14" height="2" fill="black" />
+                </svg>
+              ),
+            },
+            {
+              type: 'oglink',
+              icon: (
+                <svg
+                  width="34"
+                  height="34"
+                  viewBox="0 0 26 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="10" height="10" fill="black" />
+                  <rect x="12" y="1" width="14" height="2" fill="black" />
+                  <rect x="12" y="4" width="14" height="2" fill="black" />
+                  <rect x="12" y="7" width="8" height="2" fill="black" />
+                </svg>
+              ),
+            },
+            {
+              type: 'verticalLink',
+              icon: (
+                <svg
+                  width="34"
+                  height="34"
+                  viewBox="0 0 26 13"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="26" height="2" fill="black" />
+                  <rect y="4" width="26" height="1" fill="black" />
+                  <rect y="6" width="26" height="1" fill="black" />
+                  <rect y="8" width="26" height="1" fill="black" />
+                  <rect y="11" width="13" height="2" fill="black" />
+                </svg>
+              ),
+            },
+            {
+              type: 'textLink',
+              icon: (
+                <svg
+                  width="34"
+                  height="34"
+                  viewBox="0 0 26 10"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect width="26" height="2" fill="black" />
+                  <rect y="4" width="26" height="2" fill="black" />
+                  <rect y="8" width="13" height="2" fill="black" />
+                </svg>
+              ),
+            },
+          ].map(({ type, icon }) => (
             <button
               key={type}
-              className={`px-4 py-2 border border-gray-300 rounded-md ${
+              className={`px-4 py-2 border border-gray-300 rounded-md flex items-center justify-center ${
                 selectedType === type
-                  ? 'bg-[#00c73c] text-white'
+                  ? 'border-[#00c73c] border-[4px] text-white'
                   : 'bg-white text-gray-700'
               }`}
               onClick={() => setSelectedType(type)}
             >
-              {type}
+              {icon}
             </button>
           ))}
         </div>
