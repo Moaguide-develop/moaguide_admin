@@ -175,18 +175,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               controlBarElement.remove();
             });
 
-          // body.querySelectorAll('table').forEach((tableElement) => {
-          //   tableElement.querySelectorAll('tr').forEach((trElement, index) => {
-          //     if (index === 0) {
-          //       trElement.querySelectorAll('td').forEach((tdElement) => {
-          //         const thElement = document.createElement('th');
-          //         thElement.innerHTML = tdElement.innerHTML;
-          //         trElement.replaceChild(thElement, tdElement);
-          //       });
-          //     }
-          //   });
-          // });
-          
           body
             .querySelectorAll('.se-cell-context-menu')
             .forEach((controlBarElement) => {

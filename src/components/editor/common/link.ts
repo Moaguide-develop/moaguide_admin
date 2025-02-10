@@ -5,6 +5,7 @@ export interface LinkAttributes {
   summary: string;
   url: string;
   alignment: string;
+  style?: string;
   whiteSpace?: string;
 }
 
@@ -33,8 +34,12 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
 
       const imgElement = document.createElement('img');
       imgElement.src = attrs.thumbnail;
-      imgElement.className = 'w-full h-auto align-top';
+      imgElement.className = 'w-full h-auto align-top object-cover';
       imgElement.alt = attrs.title || '링크 썸네일';
+
+      if (attrs.style) {
+        imgElement.style.cssText = attrs.style;
+      }
 
       imageContainer.appendChild(imgElement);
       imageLink.appendChild(imageContainer);
@@ -90,6 +95,10 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
       imgElement.className =
         'w-full min-h-[114px] h-auto align-top object-cover';
       imgElement.alt = attrs.title || '링크 썸네일';
+
+      if (attrs.style) {
+        imgElement.style.cssText = attrs.style; // 스타일 추가
+      }
 
       imageContainer.appendChild(imgElement);
       outerDiv.appendChild(imageContainer);

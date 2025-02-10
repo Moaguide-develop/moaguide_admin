@@ -29,7 +29,7 @@ const LinkModal = ({
     setLoading(true);
     try {
       const response = await fetch(
-        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=653faa30-b985-4463-bfb7-ba1ba9b36501`,
+        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=c0d9f0d4-6763-4e41-8377-79f24e15e717`,
       );
       const data = await response.json();
 
@@ -53,14 +53,41 @@ const LinkModal = ({
 
   const insertContent = () => {
     if (!previewData) return;
-    editor
-      .chain()
-      .focus()
-      .insertContent({
-        type: selectedType,
-        attrs: previewData,
-      })
-      .run();
+
+    const { state } = editor.view;
+    const { selection } = state;
+
+    const isInsideCustomBlock =
+      selection.$from.node(1)?.type.name === 'customBlock';
+
+    if (isInsideCustomBlock) {
+      const customBlockPos =
+        selection.$from.start(1) + selection.$from.node(1).nodeSize;
+
+      editor
+        .chain()
+        .focus()
+        .command(({ tr }) => {
+          tr.insertText('\n', state.selection.from);
+          return true;
+        })
+        .exitCode()
+        .insertContentAt(customBlockPos, {
+          type: selectedType,
+          attrs: previewData,
+        })
+        .run();
+    } else {
+      editor
+        .chain()
+        .focus()
+        .insertContent({
+          type: selectedType,
+          attrs: previewData,
+        })
+        .run();
+    }
+
     onClose();
   };
 

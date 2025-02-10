@@ -71,9 +71,14 @@ function SelectMenu({ editor }: ToolBarProps) {
         const node = getSelectedNode(editor);
         return (
           node &&
-          ['file', 'oglink', 'link', 'verticalLink', 'default'].includes(
-            node.type.name,
-          )
+          [
+            'file',
+            'oglink',
+            'imageLink',
+            'textLink',
+            'verticalLink',
+            'default',
+          ].includes(node.type.name)
         );
       }}
       className="flex gap-2"
@@ -84,9 +89,14 @@ function SelectMenu({ editor }: ToolBarProps) {
             const node = getSelectedNode(editor);
             if (
               node &&
-              ['file', 'oglink', 'link', 'verticalLink', 'default'].includes(
-                node.type.name,
-              )
+              [
+                'file',
+                'oglink',
+                'imageLink',
+                'textLink',
+                'verticalLink',
+                'default',
+              ].includes(node.type.name)
             ) {
               return (
                 <div className="flex items-center justify-center gap-1">
