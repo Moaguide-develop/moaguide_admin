@@ -48,6 +48,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
             summary: node.attrs.summary,
             url: node.attrs.url,
             alignment: node.attrs.alignment,
+            whiteSpace: node.attrs.whiteSpace,
           } as LinkAttributes);
           tempDiv.appendChild(linkElement);
         } else if (node.type === 'table') {
