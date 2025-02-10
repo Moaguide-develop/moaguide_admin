@@ -25,7 +25,6 @@ import TextStyle from '@tiptap/extension-text-style';
 import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
-import TableCell from '@tiptap/extension-table-cell';
 import TableRow from '@tiptap/extension-table-row';
 import ListItem from '@tiptap/extension-list-item';
 import BulletList from '@tiptap/extension-bullet-list';
@@ -51,6 +50,7 @@ import CustomPhotoGroup from './customComponent/CustomPhotoGroup';
 import CustomBlockLink from './customComponent/CustomBlockLink';
 import CustomHighlight from './extension/CustomHighlight';
 import CustomTextLink from './extension/CustomTextLink';
+import { CustomTableCell } from './customComponent/CustomTableCell';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -120,12 +120,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           class: 'h-10',
         },
       }),
-      TableCell.configure({
-        HTMLAttributes: {
-          class:
-            'border border-[rgba(61,37,20,0.12)] box-border min-w-[1em] px-2 py-1 relative align-middle',
-        },
-      }),
+      CustomTableCell,
 
       CustomBlock,
       CustomParagraph,
@@ -180,17 +175,18 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
               controlBarElement.remove();
             });
 
-          body.querySelectorAll('table').forEach((tableElement) => {
-            tableElement.querySelectorAll('tr').forEach((trElement, index) => {
-              if (index === 0) {
-                trElement.querySelectorAll('td').forEach((tdElement) => {
-                  const thElement = document.createElement('th');
-                  thElement.innerHTML = tdElement.innerHTML;
-                  trElement.replaceChild(thElement, tdElement);
-                });
-              }
-            });
-          });
+          // body.querySelectorAll('table').forEach((tableElement) => {
+          //   tableElement.querySelectorAll('tr').forEach((trElement, index) => {
+          //     if (index === 0) {
+          //       trElement.querySelectorAll('td').forEach((tdElement) => {
+          //         const thElement = document.createElement('th');
+          //         thElement.innerHTML = tdElement.innerHTML;
+          //         trElement.replaceChild(thElement, tdElement);
+          //       });
+          //     }
+          //   });
+          // });
+          
           body
             .querySelectorAll('.se-cell-context-menu')
             .forEach((controlBarElement) => {
@@ -339,12 +335,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
           </button>
         )}
       </div>
-      <div className="border-2 w-full overflow-y-auto flex flex-col">
+      <div className="border-2 w-full flex flex-col h-screen">
         <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
-        <div className="overflow-y-auto">
+        <div className="flex-1 overflow-y-auto min-h-0 h-0">
           <div className="px-6 max-w-[1000px] mx-auto">
-            <div className="pt-10 pb-[435px]">
+            <div className="py-10">
               <div className="px-6">
                 <h1 className="p-4">
                   <input
