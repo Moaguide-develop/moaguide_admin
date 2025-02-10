@@ -41,7 +41,6 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
       linkWrapper.appendChild(imageLink);
     }
 
-    // 추가할 텍스트 컨테이너
     const textContainer = document.createElement('div');
     textContainer.className =
       'px-[26px] pt-[21px] pb-[18px] leading-[1.4] block relative text-left box-border text-[0] border border-black/10';
@@ -67,7 +66,14 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     textWrapper.appendChild(summaryElement);
     textWrapper.appendChild(urlElement);
     textContainer.appendChild(textWrapper);
-    linkWrapper.appendChild(textContainer);
+
+    const textLink = document.createElement('a');
+    textLink.href = formattedUrl;
+    textLink.target = '_blank';
+    textLink.className = 'block decoration-none';
+    textLink.appendChild(textContainer);
+
+    linkWrapper.appendChild(textLink);
   } else if (attrs.type === 'oglink') {
     linkWrapper.className = `mt-10 max-w-[450px] w-full relative ${attrs.alignment} border border-black/10 inset-0 text-inherit vertical-align-baseline`;
 
@@ -115,7 +121,14 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     textWrapper.appendChild(urlElement);
     textContainer.appendChild(textWrapper);
     outerDiv.appendChild(textContainer);
-    linkWrapper.appendChild(outerDiv);
+
+    const textLink = document.createElement('a');
+    textLink.href = formattedUrl;
+    textLink.target = '_blank';
+    textLink.className = 'block decoration-none';
+    textLink.appendChild(outerDiv);
+
+    linkWrapper.appendChild(textLink);
   } else if (attrs.type === 'textLink' || attrs.type === 'verticalLink') {
     const textContainer = document.createElement('div');
     textContainer.className = `text-left border-box relative block px-[26px] pt-[21px] pb-[18px] leading-[1.4] before:content-[''] before:inline-block before:h-full before:align-middle`;
@@ -140,7 +153,14 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     textWrapper.appendChild(summaryElement);
     textWrapper.appendChild(urlElement);
     textContainer.appendChild(textWrapper);
-    linkWrapper.appendChild(textContainer);
+
+    const textLink = document.createElement('a');
+    textLink.href = formattedUrl;
+    textLink.target = '_blank';
+    textLink.className = 'block decoration-none';
+    textLink.appendChild(textContainer);
+
+    linkWrapper.appendChild(textLink);
   }
   return linkWrapper;
 };
