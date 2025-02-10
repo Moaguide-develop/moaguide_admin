@@ -42,6 +42,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           node.attrs?.url
         ) {
           const linkElement = createLinkNodeHTML({
+            type: node.type,
             thumbnail: node.attrs.thumbnail,
             title: node.attrs.title,
             summary: node.attrs.summary,
@@ -51,8 +52,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           tempDiv.appendChild(linkElement);
         } else if (node.type === 'table') {
           const tableWrapper = document.createElement('div');
-          tableWrapper.className =
-            'mt-[30px] relative max-w-[680px] mx-auto px-5 w-full';
+          tableWrapper.className = 'mt-[30px] relative mx-auto w-full';
           tableWrapper.style.width = '100%';
 
           const pmNode = schema.nodeFromJSON(node);
