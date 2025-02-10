@@ -30,7 +30,7 @@ const CustomPhoto = Node.create({
           const src =
             imgElement?.getAttribute('data-src')?.trim() ||
             imgElement?.getAttribute('src')?.trim();
-          console.log('Extracted src:', src);
+
           const alt = imgElement?.getAttribute('alt') || '';
           const width = imgElement?.getAttribute('width') || '680';
 

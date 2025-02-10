@@ -1,15 +1,5 @@
+import { AddArticleData } from '../types/article';
 import { apiClient } from './axiosInstance';
-
-interface AddArticleData {
-  title: string;
-  authorName: string;
-  categoryName: string;
-  type: string;
-  isPremium: boolean;
-  imageLink: string;
-  paywallUp: string;
-  paywallDown: string;
-}
 
 export const saveArticle = async (articleData: AddArticleData) => {
   try {
@@ -26,6 +16,25 @@ export const saveArticle = async (articleData: AddArticleData) => {
     return data;
   } catch (error) {
     console.error(error);
+    throw new Error('api Error');
+  }
+};
+
+export const uploadImage = async (imageUrl: string) => {
+  try {
+    const response = await apiClient.post(
+      '/articles/image',
+      new URLSearchParams({ src: imageUrl }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+      },
+    );
+
+    return response.data;
+  } catch (error) {
+    console.error('이미지 업로드 실패:', error);
     throw new Error('api Error');
   }
 };

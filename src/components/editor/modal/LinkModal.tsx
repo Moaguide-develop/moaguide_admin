@@ -29,7 +29,7 @@ const LinkModal = ({
     setLoading(true);
     try {
       const response = await fetch(
-        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=c0d9f0d4-6763-4e41-8377-79f24e15e717`,
+        `https://opengraph.io/api/1.1/site/${encodeURIComponent(url)}?app_id=653faa30-b985-4463-bfb7-ba1ba9b36501`,
       );
       const data = await response.json();
 
@@ -43,8 +43,8 @@ const LinkModal = ({
       console.error('미리보기 데이터를 가져오는 중 오류 발생:', error);
       setPreviewData({
         thumbnail: 'https://via.placeholder.com/150',
-        title: '링크 제목',
-        summary: '링크 요약 내용',
+        title: '제목',
+        summary: '본문',
         url: 'https://example.com',
       });
     }
@@ -62,6 +62,112 @@ const LinkModal = ({
       })
       .run();
     onClose();
+  };
+
+  const renderPreview = () => {
+    if (!previewData) return null;
+
+    switch (selectedType) {
+      case 'imageLink':
+        return (
+          <div className="mt-10 max-w-[450px] w-full relative border border-black/10 overflow-hidden">
+            <div className="se-module se-module-oglink __se-unit group">
+              {previewData.thumbnail && (
+                <div className="max-h-[450px] overflow-hidden block z-10 relative">
+                  <img
+                    src={previewData.thumbnail}
+                    className="w-full h-auto align-top bg-cover"
+                    alt={previewData.title || '링크 썸네일'}
+                  />
+                  <div className="absolute top-1 left-3 w-px h-4 bg-white transform origin-center -rotate-45"></div>
+                </div>
+              )}
+            </div>
+            <div className="px-[26px] pt-[21px] pb-[18px] leading-[1.4] block relative text-left box-border border border-black/10">
+              <div className="inline-block max-w-full align-middle">
+                <strong className="text-[15px] text-ellipsis whitespace-nowrap overflow-hidden break-all block font-bold text-[#333]">
+                  {previewData.title}
+                </strong>
+                <p className="whitespace-nowrap overflow-hidden text-ellipsis break-all max-h-9 leading-[18px] mt-[7px] text-[13px] text-[#999]">
+                  {previewData.summary}
+                </p>
+                <p className="whitespace-nowrap overflow-hidden text-ellipsis break-all mt-[9px] text-[#a1885f] text-[13px] no-underline">
+                  {previewData.url}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'oglink':
+        return (
+          <div className="mt-10 max-w-[450px] w-full relative border border-black/10 inset-0 text-inherit vertical-align-baseline">
+            <div className="block relative w-full bg-[#fff] decoration-none shadow-md">
+              {previewData.thumbnail && (
+                <div className="w-[110px] block relative z-10">
+                  <img
+                    src={previewData.thumbnail}
+                    className="w-full min-h-[114px] h-auto align-top object-cover"
+                    alt={previewData.title || '링크 썸네일'}
+                  />
+                  <div className="inset-0 border-black/10"></div>
+                </div>
+              )}
+              <div className="left-[110px] absolute inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle">
+                <div className="inline-block max-w-full align-middle">
+                  <strong className="text-[15px] font-bold text-[#333] break-all block mb-1 whitespace-nowrap overflow-hidden text-ellipsis">
+                    {previewData.title}
+                  </strong>
+                  <p className="mt-[7px] text-[13px] leading-[1.4] text-[#999] break-all whitespace-nowrap overflow-hidden text-ellipsis">
+                    {previewData.summary}
+                  </p>
+                  <p className="mt-[9px] text-[#a1885f] text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline">
+                    {previewData.url}
+                  </p>
+                </div>
+              </div>
+              <div className="absolute inset-0 border border-black/10"></div>
+            </div>
+          </div>
+        );
+      case 'verticalLink':
+        return (
+          <div className="mt-10 max-w-[490px] w-full relative border border-black/10 shadow-md">
+            <div className="text-left border-box relative block px-[26px] pt-[21px] pb-[18px] leading-[1.4] before:content-[''] before:inline-block before:h-full before:align-middle">
+              <div className="inline-block max-w-full align-middle">
+                <strong className="text-[15px] text-[#333] block mb-1 whitespace-nowrap overflow-hidden text-ellipsis break-all">
+                  {previewData.title}
+                </strong>
+                <p className="text-[13px] mb-2 whitespace-normal max-h-[58px] leading-[20px] overflow-hidden text-ellipsis break-all">
+                  {previewData.summary}
+                </p>
+                <p className="text-[12px] text-[#a1885f] underline">
+                  {previewData.url}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      case 'textLink':
+        return (
+          <div className="mt-10 max-w-[450px] w-full relative border border-black/10 shadow-md">
+            <div className="text-left border-box relative block px-[26px] pt-[21px] pb-[18px] leading-[1.4] before:content-[''] before:inline-block before:h-full before:align-middle">
+              <div className="inline-block max-w-full align-middle">
+                <strong className="text-[15px] text-[#333] block mb-1 whitespace-nowrap overflow-hidden text-ellipsis break-all">
+                  {previewData.title}
+                </strong>
+                <p className="text-[13px] mb-2 whitespace-nowrap mt-[7px] text-[#999] leading-[1.4] overflow-hidden text-ellipsis break-all">
+                  {previewData.summary}
+                </p>
+                <p className="text-[12px] text-[#a1885f] underline">
+                  {previewData.url}
+                </p>
+              </div>
+            </div>
+          </div>
+        );
+      default:
+        return null;
+    }
   };
 
   return (
@@ -108,14 +214,8 @@ const LinkModal = ({
               링크 정보를 불러오는 중...
             </p>
           ) : previewData ? (
-            <div>
-              <p className="font-bold text-lg text-gray-800">
-                {previewData.title}
-              </p>
-              <p className="text-sm text-gray-600">{previewData.summary}</p>
-              <p className="text-blue-500 text-sm mt-1 overflow-hidden text-ellipsis whitespace-nowrap">
-                {previewData.url}
-              </p>
+            <div className="relative border border-black/10 shadow-md p-4">
+              {renderPreview()}
             </div>
           ) : (
             <p className="text-center text-gray-500">미리보기가 없습니다.</p>
