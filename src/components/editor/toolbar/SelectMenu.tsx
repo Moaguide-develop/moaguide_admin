@@ -81,9 +81,9 @@ function SelectMenu({ editor }: ToolBarProps) {
           ].includes(node.type.name)
         );
       }}
-      className="flex gap-2"
+      className="border-2 border-[#d2d2d2]"
     >
-      <div className="bg-white flex items-center justify-start gap-1 px-2 border-b-2">
+      <div className="bg-white flex items-center justify-start gap-1 p-2 border-b-2">
         <div className="flex bg-white items-center justify-center">
           {(() => {
             const node = getSelectedNode(editor);
@@ -104,19 +104,43 @@ function SelectMenu({ editor }: ToolBarProps) {
                     onClick={() => setBlockAlignment('mr-auto ml-0')}
                     className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
                   >
-                    Left
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#5f6368"
+                    >
+                      <path d="M120-120v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Zm0-160v-80h480v80H120Zm0-160v-80h720v80H120Z" />
+                    </svg>
                   </button>
                   <button
                     onClick={() => setBlockAlignment('mx-auto')}
                     className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
                   >
-                    Center
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#5f6368"
+                    >
+                      <path d="M120-120v-80h720v80H120Zm160-160v-80h400v80H280ZM120-440v-80h720v80H120Zm160-160v-80h400v80H280ZM120-760v-80h720v80H120Z" />
+                    </svg>
                   </button>
                   <button
                     onClick={() => setBlockAlignment('ml-auto mr-0')}
                     className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
                   >
-                    Right
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#5f6368"
+                    >
+                      <path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z" />
+                    </svg>
                   </button>
                 </div>
               );
@@ -128,7 +152,7 @@ function SelectMenu({ editor }: ToolBarProps) {
                       onClick={() => setTextColor(null)}
                       className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
                     >
-                      Reset
+                      X
                     </button>
                     <input
                       type="color"
@@ -139,7 +163,7 @@ function SelectMenu({ editor }: ToolBarProps) {
                       onClick={() => setHighlightColor(null)}
                       className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
                     >
-                      Reset
+                      X
                     </button>
                     <input
                       type="color"
