@@ -32,7 +32,7 @@ const CustomTextLink = Link.extend({
 
   renderHTML({ HTMLAttributes }) {
     return [
-      'span',
+      'a',
       mergeAttributes(HTMLAttributes, {
         href: HTMLAttributes.href,
         class: 'underline break-all text-[#608cba]',

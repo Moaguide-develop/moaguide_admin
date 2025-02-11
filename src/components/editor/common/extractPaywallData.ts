@@ -54,7 +54,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           tempDiv.appendChild(linkElement);
         } else if (node.type === 'table') {
           const tableWrapper = document.createElement('div');
-          tableWrapper.className = 'mt-[30px] relative mx-auto w-full';
+          tableWrapper.className = 'mt-5 relative mx-auto w-full';
           tableWrapper.style.width = '100%';
 
           const pmNode = schema.nodeFromJSON(node);
@@ -65,7 +65,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
         } else if (node.type === 'customBlock') {
           const blockWrapper = document.createElement('div');
           blockWrapper.className =
-            'component-text mt-10 relative px-[44px] mx-[-44px]';
+            'component-text mt-[20px] relative px-[44px] mx-[-44px]';
 
           if (node.content && node.content.length > 0) {
             node.content.forEach((childNode: JSONContent) => {

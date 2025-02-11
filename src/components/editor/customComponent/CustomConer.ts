@@ -36,7 +36,7 @@ const CustomCorner = Node.create({
     return [
       'div',
       {
-        class: `py-2 relative ${HTMLAttributes.alignment} mt-10`,
+        class: `py-2 relative ${HTMLAttributes.alignment} mt-5`,
       },
       [
         'div',

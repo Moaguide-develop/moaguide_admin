@@ -10,13 +10,19 @@ function srcFormatter(url: string | null): string {
 
 function styleFormatter(url: string | null): string {
   if (!url) return '';
+
   let width = 'auto';
   let height = 'auto';
 
-  const typeMatch = url.match(/type=ff?(\d+)_(\d+)/);
+  const typeMatch = url.match(/type=ff?(\d+)(?:_(\d+))?/);
+
   if (typeMatch) {
-    width = `${parseInt(typeMatch[1], 10)}px`;
-    height = `${parseInt(typeMatch[2], 10)}px`;
+    if (typeMatch[2]) {
+      width = `${parseInt(typeMatch[1], 10)}px`;
+      height = `${parseInt(typeMatch[2], 10)}px`;
+    } else {
+      width = height = `${parseInt(typeMatch[1], 10)}px`;
+    }
   }
 
   return `width: ${width}; height: ${height};`;

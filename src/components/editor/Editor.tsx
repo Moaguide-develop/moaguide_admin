@@ -21,7 +21,6 @@ import Dropcursor from '@tiptap/extension-dropcursor';
 import Gapcursor from '@tiptap/extension-gapcursor';
 import Placeholder from '@tiptap/extension-placeholder';
 import Document from '@tiptap/extension-document';
-import TextStyle from '@tiptap/extension-text-style';
 import Focus from '@tiptap/extension-focus';
 import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
@@ -51,6 +50,7 @@ import CustomBlockLink from './customComponent/CustomBlockLink';
 import CustomHighlight from './extension/CustomHighlight';
 import CustomTextLink from './extension/CustomTextLink';
 import { CustomTableCell } from './customComponent/CustomTableCell';
+import CustomTextStyle from './customComponent/CustomTextStyle';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -72,7 +72,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       }),
       History,
       HardBreak,
-      TextStyle,
       Text,
       Dropcursor,
       Gapcursor,
@@ -83,19 +82,19 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       ListItem,
       BulletList.configure({
         HTMLAttributes: {
-          class: 'list-disc px-6',
+          class: 'list-disc pl-[30px] ml-[-12px]',
         },
       }),
       OrderedList.configure({
         HTMLAttributes: {
-          class: 'list-decimal px-6',
+          class: 'list-decimal pl-[30px] ml-[-12px]',
         },
       }),
       Focus.configure({
         className: 'rounded-3 border border-blue-500',
         mode: 'shallowest',
       }),
-      Color.configure({ types: [TextStyle.name, ListItem.name] }),
+      Color.configure({ types: [CustomTextStyle.name, ListItem.name] }),
       Placeholder.configure({
         placeholder: '내용을 입력해주세요.',
       }),
@@ -124,7 +123,11 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
       CustomBlock,
       CustomParagraph,
-      CustomTextLink,
+      CustomTextStyle,
+      CustomTextLink.configure({
+        openOnClick: false,
+        autolink: true,
+      }),
       CustomDivider,
       CustomLine,
       CustomQuota,
@@ -188,7 +191,6 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
             const transaction = view.state.tr.replaceSelectionWith(fragment);
             view.dispatch(transaction);
           });
-
           return true;
         }
         return false;
@@ -327,8 +329,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
         <div className="flex-1 overflow-y-auto min-h-0 h-0">
-          <div className="px-6 max-w-[1000px] mx-auto">
-            <div className="py-10">
+          <div className="p-6 max-w-[1000px] mx-auto">
               <div className="px-6">
                 <h1 className="p-4">
                   <input
@@ -348,9 +349,8 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
                 id="tiptap"
                 editor={editor}
                 onClick={() => editor?.commands.focus()}
-                className="w-full px-10 pt-4"
+                className="w-full px-10 pt-4 pb-16"
               />
-            </div>
           </div>
           <SelectMenu editor={editor} />
           {showPreview && (
