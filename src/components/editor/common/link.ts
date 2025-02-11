@@ -11,7 +11,7 @@ export interface LinkAttributes {
 
 export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
   const linkWrapper = document.createElement('div');
-  linkWrapper.className = `mt-10 ${attrs.type === 'textLink' ? 'max-w-[450px]' : 'max-w-[490px]'} w-full relative ${attrs.alignment} border border-black/10 shadow-md`;
+  linkWrapper.className = `mt-[20px] ${attrs.type === 'textLink' ? 'max-w-[450px]' : 'max-w-[490px]'} w-full relative ${attrs.alignment} border border-black/10 shadow-md`;
 
   let formattedUrl = attrs.url.trim();
   if (
@@ -64,7 +64,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');
-    urlElement.className = 'text-[12px] text-[#a1885f] underline';
+    urlElement.className = 'mt-[9px] text-[12px] text-sky-600 no-underline';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
@@ -80,7 +80,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
 
     linkWrapper.appendChild(textLink);
   } else if (attrs.type === 'oglink') {
-    linkWrapper.className = `mt-10 max-w-[450px] w-full relative ${attrs.alignment} border border-black/10 inset-0 text-inherit vertical-align-baseline`;
+    linkWrapper.className = `mt-[20px] max-w-[450px] w-full relative ${attrs.alignment} border border-black/10 inset-0 text-inherit vertical-align-baseline`;
 
     const outerDiv = document.createElement('div');
     outerDiv.className =
@@ -97,7 +97,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
       imgElement.alt = attrs.title || '링크 썸네일';
 
       if (attrs.style) {
-        imgElement.style.cssText = attrs.style; // 스타일 추가
+        imgElement.style.cssText = attrs.style;
       }
 
       imageContainer.appendChild(imgElement);
@@ -122,7 +122,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
 
     const urlElement = document.createElement('p');
     urlElement.className =
-      'mt-[9px] text-[#a1885f] text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline';
+      'mt-[9px] text-sky-600 text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
@@ -155,7 +155,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');
-    urlElement.className = 'text-[12px] text-[#a1885f] underline';
+    urlElement.className = 'text-[12px] text-sky-600 mt-[9px] no-underline';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
