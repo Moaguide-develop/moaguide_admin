@@ -6,7 +6,7 @@ export interface FileAttributes {
 const API_URL = import.meta.env.VITE_API_KEY;
 export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
   const fileWrapper = document.createElement('div');
-  fileWrapper.className = `${attrs.alignment} mt-[30px] flex items-center justify-between p-3 border border-gray-300 shadow-sm bg-white max-w-md`;
+  fileWrapper.className = `${attrs.alignment} mt-5 flex items-center justify-between p-3 border border-gray-300 shadow-sm bg-white max-w-md`;
 
   const leftDiv = document.createElement('div');
   leftDiv.className = 'flex items-center space-x-2';

@@ -54,7 +54,7 @@ const extractPaywallData = (editor: Editor): PaywallData => {
           tempDiv.appendChild(linkElement);
         } else if (node.type === 'table') {
           const tableWrapper = document.createElement('div');
-          tableWrapper.className = 'mt-[30px] relative mx-auto w-full';
+          tableWrapper.className = 'mt-5 relative mx-auto w-full';
           tableWrapper.style.width = '100%';
 
           const pmNode = schema.nodeFromJSON(node);
