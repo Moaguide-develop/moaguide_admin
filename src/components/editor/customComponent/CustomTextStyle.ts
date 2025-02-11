@@ -20,8 +20,6 @@ const CustomTextStyle = TextStyle.extend({
       fontSize: {
         default: 'text-[15px]',
         parseHTML: (element: HTMLElement) => {
-          console.log('🔍 Parsing Element:', element);
-
           const matchedClass = Array.from(element.classList).find(
             (cls) => cls in fontSizeMap,
           );
@@ -52,7 +50,6 @@ const CustomTextStyle = TextStyle.extend({
       {
         tag: 'span',
         getAttrs: (element: HTMLElement) => {
-
           const matchedClass = Array.from(element.classList).find(
             (cls) => cls in fontSizeMap,
           );
@@ -66,7 +63,6 @@ const CustomTextStyle = TextStyle.extend({
   },
 
   renderHTML({ mark, HTMLAttributes }) {
-
     if (mark.attrs.isEmoji) {
       return [
         'span',

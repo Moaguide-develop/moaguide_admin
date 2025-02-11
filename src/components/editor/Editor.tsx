@@ -82,12 +82,12 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       ListItem,
       BulletList.configure({
         HTMLAttributes: {
-          class: 'list-disc px-6',
+          class: 'list-disc pl-[30px] ml-[-12px]',
         },
       }),
       OrderedList.configure({
         HTMLAttributes: {
-          class: 'list-decimal px-6',
+          class: 'list-decimal pl-[30px] ml-[-12px]',
         },
       }),
       Focus.configure({
@@ -329,8 +329,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         <CustomToolbar editor={editor} />
         <ToolBar editor={editor} />
         <div className="flex-1 overflow-y-auto min-h-0 h-0">
-          <div className="px-6 max-w-[1000px] mx-auto">
-            <div className="py-10">
+          <div className="p-6 max-w-[1000px] mx-auto">
               <div className="px-6">
                 <h1 className="p-4">
                   <input
@@ -350,9 +349,8 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
                 id="tiptap"
                 editor={editor}
                 onClick={() => editor?.commands.focus()}
-                className="w-full px-10 pt-4"
+                className="w-full px-10 pt-4 pb-16"
               />
-            </div>
           </div>
           <SelectMenu editor={editor} />
           {showPreview && (
