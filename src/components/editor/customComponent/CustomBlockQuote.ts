@@ -40,12 +40,12 @@ const CustomBlockQuotation = Node.create({
     return [
       'div',
       {
-        class: `se-section se-section-quotation se-l-quotation_line py-2 relative ${alignment} mt-10`,
+        class: `py-2 relative ${alignment} mt-5`,
       },
       [
         'div',
         {
-          class: `se-quotation-container px-5 py-0.5 relative m-auto box-border before:absolute before:top-0 before:bottom-0 before:left-0 before:border-l-[6px] before:border-[#515151] before:content-['']`,
+          class: `px-5 py-0.5 relative m-auto box-border before:absolute before:top-0 before:bottom-0 before:left-0 before:border-l-[6px] before:border-[#515151] before:content-['']`,
         },
         [
           'div',

@@ -36,7 +36,7 @@ const CustomPostit = Node.create({
     return [
       'div',
       {
-        class: `pt-2 pb-[59px] relative ${HTMLAttributes.alignment} mt-10 mx-auto`,
+        class: `pt-2 pb-[59px] relative ${HTMLAttributes.alignment} mt-5 mx-auto`,
         // before:top-[-3px] before:right-[-3px] before:bottom-[-3px] before:left-[-3px] before:border before:border-[#ddd] before:invisible before:content-[""] before:absolute before:border-solid before:box-content after:max-w-[680px] after:right-0 after:left-0 after:h-[3px] after:w-full after:max-w-[360px] after:m-auto after:bg-[#baa67e] after:content-[""] after:absolute after:bg-[#2edd63] after:invisible after:box-content
       },
       [
