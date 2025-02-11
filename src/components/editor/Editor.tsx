@@ -124,7 +124,10 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
 
       CustomBlock,
       CustomParagraph,
-      CustomTextLink,
+      CustomTextLink.configure({
+        openOnClick: false,
+        autolink: true,
+      }),
       CustomDivider,
       CustomLine,
       CustomQuota,
