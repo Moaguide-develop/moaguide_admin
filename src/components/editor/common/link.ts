@@ -105,7 +105,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     }
 
     const textContainer = document.createElement('div');
-    textContainer.className = `left-[110px] absolute inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle`;
+    textContainer.className = `${attrs.thumbnail ? 'left-[110px] absolute' : 'relative'} inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle`;
 
     const textWrapper = document.createElement('div');
     textWrapper.className = 'inline-block max-w-full align-middle';

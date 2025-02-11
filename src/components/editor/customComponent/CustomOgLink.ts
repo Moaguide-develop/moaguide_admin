@@ -10,13 +10,19 @@ function srcFormatter(url: string | null): string {
 
 function styleFormatter(url: string | null): string {
   if (!url) return '';
+
   let width = 'auto';
   let height = 'auto';
 
-  const typeMatch = url.match(/type=ff?(\d+)_(\d+)/);
+  const typeMatch = url.match(/type=ff?(\d+)(?:_(\d+))?/);
+
   if (typeMatch) {
-    width = `${parseInt(typeMatch[1], 10)}px`;
-    height = `${parseInt(typeMatch[2], 10)}px`;
+    if (typeMatch[2]) {
+      width = `${parseInt(typeMatch[1], 10)}px`;
+      height = `${parseInt(typeMatch[2], 10)}px`;
+    } else {
+      width = height = `${parseInt(typeMatch[1], 10)}px`;
+    }
   }
 
   return `width: ${width}; height: ${height};`;
@@ -109,7 +115,7 @@ const CustomOgLink = Node.create({
         [
           'div',
           {
-            class: `left-[110px] absolute inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle`,
+            class: `${HTMLAttributes.thumbnail ? 'left-[110px] absolute' : 'relative'} inset-0 px-[26px] pt-[21px] pb-[18px] leading-[1.4] block text-left box-border text-[0] before:content-[''] before:inline-block before:h-full before:align-middle`,
           },
           [
             'div',
