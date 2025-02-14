@@ -1,5 +1,4 @@
 import { Node } from '@tiptap/core';
-import { mergeAttributes } from '@tiptap/core';
 
 const CustomParagraph = Node.create({
   name: 'paragraph',
@@ -10,19 +9,9 @@ const CustomParagraph = Node.create({
     return {
       alignment: {
         default: 'text-left',
-        parseHTML: (element: HTMLElement) => {
-          if (element.classList.contains('se-text-paragraph-align-center')) {
-            return 'text-center';
-          } else if (
-            element.classList.contains('se-text-paragraph-align-right')
-          ) {
-            return 'text-right';
-          }
-          return 'text-left';
-        },
-        renderHTML: (attributes) => ({
-          class: attributes.alignment,
-        }),
+      },
+      lineHeight: {
+        default: '1.8',
       },
     };
   },
@@ -31,23 +20,34 @@ const CustomParagraph = Node.create({
     return [
       {
         tag: 'p',
-        getAttrs: (element: HTMLElement) => ({
-          alignment: element.classList.contains(
+        getAttrs: (element) => {
+          const alignment = element.classList.contains(
             'se-text-paragraph-align-center',
           )
             ? 'text-center'
             : element.classList.contains('se-text-paragraph-align-right')
               ? 'text-right'
-              : 'text-left',
-        }),
+              : 'text-left';
+
+          const styleAttr = element.getAttribute('style') || '';
+          const match = styleAttr.match(/line-height:\s*([\d.]+)/);
+          const lineHeight = match?.[1] ?? null;
+
+          return { alignment, lineHeight };
+        },
       },
     ];
   },
 
   renderHTML({ HTMLAttributes }) {
+    const { alignment, lineHeight } = HTMLAttributes;
+
     return [
       'p',
-      mergeAttributes(HTMLAttributes, { style: 'line-height: 1.8;' }),
+      {
+        class: `${alignment}`,
+        style: `line-height: ${lineHeight ?? '1.8'};`,
+      },
       0,
     ];
   },
