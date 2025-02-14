@@ -51,6 +51,7 @@ import CustomTextLink from './extension/CustomTextLink';
 import { CustomTableCell } from './customComponent/CustomTableCell';
 import CustomTextStyle from './customComponent/CustomTextStyle';
 import { CustomTable } from './customComponent/CustomTable';
+import CustomOembed from './customComponent/CustomOembed';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -133,6 +134,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomOgLink,
       CustomVerticalLink,
       CustomBlockLink,
+      CustomOembed,
       CustomPhoto,
       CustomPhotoGroup,
       CustomPhotoStrip,

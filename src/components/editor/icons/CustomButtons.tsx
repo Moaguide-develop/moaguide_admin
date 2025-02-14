@@ -3,6 +3,7 @@ import AddPhoto from '../handler/AddPhoto';
 import AddPaywall from '../handler/AddPaywall';
 import AddFile from '../handler/AddFile';
 import AddLink from '../handler/AddLink';
+import AddYoutube from '../handler/AddYoutube';
 
 const isActive = (editor: Editor, name: string) =>
   editor.isActive(name) ? 'bg-gray-300' : 'bg-white';
@@ -53,6 +54,9 @@ const CustomIcon = {
     </button>
   ),
   AddLink: ({ editor }: { editor: Editor }) => <AddLink editor={editor} />,
+  AddYoutube: ({ editor }: { editor: Editor }) => (
+    <AddYoutube editor={editor} />
+  ),
   AddFile: ({ editor }: { editor: Editor }) => <AddFile editor={editor} />,
   Table: ({ editor }: { editor: Editor }) => (
     <button
@@ -60,10 +64,16 @@ const CustomIcon = {
         editor
           .chain()
           .focus()
-          .insertTable({
-            rows: 3,
-            cols: 3,
-            withHeaderRow: true,
+          .insertContent({
+            type: 'table',
+            attrs: { alignment: 'mx-auto', width: '100%' },
+            content: Array.from({ length: 3 }).map(() => ({
+              type: 'tableRow',
+              content: Array.from({ length: 3 }).map(() => ({
+                type: 'tableCell',
+                content: [{ type: 'paragraph', content: [] }],
+              })),
+            })),
           })
           .run()
       }
