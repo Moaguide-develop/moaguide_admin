@@ -151,7 +151,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     titleElement.textContent = attrs.title;
 
     const summaryElement = document.createElement('p');
-    summaryElement.className = `text-[13px] mb-2 ${attrs.type === 'textLink' ? 'whitespace-nowrap text-[#333] leading-[1.4]' : 'whitespace-nowrap max-h-[58px] leading-[20px]'} overflow-hidden text-ellipsis break-all`;
+    summaryElement.className = `text-[13px] mb-2 ${attrs.type === 'textLink' ? 'whitespace-nowrap text-[#999] leading-[1.4]' : 'whitespace-normal text-[#999] max-h-[58px] leading-[20px]'} overflow-hidden text-ellipsis break-all`;
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');

@@ -22,7 +22,6 @@ import Gapcursor from '@tiptap/extension-gapcursor';
 import Placeholder from '@tiptap/extension-placeholder';
 import Document from '@tiptap/extension-document';
 import Focus from '@tiptap/extension-focus';
-import Table from '@tiptap/extension-table';
 import TableHeader from '@tiptap/extension-table-header';
 import TableRow from '@tiptap/extension-table-row';
 import ListItem from '@tiptap/extension-list-item';
@@ -51,6 +50,8 @@ import CustomHighlight from './extension/CustomHighlight';
 import CustomTextLink from './extension/CustomTextLink';
 import { CustomTableCell } from './customComponent/CustomTableCell';
 import CustomTextStyle from './customComponent/CustomTextStyle';
+import { CustomTable } from './customComponent/CustomTable';
+import CustomOembed from './customComponent/CustomOembed';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
   const [articleData, setArticleData] = useState({
@@ -102,12 +103,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       TextAlign.configure({
         types: ['paragraph', 'image', 'blockquote', 'horizontal_rule', 'file'],
       }),
-      Table.configure({
-        resizable: true,
-        HTMLAttributes: {
-          class: 'border-collapse w-full table-fixed overflow-hidden',
-        },
-      }),
+      CustomTable,
       TableHeader.configure({
         HTMLAttributes: {
           class:
@@ -138,6 +134,7 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
       CustomOgLink,
       CustomVerticalLink,
       CustomBlockLink,
+      CustomOembed,
       CustomPhoto,
       CustomPhotoGroup,
       CustomPhotoStrip,
@@ -330,27 +327,27 @@ const Editor = ({ content }: { content: JSONContent[] | null }) => {
         <ToolBar editor={editor} />
         <div className="flex-1 overflow-y-auto min-h-0 h-0">
           <div className="p-6 max-w-[1000px] mx-auto">
-              <div className="px-6">
-                <h1 className="p-4">
-                  <input
-                    type="text"
-                    className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
-                    placeholder="제목"
-                    value={articleData.title}
-                    onChange={(e) =>
-                      setArticleData({ ...articleData, title: e.target.value })
-                    }
-                  />
-                </h1>
+            <div className="px-6">
+              <h1 className="p-4">
+                <input
+                  type="text"
+                  className="w-full text-[40px] font-bold font-['Pretendard'] leading-[56px]"
+                  placeholder="제목"
+                  value={articleData.title}
+                  onChange={(e) =>
+                    setArticleData({ ...articleData, title: e.target.value })
+                  }
+                />
+              </h1>
 
-                <hr className="mx-4 px-2 border-b-2 border-b-gray-200" />
-              </div>
-              <EditorContent
-                id="tiptap"
-                editor={editor}
-                onClick={() => editor?.commands.focus()}
-                className="w-full px-10 pt-4 pb-16"
-              />
+              <hr className="mx-4 px-2 border-b-2 border-b-gray-200" />
+            </div>
+            <EditorContent
+              id="tiptap"
+              editor={editor}
+              onClick={() => editor?.commands.focus()}
+              className="w-full px-10 pt-4 pb-16"
+            />
           </div>
           <SelectMenu editor={editor} />
           {showPreview && (

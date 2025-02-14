@@ -15,6 +15,7 @@ function CustomToolbar({ editor }: ToolBarProps) {
         <CustomIcon.HorizontalRule editor={editor} />
         <CustomIcon.Quote editor={editor} />
         <CustomIcon.AddLink editor={editor} />
+        <CustomIcon.AddYoutube editor={editor} />
         <CustomIcon.AddFile editor={editor} />
         <CustomIcon.Table editor={editor} />
         <CustomIcon.AddPaywall editor={editor} />

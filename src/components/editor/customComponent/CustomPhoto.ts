@@ -38,7 +38,7 @@ const CustomPhoto = Node.create({
 
           const widthStyle = element?.getAttribute('style') || '';
           const widthMatch = widthStyle.match(/max-width:\s*([\d.]+)px/);
-          const style = widthMatch ? `${widthMatch[1]}px` : 'w-full';
+          const style = widthMatch ? `${widthMatch[1]}px` : '';
 
           const imgElement = element.querySelector('img.se-image-resource');
           const src =
@@ -100,7 +100,6 @@ const CustomPhoto = Node.create({
               'p',
               {
                 class: 'text-[13px] text-center mt-2',
-                style: 'line-height: 1.5;',
               },
               HTMLAttributes.caption,
             ]
@@ -111,28 +110,35 @@ const CustomPhoto = Node.create({
     return [
       'div',
       {
-        class: `relative mt-[30px] ${HTMLAttributes.alignment}`,
+        class: 'mt-[30px] relative',
       },
       [
-        'img',
+        'div',
         {
-          src: HTMLAttributes.src,
-          alt: HTMLAttributes.alt,
-          width: HTMLAttributes.width,
-          class: `block relative h-auto ${HTMLAttributes.alignment} ${HTMLAttributes.style}`,
+          class: `w-full relative ${HTMLAttributes.alignment}`,
+          style: HTMLAttributes.style,
         },
-      ],
+        [
+          'img',
+          {
+            src: HTMLAttributes.src,
+            alt: HTMLAttributes.alt,
+            width: HTMLAttributes.width,
+            class: `block relative h-auto w-full ${HTMLAttributes.alignment}`,
+            style: HTMLAttributes.style,
+          },
+        ],
 
-      HTMLAttributes.caption !== '사진 설명을 입력하세요.'
-        ? [
-            'p',
-            {
-              class: 'text-[13px] text-center mt-2',
-              style: 'line-height: 1.5;',
-            },
-            HTMLAttributes.caption,
-          ]
-        : null,
+        HTMLAttributes.caption !== '사진 설명을 입력하세요.'
+          ? [
+              'p',
+              {
+                class: 'text-[13px] text-center mt-2',
+              },
+              HTMLAttributes.caption,
+            ]
+          : null,
+      ],
     ];
   },
 });
