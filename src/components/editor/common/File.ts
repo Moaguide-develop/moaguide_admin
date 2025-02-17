@@ -29,7 +29,7 @@ export const createFileNodeHTML = (attrs: FileAttributes): HTMLElement => {
     'flex items-center justify-center w-8 h-8 text-blue-600 rounded-full transition';
 
   const downloadLink = document.createElement('a');
-  downloadLink.href = `${API_URL}file/download/${attrs.src}`;
+  downloadLink.href = `${API_URL}/file/download/${attrs.src}`;
   downloadLink.target = '_blank';
   downloadLink.rel = 'noopener noreferrer';
 
