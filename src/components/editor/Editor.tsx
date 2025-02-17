@@ -52,11 +52,18 @@ import { CustomTableCell } from './customComponent/CustomTableCell';
 import CustomTextStyle from './customComponent/CustomTextStyle';
 import { CustomTable } from './customComponent/CustomTable';
 import CustomOembed from './customComponent/CustomOembed';
+import { jwtDecode } from '../../utils/jwtDecode';
 
 const Editor = ({ content }: { content: JSONContent[] | null }) => {
+  // 토큰을 가져와 디코딩하여 사용자 닉네임을 가져와서 authorName에 넣어준다.
+  const token = localStorage.getItem('token');
+  const decodedToken = jwtDecode(token);
+  const authorName = decodedToken.nickname;
+  decodedToken.nickname = authorName;
+  
   const [articleData, setArticleData] = useState({
     title: '',
-    authorName: 'none',
+    authorName: authorName,
     categoryName: 'none',
     type: 'none',
     paywallUp: '',

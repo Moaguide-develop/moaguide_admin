@@ -107,8 +107,20 @@ const extractPaywallData = (editor: Editor): PaywallData => {
       paywallDown = convertToHTML(content.slice(index + 1));
     }
 
-    if (!imageLink && node.type === 'photo' && node.attrs?.src) {
-      imageLink = node.attrs.src;
+    if (!imageLink) {
+      if (node.type === 'photo' && node.attrs?.src) {
+        imageLink = node.attrs.src;
+      } else if (
+        (node.type === 'photoGroup' || node.type === 'photoStrip') &&
+        node.content
+      ) {
+        const firstImgNode = node.content.find(
+          (childNode) => childNode.type === 'image',
+        );
+        if (firstImgNode && firstImgNode.attrs?.src) {
+          imageLink = firstImgNode.attrs.src;
+        }
+      }
     }
   });
 
