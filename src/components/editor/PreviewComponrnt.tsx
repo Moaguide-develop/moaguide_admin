@@ -131,7 +131,7 @@ const PreviewComponent: React.FC<PreviewProps> = ({
             {new Date().toLocaleDateString()} <br />
             BY. {authorName}
           </p>
-          <div className="flex-1 max-h-[70vh]">
+          <div className="">
             {!isPremium ? (
               <>
                 <article className="mt-8 text-[15px] font-['Pretendard'] leading-[30.80px] tracking-wide relative">
