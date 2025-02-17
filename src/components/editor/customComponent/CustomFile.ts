@@ -45,7 +45,6 @@ const CustomFile = Node.create({
         'data-type': 'file',
         class: 'se-section se-section-file se-l-default',
       }),
-      0,
     ];
   },
 
