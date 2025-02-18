@@ -2,27 +2,22 @@ import { AddArticleData } from '../types/article';
 import { apiClient } from './axiosInstance';
 
 export const saveArticle = async (articleData: AddArticleData) => {
-  console.log('articleData:', articleData);
-  console.log('imageLink:', articleData.imageLink);
-  console.log('paywallUp:', articleData.paywallUp);
-  console.log('paywallDown:', articleData.paywallDown);
+  try {
+    const token = localStorage.getItem('token');
 
-  // try {
-  //   const token = localStorage.getItem('token');
-
-  //   if (!token) {
-  //     throw new Error('로그인이 필요합니다.');
-  //   }
-  //   const { data } = await apiClient.post('/articles', articleData, {
-  //     headers: {
-  //       Authorization: `${token}`,
-  //     },
-  //   });
-  //   return data;
-  // } catch (error) {
-  //   console.error(error);
-  //   throw new Error('api Error');
-  // }
+    if (!token) {
+      throw new Error('로그인이 필요합니다.');
+    }
+    const { data } = await apiClient.post('/articles', articleData, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('api Error');
+  }
 };
 
 export const uploadImage = async (imageUrl: string) => {
