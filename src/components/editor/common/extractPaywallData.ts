@@ -52,6 +52,28 @@ const extractPaywallData = (editor: Editor): PaywallData => {
             whiteSpace: node.attrs.whiteSpace,
           } as LinkAttributes);
           tempDiv.appendChild(linkElement);
+        } else if (node.type === 'oembed' && node.attrs?.src) {
+          const oembedWrapper = document.createElement('div');
+          oembedWrapper.className = `relative mt-5 ${node.attrs.alignment}`;
+
+          const moduleElement = document.createElement('div');
+          moduleElement.className = 'relative';
+          moduleElement.style.paddingTop = '75%';
+
+          const iframeElement = document.createElement('iframe');
+          iframeElement.width = node.attrs.width;
+          iframeElement.height = node.attrs.height;
+          iframeElement.src = node.attrs.src;
+          iframeElement.setAttribute('frameborder', node.attrs.frameborder);
+          iframeElement.allow = node.attrs.allow;
+          iframeElement.referrerPolicy = node.attrs.referrerpolicy;
+          iframeElement.allowFullscreen = node.attrs.allowfullscreen;
+          iframeElement.title = node.attrs.title;
+          iframeElement.className = 'absolute top-0 left-0 w-full h-full';
+
+          moduleElement.appendChild(iframeElement);
+          oembedWrapper.appendChild(moduleElement);
+          tempDiv.appendChild(oembedWrapper);
         } else if (node.type === 'table') {
           const tableWrapper = document.createElement('div');
           tableWrapper.className = 'mt-5 relative mx-auto w-full';
@@ -110,15 +132,10 @@ const extractPaywallData = (editor: Editor): PaywallData => {
     if (!imageLink) {
       if (node.type === 'photo' && node.attrs?.src) {
         imageLink = node.attrs.src;
-      } else if (
-        (node.type === 'photoGroup' || node.type === 'photoStrip') &&
-        node.content
-      ) {
-        const firstImgNode = node.content.find(
-          (childNode) => childNode.type === 'image',
-        );
-        if (firstImgNode && firstImgNode.attrs?.src) {
-          imageLink = firstImgNode.attrs.src;
+      } else if (node.type === 'photoGroup' || node.type === 'photoStrip') {
+        const firstImage = node.attrs?.images?.[0];
+        if (firstImage && firstImage.src) {
+          imageLink = firstImage.src;
         }
       }
     }

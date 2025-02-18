@@ -37,22 +37,55 @@ const AddYoutube: React.FC<{ editor: Editor }> = ({ editor }) => {
           throw new Error('YouTube oEmbed에서 iframe src를 찾을 수 없습니다.');
         }
 
-        editor
-          .chain()
-          .focus()
-          .insertContent({
-            type: 'oembed',
-            attrs: {
-              src: iframeSrc,
-              width: data.thumbnail_width || '400',
-              height: data.thumbnail_height || '300',
-              frameborder: frameborder,
-              allow: allow,
-              allowfullscreen: allowfullscreen,
-              title: data.title || 'Untitled',
-            },
-          })
-          .run();
+        const { state } = editor.view;
+        const { selection } = state;
+
+        const isInsideCustomBlock =
+          selection.$from.node(1)?.type.name === 'customBlock';
+
+        if (isInsideCustomBlock) {
+          const customBlockPos =
+            selection.$from.start(1) + selection.$from.node(1).nodeSize;
+
+          editor
+            .chain()
+            .focus()
+            .command(({ tr }) => {
+              tr.insertText('\n', state.selection.from);
+              return true;
+            })
+            .exitCode()
+            .insertContentAt(customBlockPos, {
+              type: 'oembed',
+              attrs: {
+                src: iframeSrc,
+                width: data.thumbnail_width || '400',
+                height: data.thumbnail_height || '300',
+                frameborder: frameborder,
+                allow: allow,
+                allowfullscreen: allowfullscreen,
+                title: data.title || 'Untitled',
+              },
+            })
+            .run();
+        } else {
+          editor
+            .chain()
+            .focus()
+            .insertContent({
+              type: 'oembed',
+              attrs: {
+                src: iframeSrc,
+                width: data.thumbnail_width || '400',
+                height: data.thumbnail_height || '300',
+                frameborder: frameborder,
+                allow: allow,
+                allowfullscreen: allowfullscreen,
+                title: data.title || 'Untitled',
+              },
+            })
+            .run();
+        }
       } catch (error) {
         console.error('Failed to fetch YouTube oEmbed API:', error);
       }
