@@ -56,7 +56,7 @@ function SelectMenu({ editor }: ToolBarProps) {
     const node = getSelectedNode(editor);
     if (!node) return;
 
-    const newUrl = prompt('YouTube URL을 입력하세요:');
+    const newUrl = prompt('변경 URL을 입력하세요:');
     if (!newUrl) return;
 
     editor
