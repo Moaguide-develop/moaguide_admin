@@ -52,6 +52,20 @@ function SelectMenu({ editor }: ToolBarProps) {
     return foundNode;
   };
 
+  const setBlockUrl = () => {
+    const node = getSelectedNode(editor);
+    if (!node) return;
+
+    const newUrl = prompt('YouTube URL을 입력하세요:');
+    if (!newUrl) return;
+
+    editor
+      .chain()
+      .focus()
+      .updateAttributes(node.type.name, { url: newUrl })
+      .run();
+  };
+
   const setBlockAlignment = (alignment: string) => {
     const node = getSelectedNode(editor);
     if (!node) return;
@@ -140,6 +154,20 @@ function SelectMenu({ editor }: ToolBarProps) {
                       fill="#5f6368"
                     >
                       <path d="M120-760v-80h720v80H120Zm240 160v-80h480v80H360ZM120-440v-80h720v80H120Zm240 160v-80h480v80H360ZM120-120v-80h720v80H120Z" />
+                    </svg>
+                  </button>
+                  <button
+                    onClick={() => setBlockUrl()}
+                    className="ml-2 px-2 py-1 bg-gray-200 rounded text-sm"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      height="24px"
+                      viewBox="0 -960 960 960"
+                      width="24px"
+                      fill="#5f6368"
+                    >
+                      <path d="M440-280H280q-83 0-141.5-58.5T80-480q0-83 58.5-141.5T280-680h160v80H280q-50 0-85 35t-35 85q0 50 35 85t85 35h160v80ZM320-440v-80h320v80H320Zm200 160v-80h160q50 0 85-35t35-85q0-50-35-85t-85-35H520v-80h160q83 0 141.5 58.5T880-480q0 83-58.5 141.5T680-280H520Z" />
                     </svg>
                   </button>
                 </div>
