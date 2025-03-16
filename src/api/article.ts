@@ -38,3 +38,29 @@ export const uploadImage = async (imageUrl: string) => {
     throw new Error('api Error');
   }
 };
+
+export const getArticleList = async (
+  type: string,
+  category: string,
+  page: number,
+) => {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      throw new Error('로그인이 필요합니다.');
+    }
+
+    const url = `/contents/list?type=${type}&category=${category}&page=${page}`;
+
+    const { data } = await apiClient.get(url, {
+      headers: {
+        Authorization: `${token}`,
+      },
+    });
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error('API Error');
+  }
+};
