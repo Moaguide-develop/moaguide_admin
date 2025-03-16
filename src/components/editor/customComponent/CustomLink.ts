@@ -139,7 +139,7 @@ const CustomLink = Node.create({
             'p',
             {
               class:
-                'whitespace-nowrap overflow-hidden text-ellipsis break-all mt-[9px] text-[#a1885f] text-[13px] no-underline',
+                'mt-[9px] text-[#a1885f] text-[13px] no-underline truncate',
             },
             HTMLAttributes.url,
           ],

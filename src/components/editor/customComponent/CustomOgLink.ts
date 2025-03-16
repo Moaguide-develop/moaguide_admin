@@ -140,7 +140,7 @@ const CustomOgLink = Node.create({
               'p',
               {
                 class:
-                  'mt-[9px] text-[#a1885f] text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline',
+                  'mt-[9px] text-[#a1885f] text-[13px] no-underline truncate',
               },
               HTMLAttributes.url,
             ],

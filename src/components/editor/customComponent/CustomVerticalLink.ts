@@ -81,7 +81,7 @@ const CustomVerticalLink = Node.create({
           [
             'p',
             {
-              class: 'text-[12px] text-[#a1885f] no-underline',
+              class: 'text-[12px] text-[#a1885f] no-underline truncate',
             },
             HTMLAttributes.url,
           ],
