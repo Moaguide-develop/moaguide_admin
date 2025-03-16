@@ -83,7 +83,7 @@ const CustomBlockLink = Node.create({
           [
             'p',
             {
-              class: 'text-[12px] text-[#a1885f] underline',
+              class: 'text-[12px] text-[#a1885f] no-underline truncate',
             },
             HTMLAttributes.url,
           ],

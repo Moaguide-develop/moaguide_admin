@@ -20,6 +20,12 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
   ) {
     formattedUrl = 'https://' + formattedUrl;
   }
+  try {
+    const url = new URL(formattedUrl);
+    formattedUrl = url.hostname;
+  } catch (err) {
+    console.error("Invalid URL:", formattedUrl, err);
+  }
 
   if (attrs.type === 'imageLink') {
     if (attrs.thumbnail) {
@@ -64,7 +70,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');
-    urlElement.className = 'mt-[9px] text-[12px] text-sky-600 no-underline';
+    urlElement.className = 'mt-[9px] text-[12px] text-sky-600 no-underline truncate';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
@@ -122,7 +128,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
 
     const urlElement = document.createElement('p');
     urlElement.className =
-      'mt-[9px] text-sky-600 text-[13px] break-all whitespace-nowrap overflow-hidden text-ellipsis no-underline';
+      'mt-[9px] text-sky-600 text-[13px] no-underline truncate';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
@@ -155,7 +161,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');
-    urlElement.className = 'text-[12px] text-sky-600 mt-[9px] no-underline';
+    urlElement.className = 'text-[12px] text-sky-600 mt-[9px] no-underline truncate';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
