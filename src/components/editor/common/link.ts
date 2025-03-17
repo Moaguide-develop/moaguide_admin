@@ -161,7 +161,7 @@ export const createLinkNodeHTML = (attrs: LinkAttributes): HTMLElement => {
     summaryElement.textContent = attrs.summary;
 
     const urlElement = document.createElement('p');
-    urlElement.className = 'text-[12px] text-sky-600 mt-[9px] no-underline truncate';
+    urlElement.className = 'text-[12px] mt-[9px] text-sky-600 no-underline truncate';
     urlElement.textContent = formattedUrl;
 
     textWrapper.appendChild(titleElement);
